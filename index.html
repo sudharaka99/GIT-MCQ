@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIT MCQ Portal - JRS Sudharaka</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --highlight-color: #f1c40f;
+            --bg-color: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        /* Your Name Highlighted */
+        .dev-name {
+            background-color: var(--highlight-color);
+            color: black;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .unit-selector {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        .question-box {
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            background: #eef2f3;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .options li:hover {
+            background: #d1d8e0;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>GIT Exam Preparation Portal</h1>
+    <p>Developed by: <span class="dev-name">JRS Sudharaka</span></p>
+</header>
+
+<div class="container">
+    <label for="unitSelect">Choose a Unit:</label>
+    <select id="unitSelect" class="unit-selector" onchange="loadQuestions()">
+        <option value="1">Unit 1: Computer Systems & Hardware</option>
+        <option value="2">Unit 2: Data Representation (Binary/Hex)</option>
+        <option value="7">Unit 7: Web Development (HTML)</option>
+    </select>
+
+    <div id="quiz-area">
+        <!-- Questions will load here -->
+    </div>
+    
+    <div id="result"></div>
+</div>
+
+<script>
+    // Sample Question Data based on Teacher's Guide
+    const questions = {
+        "1": [
+            { q: "Which component is considered the 'brain' of the computer?", a: ["ALU", "CU", "Processor", "RAM"], correct: 2 },
+            { q: "Which of these is an example of System Software?", a: ["MS Word", "Operating System", "Web Browser", "Spreadsheet"], correct: 1 }
+        ],
+        "2": [
+            { q: "What is the base value of the Binary number system?", a: ["10", "2", "16", "8"], correct: 1 },
+            { q: "Convert Decimal 25 to Binary.", a: ["11001", "10101", "11100", "10011"], correct: 0 }
+        ],
+        "7": [
+            { q: "What does HTML stand for?", a: ["High Text Markup Language", "Hyper Text Markup Language", "Hyper Tabular Main Log", "None"], correct: 1 }
+        ]
+    };
+
+    function loadQuestions() {
+        const unit = document.getElementById('unitSelect').value;
+        const area = document.getElementById('quiz-area');
+        area.innerHTML = "";
+        
+        questions[unit].forEach((item, index) => {
+            let html = `<div class="question-box">
+                <p><strong>Q${index + 1}: ${item.q}</strong></p>
+                <ul class="options">`;
+            
+            item.a.forEach((opt, i) => {
+                html += `<li onclick="checkAnswer(${index}, ${i}, ${item.correct}, this)">${opt}</li>`;
+            });
+            
+            html += `</ul></div>`;
+            area.innerHTML += html;
+        });
+    }
+
+    function checkAnswer(qIdx, selected, correct, element) {
+        if (selected === correct) {
+            element.style.backgroundColor = "#2ecc71";
+            element.style.color = "white";
+        } else {
+            element.style.backgroundColor = "#e74c3c";
+            element.style.color = "white";
+        }
+    }
+
+    // Initial load
+    window.onload = loadQuestions;
+</script>
+
+</body>
+</html>
