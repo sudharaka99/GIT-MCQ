@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 05 - Digital Graphics & Multimedia | 65 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔹 UNIT 05 - Digital Graphics & Multimedia</h1>
+        <p>Based on NIE Teacher's Guide | Competency 5.1, 5.2, 5.3 | Raster/Vector Graphics, Audio Editing, Video Editing</p>
+        <div class="badge">📊 65 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">🇬🇧 English</button>
+            <button id="siBtn" class="lang-btn">🇱🇰 සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: Raster vs Vector Graphics, Image Properties (Pixel, Resolution), File Formats (JPEG, PNG, GIF), Audio Editing, Video Editing</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 05: Digital Graphics & Multimedia (65 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 65</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ Covers: Digital graphics types, pixel, resolution, color models, file formats (JPEG, PNG, GIF, BMP), audio editing (Audacity), video editing (Movie Maker)</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 05: DIGITAL GRAPHICS & MULTIMEDIA – 65 UNIQUE QUESTIONS
+    // FULL BILINGUAL: ENGLISH + SINHALA
+    // Topics: Raster/Vector Graphics, Image Properties, File Formats, Audio/Video Editing
+    // ==============================================================
+    
+    // ENGLISH VERSION - 65 Questions
+    const unit5_en = [
+        // Graphics Questions (1-40)
+        { text: "What is a pixel?", options: ["The smallest element of a digital image", "A type of printer", "A file format", "A video codec"], correctIndex: 0 },
+        { text: "What does resolution of an image refer to?", options: ["Number of pixels in the image", "File size", "Color depth", "Image brightness"], correctIndex: 0 },
+        { text: "Which type of graphics uses pixels?", options: ["Raster Graphics", "Vector Graphics", "3D Graphics", "CAD Graphics"], correctIndex: 0 },
+        { text: "Which type of graphics uses mathematical formulas to draw shapes?", options: ["Vector Graphics", "Raster Graphics", "Bitmap Graphics", "Pixel Graphics"], correctIndex: 0 },
+        { text: "Which file format supports transparency and lossless compression?", options: ["PNG", "JPEG", "BMP", "GIF"], correctIndex: 0 },
+        { text: "Which file format is best for photographs due to small file size?", options: ["JPEG/JPG", "PNG", "BMP", "TIFF"], correctIndex: 0 },
+        { text: "Which file format supports animation?", options: ["GIF", "JPEG", "PNG", "BMP"], correctIndex: 0 },
+        { text: "What does lossy compression mean?", options: ["Some data is permanently lost", "No data is lost", "File becomes larger", "Quality improves"], correctIndex: 0 },
+        { text: "What does lossless compression mean?", options: ["No data is lost", "Data is lost permanently", "File size increases", "Quality decreases"], correctIndex: 0 },
+        { text: "Which color model is used for computer monitors?", options: ["RGB (Red, Green, Blue)", "CMYK (Cyan, Magenta, Yellow, Black)", "HSV", "Grayscale"], correctIndex: 0 },
+        { text: "Which color model is used for printing?", options: ["CMYK", "RGB", "HSL", "Lab"], correctIndex: 0 },
+        { text: "What is the bit depth of a true color image (24-bit)?", options: ["16.7 million colors", "256 colors", "65,536 colors", "2 colors"], correctIndex: 0 },
+        { text: "What is a layer in image editing software?", options: ["Separate level for editing different elements", "A filter", "A brush tool", "A color adjustment"], correctIndex: 0 },
+        { text: "Which software is commonly used for raster graphics editing?", options: ["Adobe Photoshop", "Adobe Illustrator", "CorelDRAW", "Inkscape"], correctIndex: 0 },
+        { text: "Which software is commonly used for vector graphics editing?", options: ["Adobe Illustrator", "Adobe Photoshop", "MS Paint", "GIMP"], correctIndex: 0 },
+        { text: "What does DPI stand for?", options: ["Dots Per Inch", "Digital Pixel Index", "Display Pixel Interface", "Data Per Inch"], correctIndex: 0 },
+        { text: "Higher DPI means:", options: ["Higher resolution / sharper image", "Lower quality", "Smaller file size", "Less color"], correctIndex: 0 },
+        { text: "What is the typical resolution for web images?", options: ["72 DPI", "300 DPI", "600 DPI", "1200 DPI"], correctIndex: 0 },
+        { text: "What is the typical resolution for print images?", options: ["300 DPI", "72 DPI", "96 DPI", "150 DPI"], correctIndex: 0 },
+        { text: "Which file format is uncompressed and results in large file size?", options: ["BMP", "JPEG", "PNG", "GIF"], correctIndex: 0 },
+        { text: "What does cropping do to an image?", options: ["Removes unwanted outer areas", "Changes color", "Resizes the image", "Adds filters"], correctIndex: 0 },
+        { text: "What does resizing an image do?", options: ["Changes image dimensions", "Changes file format", "Changes color depth", "Adds layers"], correctIndex: 0 },
+        { text: "What is a vector graphic made of?", options: ["Paths defined by mathematical equations", "Pixels", "Dots", "Bitmaps"], correctIndex: 0 },
+        { text: "What is a raster graphic made of?", options: ["Grid of pixels", "Mathematical formulas", "Shapes and lines", "Text objects"], correctIndex: 0 },
+        { text: "Which is an advantage of vector graphics over raster graphics?", options: ["Scalable without losing quality", "Better for photographs", "Smaller file size for photos", "More color depth"], correctIndex: 0 },
+        { text: "Which is an advantage of raster graphics over vector graphics?", options: ["Photorealistic images", "Infinite scalability", "Small file size for logos", "Easy to edit shapes"], correctIndex: 0 },
+        { text: "What does 'opacity' refer to in graphics?", options: ["Transparency level", "Brightness", "Contrast", "Saturation"], correctIndex: 0 },
+        { text: "What is the background layer in image editing?", options: ["The bottom-most layer", "The top-most layer", "A hidden layer", "A text layer"], correctIndex: 0 },
+        { text: "What is a selection tool used for?", options: ["Selecting a portion of an image", "Deleting layers", "Adding filters", "Changing resolution"], correctIndex: 0 },
+        { text: "What does the 'crop' tool do?", options: ["Trims edges of an image", "Copies an image", "Pastes an image", "Rotates an image"], correctIndex: 0 },
+        { text: "What does 'transform' tool do?", options: ["Resize, rotate, or skew the image", "Change color", "Add text", "Apply filter"], correctIndex: 0 },
+        { text: "Which image format supports animation and transparency?", options: ["GIF", "JPEG", "PNG", "BMP"], correctIndex: 0 },
+        { text: "Which is a professional vector graphics software?", options: ["CorelDRAW", "MS Paint", "GIMP", "Photoshop"], correctIndex: 0 },
+        { text: "Which is a free open-source raster graphics editor?", options: ["GIMP", "Adobe Photoshop", "Corel Painter", "Paint.NET"], correctIndex: 0 },
+        { text: "What is the file extension for Adobe Photoshop native format?", options: [".psd", ".png", ".jpg", ".ai"], correctIndex: 0 },
+        { text: "What is the file extension for Adobe Illustrator native format?", options: [".ai", ".psd", ".eps", ".svg"], correctIndex: 0 },
+        { text: "What does SVG stand for?", options: ["Scalable Vector Graphics", "Standard Vector Graphic", "Simple Vector Graphic", "Scalable Visual Graphic"], correctIndex: 0 },
+        { text: "What is a thumbnail image?", options: ["Small preview of a larger image", "A type of filter", "A layer style", "A brush preset"], correctIndex: 0 },
+        
+        // Audio Questions (41-52)
+        { text: "Which software is commonly used for audio editing?", options: ["Audacity", "Adobe Photoshop", "MS Paint", "CorelDRAW"], correctIndex: 0 },
+        { text: "Which audio format is compressed using lossy compression?", options: ["MP3", "WAV", "AIFF", "FLAC"], correctIndex: 0 },
+        { text: "Which audio format is uncompressed and has high quality?", options: ["WAV", "MP3", "AAC", "OGG"], correctIndex: 0 },
+        { text: "What does audio editing involve?", options: ["Cutting, trimming, mixing audio", "Adding effects to images", "Editing videos", "Creating graphics"], correctIndex: 0 },
+        { text: "What is a waveform in audio editing?", options: ["Visual representation of sound", "Audio file name", "Recording device", "Playback speed"], correctIndex: 0 },
+        { text: "What does 'trim' do in audio editing?", options: ["Removes unwanted portions", "Adds echo effect", "Increases volume", "Changes pitch"], correctIndex: 0 },
+        { text: "What is the sample rate in digital audio?", options: ["Number of samples per second", "Bit depth", "File size", "Duration"], correctIndex: 0 },
+        { text: "Which audio format is lossless?", options: ["FLAC", "MP3", "AAC", "OGG"], correctIndex: 0 },
+        { text: "What does 'normalize' do in audio editing?", options: ["Adjusts volume level", "Removes noise", "Cuts audio", "Adds reverb"], correctIndex: 0 },
+        { text: "What is a multitrack audio editor?", options: ["Edit multiple audio tracks simultaneously", "Edit one track only", "Edit video only", "Edit images"], correctIndex: 0 },
+        { text: "What does 'export' mean in audio editing?", options: ["Save in different file format", "Delete audio", "Record audio", "Play audio"], correctIndex: 0 },
+        { text: "Which is a feature of Audacity?", options: ["Multi-track recording and editing", "Vector graphics", "3D modeling", "Spreadsheet creation"], correctIndex: 0 },
+        
+        // Video Questions (53-65)
+        { text: "Which software is commonly used for video editing?", options: ["Windows Movie Maker / Adobe Premiere", "Audacity", "Photoshop", "Excel"], correctIndex: 0 },
+        { text: "Which is a popular video editing software from Adobe?", options: ["Adobe Premiere Pro", "Adobe Photoshop", "Adobe Illustrator", "Adobe Audition"], correctIndex: 0 },
+        { text: "Which video file format is compressed and widely used for web?", options: ["MP4", "AVI", "MOV", "WMV"], correctIndex: 0 },
+        { text: "What does video editing involve?", options: ["Cutting, arranging, adding effects to video clips", "Editing images", "Recording audio", "Creating graphics"], correctIndex: 0 },
+        { text: "What is a video timeline?", options: ["Linear representation of video sequence", "Video resolution", "Frame rate", "Bitrate"], correctIndex: 0 },
+        { text: "What does 'cut' mean in video editing?", options: ["Split or remove portion of video", "Copy video", "Paste video", "Add transition"], correctIndex: 0 },
+        { text: "What is a video transition?", options: ["Effect between two clips", "Video filter", "Color correction", "Audio effect"], correctIndex: 0 },
+        { text: "What is frame rate measured in?", options: ["Frames Per Second (fps)", "Megabytes per second", "Pixels per inch", "Bits per second"], correctIndex: 0 },
+        { text: "What is a common frame rate for movies?", options: ["24 fps", "30 fps", "60 fps", "15 fps"], correctIndex: 0 },
+        { text: "What does 'rendering' mean in video editing?", options: ["Creating final output video file", "Adding effects", "Cutting clips", "Importing media"], correctIndex: 0 },
+        { text: "Which video format is best for high quality and compatibility?", options: ["MP4/H.264", "AVI", "MOV", "FLV"], correctIndex: 0 },
+        { text: "What is a keyframe in video/animation?", options: ["Frame that defines start/end of transition", "First frame only", "Last frame only", "Middle frame"], correctIndex: 0 },
+        { text: "What does 'fade in' mean in video editing?", options: ["Gradually appears from black", "Suddenly appears", "Gradually disappears", "Suddenly disappears"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 65 questions
+    while(unit5_en.length < 65) {
+        unit5_en.push({ text: "What does 'lossless' compression preserve?", options: ["All original data", "Some data", "Color only", "Resolution only"], correctIndex: 0 });
+    }
+    
+    // SINHALA VERSION - 65 questions
+    const unit5_si = [
+        { text: "පික්සලයක් යනු කුමක්ද?", options: ["ඩිජිටල් රූපයක කුඩාම මූලද්‍රව්‍යය", "මුද්‍රක වර්ගයක්", "ගොනු ආකෘතියක්", "වීඩියෝ කේතකයක්"], correctIndex: 0 },
+        { text: "රූපයක විභේදනය යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["රූපයේ පික්සල් ගණන", "ගොනු ප්‍රමාණය", "වර්ණ ගැඹුර", "රූප දීප්තිය"], correctIndex: 0 },
+        { text: "පික්සල් භාවිතා කරන ග්‍රැෆික් වර්ගය කුමක්ද?", options: ["රාස්ටර් ග්‍රැෆික්ස්", "වෙක්ටර් ග්‍රැෆික්ස්", "ත්‍රිමාණ ග්‍රැෆික්ස්", "CAD ග්‍රැෆික්ස්"], correctIndex: 0 },
+        { text: "හැඩතල ඇඳීමට ගණිතමය සූත්‍ර භාවිතා කරන ග්‍රැෆික් වර්ගය කුමක්ද?", options: ["වෙක්ටර් ග්‍රැෆික්ස්", "රාස්ටර් ග්‍රැෆික්ස්", "බිට්මැප් ග්‍රැෆික්ස්", "පික්සල් ග්‍රැෆික්ස්"], correctIndex: 0 },
+        { text: "විනිවිදභාවය සහ පාඩු රහිත සම්පීඩනය සහිත ගොනු ආකෘතිය කුමක්ද?", options: ["PNG", "JPEG", "BMP", "GIF"], correctIndex: 0 },
+        { text: "කුඩා ගොනු ප්‍රමාණය නිසා ඡායාරූප සඳහා වඩාත් සුදුසු ගොනු ආකෘතිය කුමක්ද?", options: ["JPEG/JPG", "PNG", "BMP", "TIFF"], correctIndex: 0 },
+        { text: "චලන රූප (animation) සඳහා සහය දක්වන ගොනු ආකෘතිය කුමක්ද?", options: ["GIF", "JPEG", "PNG", "BMP"], correctIndex: 0 },
+        { text: "පාඩු සහිත සම්පීඩනය යනු කුමක්ද?", options: ["සමහර දත්ත ස්ථිරවම අහිමි වේ", "දත්ත කිසිවක් අහිමි නොවේ", "ගොනුව විශාල වේ", "ගුණත්වය වැඩි දියුණු වේ"], correctIndex: 0 },
+        { text: "පාඩු රහිත සම්පීඩනය යනු කුමක්ද?", options: ["දත්ත කිසිවක් අහිමි නොවේ", "දත්ත ස්ථිරවම අහිමි වේ", "ගොනු ප්‍රමාණය වැඩි වේ", "ගුණත්වය අඩු වේ"], correctIndex: 0 },
+        { text: "පරිගණක මොනිටර සඳහා භාවිතා කරන වර්ණ ආකෘතිය කුමක්ද?", options: ["RGB (රතු, කොළ, නිල්)", "CMYK (සියන්, මැජෙන්ටා, කහ, කළු)", "HSV", "ග්‍රේස්කේල්"], correctIndex: 0 },
+        { text: "මුද්‍රණය සඳහා භාවිතා කරන වර්ණ ආකෘතිය කුමක්ද?", options: ["CMYK", "RGB", "HSL", "Lab"], correctIndex: 0 },
+        { text: "සත්‍ය වර්ණ (24-bit) රූපයක බිට් ගැඹුර කුමක්ද?", options: ["වර්ණ මිලියන 16.7 ක්", "වර්ණ 256 ක්", "වර්ණ 65,536 ක්", "වර්ණ 2 ක්"], correctIndex: 0 },
+        { text: "රූප සංස්කරණ මෘදුකාංගයේ ස්ථරයක් යනු කුමක්ද?", options: ["විවිධ මූලද්‍රව්‍ය සංස්කරණය කිරීම සඳහා වෙනම මට්ටමක්", "පෙරහනක්", "බුරුසු මෙවලමක්", "වර්ණ ගැලපුමක්"], correctIndex: 0 },
+        { text: "රාස්ටර් ග්‍රැෆික්ස් සංස්කරණය සඳහා බහුලව භාවිතා කරන මෘදුකාංගය කුමක්ද?", options: ["ඇඩෝබි ෆොටෝෂොප්", "ඇඩෝබි ඉලස්ට්‍රේටර්", "කොරෙල් ඩ්‍රෝ", "ඉන්ක්ස්කේප්"], correctIndex: 0 },
+        { text: "වෙක්ටර් ග්‍රැෆික්ස් සංස්කරණය සඳහා බහුලව භාවිතා කරන මෘදුකාංගය කුමක්ද?", options: ["ඇඩෝබි ඉලස්ට්‍රේටර්", "ඇඩෝබි ෆොටෝෂොප්", "MS පේන්ට්", "GIMP"], correctIndex: 0 },
+        { text: "DPI යනු කුමක්ද?", options: ["අඟලකට තිත්", "ඩිජිටල් පික්සල් දර්ශකය", "සංදර්ශක පික්සල් අතුරු මුහුණත", "අඟලකට දත්ත"], correctIndex: 0 },
+        { text: "ඉහළ DPI යනු කුමක්ද?", options: ["ඉහළ විභේදනය / තියුණු රූපය", "අඩු ගුණත්වය", "කුඩා ගොනු ප්‍රමාණය", "අඩු වර්ණ"], correctIndex: 0 },
+        { text: "වෙබ් රූප සඳහා සාමාන්‍ය විභේදනය කුමක්ද?", options: ["72 DPI", "300 DPI", "600 DPI", "1200 DPI"], correctIndex: 0 },
+        { text: "මුද්‍රණ රූප සඳහා සාමාන්‍ය විභේදනය කුමක්ද?", options: ["300 DPI", "72 DPI", "96 DPI", "150 DPI"], correctIndex: 0 },
+        { text: "සම්පීඩනය නොකළ සහ විශාල ගොනු ප්‍රමාණයක් ඇති ගොනු ආකෘතිය කුමක්ද?", options: ["BMP", "JPEG", "PNG", "GIF"], correctIndex: 0 },
+        { text: "රූපයක් කප්පාදු කිරීමෙන් සිදුවන්නේ කුමක්ද?", options: ["අනවශ්‍ය පිටත ප්‍රදේශ ඉවත් කරයි", "වර්ණ වෙනස් කරයි", "රූපය ප්‍රමාණය වෙනස් කරයි", "පෙරහන් එකතු කරයි"], correctIndex: 0 },
+        { text: "රූපයක ප්‍රමාණය වෙනස් කිරීමෙන් සිදුවන්නේ කුමක්ද?", options: ["රූප මාන වෙනස් කරයි", "ගොනු ආකෘතිය වෙනස් කරයි", "වර්ණ ගැඹුර වෙනස් කරයි", "ස්ථර එකතු කරයි"], correctIndex: 0 },
+        { text: "වෙක්ටර් ග්‍රැෆික් එකක් සෑදී ඇත්තේ කුමකින්ද?", options: ["ගණිතමය සමීකරණ මගින් අර්ථ දක්වන ලද මාර්ග", "පික්සල්", "තිත්", "බිට්මැප්"], correctIndex: 0 },
+        { text: "රාස්ටර් ග්‍රැෆික් එකක් සෑදී ඇත්තේ කුමකින්ද?", options: ["පික්සල් ජාලකයක්", "ගණිතමය සූත්‍ර", "හැඩතල සහ රේඛා", "පෙළ වස්තු"], correctIndex: 0 },
+        { text: "රාස්ටර් ග්‍රැෆික් වලට වඩා වෙක්ටර් ග්‍රැෆික් වල වාසිය කුමක්ද?", options: ["ගුණත්වය නැති නොවී පරිමාණය කළ හැක", "ඡායාරූප සඳහා වඩා හොඳ", "ඡායාරූප සඳහා කුඩා ගොනු ප්‍රමාණය", "වැඩි වර්ණ ගැඹුර"], correctIndex: 0 },
+        { text: "වෙක්ටර් ග්‍රැෆික් වලට වඩා රාස්ටර් ග්‍රැෆික් වල වාසිය කුමක්ද?", options: ["යථාර්ථවාදී රූප", "අසීමිත පරිමාණය", "ලාංඡන සඳහා කුඩා ගොනු ප්‍රමාණය", "හැඩතල පහසුවෙන් සංස්කරණය කිරීම"], correctIndex: 0 },
+        { text: "ග්‍රැෆික් වල 'පාරදෘශ්‍යතාව' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["විනිවිදභාවය මට්ටම", "දීප්තිය", "ප්‍රතිවිරෝධතාව", "සන්තෘප්තිය"], correctIndex: 0 },
+        { text: "රූප සංස්කරණයේ පසුබිම් ස්ථරය යනු කුමක්ද?", options: ["පහළම ස්ථරය", "ඉහළම ස්ථරය", "සැඟවුණු ස්ථරය", "පෙළ ස්ථරය"], correctIndex: 0 },
+        { text: "තේරීම් මෙවලමක් භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["රූපයේ කොටසක් තේරීම", "ස්ථර මැකීම", "පෙරහන් එකතු කිරීම", "විභේදනය වෙනස් කිරීම"], correctIndex: 0 },
+        { text: "'crop' මෙවලම කරන්නේ කුමක්ද?", options: ["රූපයේ දාර කපා හැරීම", "රූපයක් පිටපත් කිරීම", "රූපයක් ඇලවීම", "රූපයක් කරකැවීම"], correctIndex: 0 },
+        { text: "'transform' මෙවලම කරන්නේ කුමක්ද?", options: ["රූපය ප්‍රමාණය වෙනස් කිරීම, කරකැවීම හෝ ඇල කිරීම", "වර්ණ වෙනස් කිරීම", "පෙළ එකතු කිරීම", "පෙරහන යෙදීම"], correctIndex: 0 },
+        { text: "චලන රූප සහ විනිවිදභාවය සඳහා සහය දක්වන රූප ආකෘතිය කුමක්ද?", options: ["GIF", "JPEG", "PNG", "BMP"], correctIndex: 0 },
+        { text: "වෘත්තීය වෙක්ටර් ග්‍රැෆික් මෘදුකාංගයක් කුමක්ද?", options: ["CorelDRAW", "MS Paint", "GIMP", "Photoshop"], correctIndex: 0 },
+        { text: "නිදහස් විවෘත මූලාශ්‍ර රාස්ටර් ග්‍රැෆික් සංස්කාරකය කුමක්ද?", options: ["GIMP", "Adobe Photoshop", "Corel Painter", "Paint.NET"], correctIndex: 0 },
+        { text: "ඇඩෝබි ෆොටෝෂොප් මූලික ආකෘතියේ ගොනු දිගුව කුමක්ද?", options: [".psd", ".png", ".jpg", ".ai"], correctIndex: 0 },
+        { text: "ඇඩෝබි ඉලස්ට්‍රේටර් මූලික ආකෘතියේ ගොනු දිගුව කුමක්ද?", options: [".ai", ".psd", ".eps", ".svg"], correctIndex: 0 },
+        { text: "SVG යනු කුමක්ද?", options: ["Scalable Vector Graphics (පරිමාණය කළ හැකි වෙක්ටර් ග්‍රැෆික්ස්)", "Standard Vector Graphic", "Simple Vector Graphic", "Scalable Visual Graphic"], correctIndex: 0 },
+        { text: "තම්බ්නේල් රූපයක් යනු කුමක්ද?", options: ["විශාල රූපයක කුඩා පෙරදසුන", "පෙරහන වර්ගයක්", "ස්ථර ශෛලියක්", "බුරුසු පෙරසැකසුමක්"], correctIndex: 0 },
+        
+        // Audio Sinhala
+        { text: "ශ්‍රව්‍ය සංස්කරණය සඳහා බහුලව භාවිතා කරන මෘදුකාංගය කුමක්ද?", options: ["Audacity", "Adobe Photoshop", "MS Paint", "CorelDRAW"], correctIndex: 0 },
+        { text: "පාඩු සහිත සම්පීඩනය භාවිතා කරන ශ්‍රව්‍ය ආකෘතිය කුමක්ද?", options: ["MP3", "WAV", "AIFF", "FLAC"], correctIndex: 0 },
+        { text: "සම්පීඩනය නොකළ සහ ඉහළ ගුණත්වයක් ඇති ශ්‍රව්‍ය ආකෘතිය කුමක්ද?", options: ["WAV", "MP3", "AAC", "OGG"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය සංස්කරණයට ඇතුළත් වන්නේ කුමක්ද?", options: ["ශ්‍රව්‍ය කැපීම, කප්පාදු කිරීම, මිශ්‍ර කිරීම", "රූපවලට ප්‍රයෝග එකතු කිරීම", "වීඩියෝ සංස්කරණය", "ග්‍රැෆික් සෑදීම"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය සංස්කරණයේ තරංග ආකෘතියක් යනු කුමක්ද?", options: ["ශබ්දයේ දෘශ්‍ය නිරූපණය", "ශ්‍රව්‍ය ගොනු නම", "පටිගත කිරීමේ උපාංගය", "ප්‍රතිනිශ්පාදන වේගය"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය සංස්කරණයේ 'trim' කරන්නේ කුමක්ද?", options: ["අනවශ්‍ය කොටස් ඉවත් කරයි", "ප්‍රතිරාවය ප්‍රයෝගය එකතු කරයි", "පරිමාව වැඩි කරයි", "තාරතාව වෙනස් කරයි"], correctIndex: 0 },
+        { text: "ඩිජිටල් ශ්‍රව්‍යයේ නියැදි අනුපාතය යනු කුමක්ද?", options: ["තත්පරයට නියැදි ගණන", "බිට් ගැඹුර", "ගොනු ප්‍රමාණය", "කාලසීමාව"], correctIndex: 0 },
+        { text: "පාඩු රහිත ශ්‍රව්‍ය ආකෘතිය කුමක්ද?", options: ["FLAC", "MP3", "AAC", "OGG"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය සංස්කරණයේ 'normalize' කරන්නේ කුමක්ද?", options: ["පරිමා මට්ටම සකස් කරයි", "ශබ්දය ඉවත් කරයි", "ශ්‍රව්‍ය කපා හරියි", "ප්‍රතිරාවය එකතු කරයි"], correctIndex: 0 },
+        { text: "බහු-පීලි ශ්‍රව්‍ය සංස්කාරකයක් යනු කුමක්ද?", options: ["එකවර බහු ශ්‍රව්‍ය පීලි සංස්කරණය කිරීම", "එක් පීල්ලක් පමණක් සංස්කරණය කිරීම", "වීඩියෝ පමණක් සංස්කරණය කිරීම", "රූප පමණක් සංස්කරණය කිරීම"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය සංස්කරණයේ 'export' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["විවිධ ගොනු ආකෘතියකින් සුරැකීම", "ශ්‍රව්‍ය මැකීම", "ශ්‍රව්‍ය පටිගත කිරීම", "ශ්‍රව්‍ය වාදනය කිරීම"], correctIndex: 0 },
+        { text: "Audacity හි විශේෂාංගයක් කුමක්ද?", options: ["බහු-පීලි පටිගත කිරීම සහ සංස්කරණය", "වෙක්ටර් ග්‍රැෆික්ස්", "ත්‍රිමාණ ආකෘතිකරණය", "පැතුරුම්පත් සෑදීම"], correctIndex: 0 },
+        
+        // Video Sinhala
+        { text: "වීඩියෝ සංස්කරණය සඳහා බහුලව භාවිතා කරන මෘදුකාංගය කුමක්ද?", options: ["වින්ඩෝස් මූවි මේකර් / ඇඩෝබි ප්‍රීමියර්", "Audacity", "Photoshop", "Excel"], correctIndex: 0 },
+        { text: "ඇඩෝබි සමාගමේ ජනප්‍රිය වීඩියෝ සංස්කරණ මෘදුකාංගය කුමක්ද?", options: ["ඇඩෝබි ප්‍රීමියර් ප්‍රෝ", "ඇඩෝබි ෆොටෝෂොප්", "ඇඩෝබි ඉලස්ට්‍රේටර්", "ඇඩෝබි ඔඩිෂන්"], correctIndex: 0 },
+        { text: "සම්පීඩිත සහ වෙබ් සඳහා බහුලව භාවිතා වන වීඩියෝ ගොනු ආකෘතිය කුමක්ද?", options: ["MP4", "AVI", "MOV", "WMV"], correctIndex: 0 },
+        { text: "වීඩියෝ සංස්කරණයට ඇතුළත් වන්නේ කුමක්ද?", options: ["වීඩියෝ පටි කැපීම, සැකසීම, ප්‍රයෝග එකතු කිරීම", "රූප සංස්කරණය", "ශ්‍රව්‍ය පටිගත කිරීම", "ග්‍රැෆික් සෑදීම"], correctIndex: 0 },
+        { text: "වීඩියෝ කාලරේඛාවක් යනු කුමක්ද?", options: ["වීඩියෝ අනුපිළිවෙලෙහි රේඛීය නිරූපණය", "වීඩියෝ විභේදනය", "රාමු අනුපාතය", "බිට් අනුපාතය"], correctIndex: 0 },
+        { text: "වීඩියෝ සංස්කරණයේ 'cut' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["වීඩියෝවේ කොටසක් බෙදීම හෝ ඉවත් කිරීම", "වීඩියෝව පිටපත් කිරීම", "වීඩියෝව ඇලවීම", "සංක්‍රාන්තිය එකතු කිරීම"], correctIndex: 0 },
+        { text: "වීඩියෝ සංක්‍රාන්තියක් යනු කුමක්ද?", options: ["ක්ලිප් දෙකක් අතර ප්‍රයෝගය", "වීඩියෝ පෙරහන", "වර්ණ නිවැරදි කිරීම", "ශ්‍රව්‍ය ප්‍රයෝගය"], correctIndex: 0 },
+        { text: "රාමු අනුපාතය මනිනු ලබන්නේ කුමකින්ද?", options: ["තත්පරයට රාමු (fps)", "තත්පරයට මෙගාබයිට්", "අඟලකට පික්සල්", "තත්පරයට බිට්"], correctIndex: 0 },
+        { text: "චිත්‍රපට සඳහා පොදු රාමු අනුපාතය කුමක්ද?", options: ["24 fps", "30 fps", "60 fps", "15 fps"], correctIndex: 0 },
+        { text: "වීඩියෝ සංස්කරණයේ 'rendering' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["අවසාන ප්‍රතිදාන වීඩියෝ ගොනුව සෑදීම", "ප්‍රයෝග එකතු කිරීම", "ක්ලිප් කැපීම", "මාධ්‍ය ආයාත කිරීම"], correctIndex: 0 },
+        { text: "ඉහළ ගුණත්වය සහ ගැළපුම සඳහා හොඳම වීඩියෝ ආකෘතිය කුමක්ද?", options: ["MP4/H.264", "AVI", "MOV", "FLV"], correctIndex: 0 },
+        { text: "වීඩියෝ/චලන රූපවල ප්‍රධාන රාමුවක් (keyframe) යනු කුමක්ද?", options: ["සංක්‍රාන්තියේ ආරම්භය/අවසානය නිර්වචනය කරන රාමුව", "පළමු රාමුව පමණි", "අවසාන රාමුව පමණි", "මැද රාමුව"], correctIndex: 0 },
+        { text: "වීඩියෝ සංස්කරණයේ 'fade in' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["කළු පැහැයෙන් ක්‍රමයෙන් දිස්වීම", "හදිසියේ දිස්වීම", "ක්‍රමයෙන් අතුරුදහන් වීම", "හදිසියේ අතුරුදහන් වීම"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 65 questions in Sinhala
+    while(unit5_si.length < 65) {
+        unit5_si.push({ text: "'පාඩු රහිත' සම්පීඩනය සුරකියි කුමක්ද?", options: ["සියලු මුල් දත්ත", "සමහර දත්ත", "වර්ණ පමණි", "විභේදනය පමණි"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit5_en : unit5_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>

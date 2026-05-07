@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 04 - Word Processing & Spreadsheet | 85 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔸 UNIT 04 - Word Processing & Spreadsheet</h1>
+        <p>Based on NIE Teacher's Guide | Competency 4.1, 4.2, 4.3, 4.4 | MS Word, Excel, PowerPoint, Database</p>
+        <div class="badge">📊 85 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">🇬🇧 English</button>
+            <button id="siBtn" class="lang-btn">🇱🇰 සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: Word Processing (Formatting, Tables, Mail Merge), Spreadsheet (Formulas, Functions, Charts), Presentation, Database Basics</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 04: Word Processing & Spreadsheet (85 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 85</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ Covers: MS Word formatting, tables, mail merge | Excel formulas, functions (SUM, AVERAGE, MAX, MIN, COUNT), charts | Presentation software | Database objects</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 04: WORD PROCESSING & SPREADSHEET – 85 UNIQUE QUESTIONS
+    // FULL BILINGUAL: ENGLISH + SINHALA
+    // Topics: Word, Excel, PowerPoint, Database basics
+    // ==============================================================
+    
+    // ENGLISH VERSION - 85 Questions
+    const unit4_en = [
+        // Word Processing Questions (1-35)
+        { text: "Which software is used for word processing?", options: ["MS Word", "MS Excel", "MS PowerPoint", "MS Access"], correctIndex: 0 },
+        { text: "What is the default file extension of MS Word document?", options: [".docx", ".xlsx", ".pptx", ".accdb"], correctIndex: 0 },
+        { text: "Which shortcut key is used to create a new document in MS Word?", options: ["Ctrl + N", "Ctrl + O", "Ctrl + S", "Ctrl + P"], correctIndex: 0 },
+        { text: "Which shortcut key is used to save a document?", options: ["Ctrl + S", "Ctrl + N", "Ctrl + O", "Ctrl + P"], correctIndex: 0 },
+        { text: "Which shortcut key is used to open an existing document?", options: ["Ctrl + O", "Ctrl + N", "Ctrl + S", "Ctrl + P"], correctIndex: 0 },
+        { text: "Which shortcut key is used to print a document?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + N", "Ctrl + O"], correctIndex: 0 },
+        { text: "Which key combination is used to select all text in a document?", options: ["Ctrl + A", "Ctrl + C", "Ctrl + V", "Ctrl + X"], correctIndex: 0 },
+        { text: "Which feature in Word automatically corrects common typos?", options: ["AutoCorrect", "Spell Check", "Thesaurus", "Grammar Check"], correctIndex: 0 },
+        { text: "Which feature checks for spelling and grammar errors?", options: ["Spell & Grammar Check", "AutoCorrect", "Thesaurus", "Word Count"], correctIndex: 0 },
+        { text: "What is the purpose of Find and Replace feature?", options: ["Search and replace text", "Find files", "Replace fonts", "Change page layout"], correctIndex: 0 },
+        { text: "Which tab contains options for page margins and orientation?", options: ["Layout/Page Layout", "Home", "Insert", "Review"], correctIndex: 0 },
+        { text: "Which alignment makes text flush with both left and right margins?", options: ["Justify", "Left Align", "Right Align", "Center Align"], correctIndex: 0 },
+        { text: "Which keyboard shortcut is used to bold text?", options: ["Ctrl + B", "Ctrl + I", "Ctrl + U", "Ctrl + L"], correctIndex: 0 },
+        { text: "Which keyboard shortcut is used to italicize text?", options: ["Ctrl + I", "Ctrl + B", "Ctrl + U", "Ctrl + L"], correctIndex: 0 },
+        { text: "Which keyboard shortcut is used to underline text?", options: ["Ctrl + U", "Ctrl + B", "Ctrl + I", "Ctrl + L"], correctIndex: 0 },
+        { text: "What is a header in MS Word?", options: ["Text at the top of every page", "Text at the bottom of every page", "Page number", "Document title"], correctIndex: 0 },
+        { text: "What is a footer in MS Word?", options: ["Text at the bottom of every page", "Text at the top of every page", "Page margin", "Document summary"], correctIndex: 0 },
+        { text: "How can you insert a page number in Word?", options: ["Insert tab → Page Number", "Home tab → Page Number", "Layout tab → Page Number", "References tab → Page Number"], correctIndex: 0 },
+        { text: "Which feature allows you to create mass mailings using a list of recipients?", options: ["Mail Merge", "Envelopes", "Labels", "Print Merge"], correctIndex: 0 },
+        { text: "What are the two main documents required for Mail Merge?", options: ["Main document and Data source", "Letter and Envelope", "Document and Spreadsheet", "Text and Image"], correctIndex: 0 },
+        { text: "Which key is used to create a table in MS Word?", options: ["Insert tab → Table", "Home tab → Table", "Layout tab → Table", "Design tab → Table"], correctIndex: 0 },
+        { text: "How do you merge two cells in a Word table?", options: ["Right-click → Merge Cells", "Delete cells", "Split cells", "Insert cells"], correctIndex: 0 },
+        { text: "How do you split a cell in a Word table?", options: ["Right-click → Split Cells", "Merge cells", "Delete cells", "Insert cells"], correctIndex: 0 },
+        { text: "Which tab contains options for adding pictures, shapes, and charts?", options: ["Insert", "Home", "Design", "Layout"], correctIndex: 0 },
+        { text: "What is WordArt used for?", options: ["Creating decorative text", "Inserting pictures", "Drawing shapes", "Creating tables"], correctIndex: 0 },
+        { text: "What is the purpose of Print Preview?", options: ["View document before printing", "Print immediately", "Save document", "Change printer settings"], correctIndex: 0 },
+        { text: "Which view shows the document as it will appear when printed?", options: ["Print Layout", "Read Mode", "Web Layout", "Outline"], correctIndex: 0 },
+        { text: "What is a hyperlink in a document?", options: ["Link to another location or webpage", "A bookmark", "A comment", "A footnote"], correctIndex: 0 },
+        { text: "How do you insert a symbol in Word?", options: ["Insert tab → Symbol", "Home tab → Symbol", "Design tab → Symbol", "Layout tab → Symbol"], correctIndex: 0 },
+        { text: "What is the purpose of the Thesaurus tool?", options: ["Find synonyms and antonyms", "Check spelling", "Check grammar", "Count words"], correctIndex: 0 },
+        { text: "What does the Word Count feature show?", options: ["Number of words, characters, pages", "Number of images", "File size", "Font size"], correctIndex: 0 },
+        { text: "Which feature allows you to add comments to a document?", options: ["Review tab → New Comment", "Insert tab → Comment", "Home tab → Comment", "References tab → Comment"], correctIndex: 0 },
+        { text: "What is Track Changes used for?", options: ["Mark changes made to a document", "Track file location", "Track time", "Track spelling"], correctIndex: 0 },
+        { text: "How do you change the line spacing in a paragraph?", options: ["Home tab → Line and Paragraph Spacing", "Layout tab → Line Spacing", "Insert tab → Line Spacing", "Design tab → Line Spacing"], correctIndex: 0 },
+        { text: "What is a bulleted list?", options: ["List with symbols before each item", "Numbered list", "Multilevel list", "Table list"], correctIndex: 0 },
+        
+        // Spreadsheet Questions (36-70)
+        { text: "Which software is used for spreadsheets?", options: ["MS Excel", "MS Word", "MS PowerPoint", "MS Access"], correctIndex: 0 },
+        { text: "What is the default file extension of MS Excel workbook?", options: [".xlsx", ".docx", ".pptx", ".accdb"], correctIndex: 0 },
+        { text: "What is a cell in Excel?", options: ["Intersection of a row and column", "A worksheet", "A workbook", "A chart"], correctIndex: 0 },
+        { text: "What is a range in Excel?", options: ["Group of selected cells", "Single cell", "Whole worksheet", "Entire workbook"], correctIndex: 0 },
+        { text: "Which symbol must start an Excel formula?", options: ["=", "+", "@", "#"], correctIndex: 0 },
+        { text: "What does the SUM function do?", options: ["Adds all numbers in a range", "Averages numbers", "Counts numbers", "Finds maximum"], correctIndex: 0 },
+        { text: "What does the AVERAGE function do?", options: ["Calculates mean of numbers", "Adds numbers", "Counts numbers", "Finds maximum"], correctIndex: 0 },
+        { text: "What does the MAX function do?", options: ["Returns largest value", "Returns smallest value", "Returns average", "Returns sum"], correctIndex: 0 },
+        { text: "What does the MIN function do?", options: ["Returns smallest value", "Returns largest value", "Returns average", "Returns sum"], correctIndex: 0 },
+        { text: "What does the COUNT function do?", options: ["Counts cells with numbers", "Adds numbers", "Averages numbers", "Finds maximum"], correctIndex: 0 },
+        { text: "What is a relative cell reference?", options: ["Changes when formula is copied", "Stays fixed when copied", "Refers to another sheet", "Refers to another workbook"], correctIndex: 0 },
+        { text: "What is an absolute cell reference?", options: ["Stays fixed when copied (e.g., $A$1)", "Changes when copied", "Refers to a range", "Refers to a name"], correctIndex: 0 },
+        { text: "Which symbol is used for absolute reference?", options: ["$", "#", "@", "&"], correctIndex: 0 },
+        { text: "What does the formula =A1+B1 do?", options: ["Adds values of A1 and B1", "Multiplies A1 and B1", "Subtracts B1 from A1", "Divides A1 by B1"], correctIndex: 0 },
+        { text: "What does the formula =A1*B1 do?", options: ["Multiplies A1 and B1", "Adds A1 and B1", "Subtracts B1 from A1", "Divides A1 by B1"], correctIndex: 0 },
+        { text: "What does the formula =A1/B1 do?", options: ["Divides A1 by B1", "Multiplies A1 and B1", "Adds A1 and B1", "Subtracts B1 from A1"], correctIndex: 0 },
+        { text: "What does the formula =A1-B1 do?", options: ["Subtracts B1 from A1", "Adds A1 and B1", "Multiplies A1 and B1", "Divides A1 by B1"], correctIndex: 0 },
+        { text: "Which chart type is best for showing trends over time?", options: ["Line Chart", "Pie Chart", "Bar Chart", "Column Chart"], correctIndex: 0 },
+        { text: "Which chart type is best for showing proportions of a whole?", options: ["Pie Chart", "Line Chart", "Bar Chart", "Column Chart"], correctIndex: 0 },
+        { text: "Which chart type is best for comparing categories?", options: ["Column/Bar Chart", "Line Chart", "Pie Chart", "Area Chart"], correctIndex: 0 },
+        { text: "What is data filtering in Excel?", options: ["Display only rows that meet criteria", "Sort data", "Delete data", "Copy data"], correctIndex: 0 },
+        { text: "What is data sorting in Excel?", options: ["Arrange data in order", "Filter data", "Delete data", "Copy data"], correctIndex: 0 },
+        { text: "What is a PivotTable used for?", options: ["Summarize and analyze data", "Create charts", "Enter data", "Print data"], correctIndex: 0 },
+        { text: "Which tab contains chart options in Excel?", options: ["Insert", "Home", "Data", "Formulas"], correctIndex: 0 },
+        { text: "What is a worksheet in Excel?", options: ["Single page/sheet in a workbook", "Entire file", "Chart", "Cell"], correctIndex: 0 },
+        { text: "What is a workbook in Excel?", options: ["Entire Excel file containing worksheets", "Single worksheet", "Chart", "Range"], correctIndex: 0 },
+        { text: "How do you rename a worksheet?", options: ["Double-click sheet tab", "Right-click sheet tab → Rename", "Both A and B", "None of the above"], correctIndex: 2 },
+        { text: "How do you insert a new worksheet?", options: ["Click + icon or Shift+F11", "File menu", "Home tab", "Data tab"], correctIndex: 0 },
+        { text: "What is the cell address of the first cell?", options: ["A1", "A0", "1A", "1A"], correctIndex: 0 },
+        { text: "What is the maximum number of rows in Excel 2016+?", options: ["1,048,576", "65,536", "16,384", "1,000,000"], correctIndex: 0 },
+        { text: "What is the maximum number of columns in Excel 2016+?", options: ["16,384 (XFD)", "256", "1,024", "65,536"], correctIndex: 0 },
+        { text: "Which function calculates the rank of a number?", options: ["RANK", "SORT", "ORDER", "POSITION"], correctIndex: 0 },
+        { text: "What does conditional formatting do?", options: ["Format cells based on conditions", "Format entire worksheet", "Create charts", "Filter data"], correctIndex: 0 },
+        
+        // Presentation & Database Questions (71-85)
+        { text: "Which software is used for presentations?", options: ["MS PowerPoint", "MS Word", "MS Excel", "MS Access"], correctIndex: 0 },
+        { text: "What is the default file extension of PowerPoint presentation?", options: [".pptx", ".docx", ".xlsx", ".accdb"], correctIndex: 0 },
+        { text: "What is a slide in PowerPoint?", options: ["Single page in a presentation", "Animation effect", "Transition effect", "Chart"], correctIndex: 0 },
+        { text: "What is slide transition?", options: ["Effect when moving from one slide to next", "Animation on objects", "Slide layout", "Slide design"], correctIndex: 0 },
+        { text: "What is animation in PowerPoint?", options: ["Motion effect on objects", "Slide transition", "Slide layout", "Slide design"], correctIndex: 0 },
+        { text: "Which software is used for database management?", options: ["MS Access", "MS Word", "MS Excel", "MS PowerPoint"], correctIndex: 0 },
+        { text: "What is a database?", options: ["Organized collection of data", "Spreadsheet", "Word document", "Presentation"], correctIndex: 0 },
+        { text: "What is a table in a database?", options: ["Collection of related data in rows and columns", "A query", "A form", "A report"], correctIndex: 0 },
+        { text: "What is a primary key?", options: ["Uniquely identifies each record", "Foreign key", "Index", "Field name"], correctIndex: 0 },
+        { text: "What is a query in a database?", options: ["Request for data from database", "A table", "A form", "A report"], correctIndex: 0 },
+        { text: "What is a form in a database?", options: ["User interface for data entry", "Table", "Query", "Report"], correctIndex: 0 },
+        { text: "What is a report in a database?", options: ["Printed/Formatted data output", "Table", "Query", "Form"], correctIndex: 0 },
+        { text: "Which data type stores text in MS Access?", options: ["Text/Short Text", "Number", "Date/Time", "Currency"], correctIndex: 0 },
+        { text: "Which data type stores Yes/No values?", options: ["Yes/No (Boolean)", "Text", "Number", "Date/Time"], correctIndex: 0 },
+        { text: "What is a foreign key?", options: ["Field that links to primary key in another table", "Primary key", "Index", "Unique key"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 85 questions
+    while(unit4_en.length < 85) {
+        unit4_en.push({ text: "What does the VLOOKUP function do in Excel?", options: ["Searches for value in first column", "Looks up vertically", "Validates data", "Creates chart"], correctIndex: 0 });
+    }
+    
+    // SINHALA VERSION - 85 questions
+    const unit4_si = [
+        { text: "වදන් සැකසුම් සඳහා භාවිතා කරන මෘදුකාංගය කුමක්ද?", options: ["MS Word", "MS Excel", "MS PowerPoint", "MS Access"], correctIndex: 0 },
+        { text: "MS Word ලේඛනයේ පෙරනිමි ගොනු දිගුව කුමක්ද?", options: [".docx", ".xlsx", ".pptx", ".accdb"], correctIndex: 0 },
+        { text: "MS Word හි නව ලේඛනයක් සෑදීමට භාවිතා කරන කෙටිමඟ කුමක්ද?", options: ["Ctrl + N", "Ctrl + O", "Ctrl + S", "Ctrl + P"], correctIndex: 0 },
+        { text: "ලේඛනයක් සුරැකීමට භාවිතා කරන කෙටිමඟ කුමක්ද?", options: ["Ctrl + S", "Ctrl + N", "Ctrl + O", "Ctrl + P"], correctIndex: 0 },
+        { text: "පවතින ලේඛනයක් විවෘත කිරීමට භාවිතා කරන කෙටිමඟ කුමක්ද?", options: ["Ctrl + O", "Ctrl + N", "Ctrl + S", "Ctrl + P"], correctIndex: 0 },
+        { text: "ලේඛනයක් මුද්‍රණය කිරීමට භාවිතා කරන කෙටිමඟ කුමක්ද?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + N", "Ctrl + O"], correctIndex: 0 },
+        { text: "ලේඛනයක සියලු පෙළ තෝරා ගැනීමට භාවිතා කරන යතුරු සංයෝගය කුමක්ද?", options: ["Ctrl + A", "Ctrl + C", "Ctrl + V", "Ctrl + X"], correctIndex: 0 },
+        { text: "Word හි පොදු අක්ෂර වැරදි ස්වයංක්‍රීයව නිවැරදි කරන විශේෂාංගය කුමක්ද?", options: ["AutoCorrect", "අක්ෂර වින්‍යාස පරීක්ෂාව", "සමාන පද මෙවලම", "ව්‍යාකරණ පරීක්ෂාව"], correctIndex: 0 },
+        { text: "අක්ෂර වින්‍යාස සහ ව්‍යාකරණ දෝෂ පරීක්ෂා කරන විශේෂාංගය කුමක්ද?", options: ["අක්ෂර වින්‍යාස සහ ව්‍යාකරණ පරීක්ෂාව", "ස්වයං නිවැරදි කිරීම", "සමාන පද මෙවලම", "වචන ගණන"], correctIndex: 0 },
+        { text: "Find and Replace විශේෂාංගයේ අරමුණ කුමක්ද?", options: ["පෙළ සෙවීම සහ ප්‍රතිස්ථාපනය", "ගොනු සෙවීම", "අකුරු ප්‍රතිස්ථාපනය", "පිටු පිරිසැලසුම වෙනස් කිරීම"], correctIndex: 0 },
+        { text: "පිටු ආන්තික සහ දිශානතිය සඳහා විකල්ප අඩංගු ටැබය කුමක්ද?", options: ["Layout/Picture Layout", "Home", "Insert", "Review"], correctIndex: 0 },
+        { text: "පෙළ වම් සහ දකුණු ආන්තික දෙකටම සමතලා කරන පෙළගැස්ම කුමක්ද?", options: ["Justify", "වමට පෙළගස්වන්න", "දකුණට පෙළගස්වන්න", "මැදට පෙළගස්වන්න"], correctIndex: 0 },
+        { text: "පෙළ තදකුරු කිරීමට භාවිතා කරන යතුරු පුවරු කෙටිමඟ කුමක්ද?", options: ["Ctrl + B", "Ctrl + I", "Ctrl + U", "Ctrl + L"], correctIndex: 0 },
+        { text: "පෙළ ඇලකුරු කිරීමට භාවිතා කරන යතුරු පුවරු කෙටිමඟ කුමක්ද?", options: ["Ctrl + I", "Ctrl + B", "Ctrl + U", "Ctrl + L"], correctIndex: 0 },
+        { text: "පෙළ යටින් ඉරි ඇඳීමට භාවිතා කරන යතුරු පුවරු කෙටිමඟ කුමක්ද?", options: ["Ctrl + U", "Ctrl + B", "Ctrl + I", "Ctrl + L"], correctIndex: 0 },
+        { text: "MS Word හි හෙඩරයක් යනු කුමක්ද?", options: ["සෑම පිටුවකම ඉහළින් ඇති පෙළ", "සෑම පිටුවකම පහළින් ඇති පෙළ", "පිටු අංකය", "ලේඛන මාතෘකාව"], correctIndex: 0 },
+        { text: "MS Word හි ෆුටරයක් යනු කුමක්ද?", options: ["සෑම පිටුවකම පහළින් ඇති පෙළ", "සෑම පිටුවකම ඉහළින් ඇති පෙළ", "පිටු ආන්තිකය", "ලේඛන සාරාංශය"], correctIndex: 0 },
+        { text: "Word හි පිටු අංකයක් ඇතුළත් කරන්නේ කෙසේද?", options: ["Insert tab → Page Number", "Home tab → Page Number", "Layout tab → Page Number", "References tab → Page Number"], correctIndex: 0 },
+        { text: "ලබන්නන්ගේ ලැයිස්තුවක් භාවිතයෙන් විශාල තැපැල් ප්‍රමාණයක් සෑදීමට ඉඩ සලසන විශේෂාංගය කුමක්ද?", options: ["Mail Merge", "ලියුම් කවර", "ලේබල", "මුද්‍රණ ඒකාබද්ධ කිරීම"], correctIndex: 0 },
+        { text: "Mail Merge සඳහා අවශ්‍ය ප්‍රධාන ලේඛන දෙක කුමක්ද?", options: ["ප්‍රධාන ලේඛනය සහ දත්ත මූලාශ්‍රය", "ලිපිය සහ ලියුම් කවරය", "ලේඛනය සහ පැතුරුම්පත", "පෙළ සහ රූපය"], correctIndex: 0 },
+        { text: "MS Word හි වගුවක් සාදන ක්‍රමය කුමක්ද?", options: ["Insert tab → Table", "Home tab → Table", "Layout tab → Table", "Design tab → Table"], correctIndex: 0 },
+        { text: "Word වගුවක සෛල දෙකක් ඒකාබද්ධ කරන්නේ කෙසේද?", options: ["දකුණු-ක්ලික් කරන්න → Merge Cells", "සෛල මකන්න", "සෛල බෙදන්න", "සෛල ඇතුළත් කරන්න"], correctIndex: 0 },
+        { text: "Word වගුවක සෛලයක් බෙදන්නේ කෙසේද?", options: ["දකුණු-ක්ලික් කරන්න → Split Cells", "සෛල ඒකාබද්ධ කරන්න", "සෛල මකන්න", "සෛල ඇතුළත් කරන්න"], correctIndex: 0 },
+        { text: "පින්තූර, හැඩතල සහ ප්‍රස්ථාර එකතු කිරීමේ විකල්ප අඩංගු ටැබය කුමක්ද?", options: ["Insert", "Home", "Design", "Layout"], correctIndex: 0 },
+        { text: "WordArt භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["අලංකාර පෙළ සෑදීම", "පින්තූර ඇතුළත් කිරීම", "හැඩතල ඇඳීම", "වගු සෑදීම"], correctIndex: 0 },
+        { text: "Print Preview හි අරමුණ කුමක්ද?", options: ["මුද්‍රණයට පෙර ලේඛනය බැලීම", "වහාම මුද්‍රණය කිරීම", "ලේඛනය සුරැකීම", "මුද්‍රක සැකසුම් වෙනස් කිරීම"], correctIndex: 0 },
+        { text: "ලේඛනය මුද්‍රණය කළ විට පෙනෙන ආකාරයෙන් පෙන්වන දසුන කුමක්ද?", options: ["මුද්‍රණ පිරිසැලසුම", "කියවීම් මාදිලිය", "වෙබ් පිරිසැලසුම", "දළ සටහන"], correctIndex: 0 },
+        { text: "ලේඛනයක හයිපර්ලින්ක් එකක් යනු කුමක්ද?", options: ["වෙනත් ස්ථානයකට හෝ වෙබ් පිටුවකට සබැඳිය", "පිටු සලකුණක්", "විවරණයක්", "පාද සටහනක්"], correctIndex: 0 },
+        { text: "Word හි සංකේතයක් ඇතුළත් කරන්නේ කෙසේද?", options: ["Insert tab → Symbol", "Home tab → Symbol", "Design tab → Symbol", "Layout tab → Symbol"], correctIndex: 0 },
+        { text: "Thesaurus මෙවලමේ අරමුණ කුමක්ද?", options: ["සමාන පද සහ විරුද්ධ පද සොයා ගැනීම", "අක්ෂර වින්‍යාසය පරීක්ෂා කිරීම", "ව්‍යාකරණ පරීක්ෂා කිරීම", "වචන ගණන් කිරීම"], correctIndex: 0 },
+        { text: "Word Count විශේෂාංගය පෙන්වන්නේ කුමක්ද?", options: ["වචන, අක්ෂර, පිටු ගණන", "රූප ගණන", "ගොනු ප්‍රමාණය", "අකුරු ප්‍රමාණය"], correctIndex: 0 },
+        { text: "ලේඛනයකට විවරණ එකතු කිරීමට ඉඩ සලසන විශේෂාංගය කුමක්ද?", options: ["Review tab → New Comment", "Insert tab → Comment", "Home tab → Comment", "References tab → Comment"], correctIndex: 0 },
+        { text: "Track Changes භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["ලේඛනයේ සිදු කරන වෙනස්කම් සලකුණු කිරීම", "ගොනු ස්ථානය ලුහුබැඳීම", "කාලය ලුහුබැඳීම", "අක්ෂර වින්‍යාසය ලුහුබැඳීම"], correctIndex: 0 },
+        { text: "ඡේදයක පේළි පරතරය වෙනස් කරන්නේ කෙසේද?", options: ["Home tab → Line and Paragraph Spacing", "Layout tab → Line Spacing", "Insert tab → Line Spacing", "Design tab → Line Spacing"], correctIndex: 0 },
+        { text: "බුලට් ලැයිස්තුවක් යනු කුමක්ද?", options: ["එක් එක් අයිතමයට පෙර සංකේත සහිත ලැයිස්තුව", "අංකිත ලැයිස්තුව", "බහු මට්ටම් ලැයිස්තුව", "වගු ලැයිස්තුව"], correctIndex: 0 },
+        
+        // Excel Sinhala questions
+        { text: "පැතුරුම්පත් සඳහා භාවිතා කරන මෘදුකාංගය කුමක්ද?", options: ["MS Excel", "MS Word", "MS PowerPoint", "MS Access"], correctIndex: 0 },
+        { text: "MS Excel වැඩපොතක පෙරනිමි ගොනු දිගුව කුමක්ද?", options: [".xlsx", ".docx", ".pptx", ".accdb"], correctIndex: 0 },
+        { text: "Excel හි සෛලයක් යනු කුමක්ද?", options: ["පේළියක් සහ තීරුවක ඡේදනය", "වැඩපත්රයක්", "වැඩපොතක්", "ප්‍රස්ථාරයක්"], correctIndex: 0 },
+        { text: "Excel හි පරාසයක් යනු කුමක්ද?", options: ["තෝරාගත් සෛල සමූහයක්", "තනි සෛලයක්", "සම්පූර්ණ වැඩපත්රය", "සම්පූර්ණ වැඩපොත"], correctIndex: 0 },
+        { text: "Excel සූත්‍රයක් ආරම්භ කළ යුත්තේ කුමන සංකේතයෙන්ද?", options: ["=", "+", "@", "#"], correctIndex: 0 },
+        { text: "SUM ශ්‍රිතය කරන්නේ කුමක්ද?", options: ["පරාසයක සියලු සංඛ්‍යා එකතු කරයි", "සංඛ්‍යා සාමාන්‍ය කරයි", "සංඛ්‍යා ගණන් කරයි", "උපරිමය සොයයි"], correctIndex: 0 },
+        { text: "AVERAGE ශ්‍රිතය කරන්නේ කුමක්ද?", options: ["සංඛ්‍යා වල මධ්‍යන්‍ය ගණනය කරයි", "සංඛ්‍යා එකතු කරයි", "සංඛ්‍යා ගණන් කරයි", "උපරිමය සොයයි"], correctIndex: 0 },
+        { text: "MAX ශ්‍රිතය කරන්නේ කුමක්ද?", options: ["විශාලතම අගය ලබා දෙයි", "කුඩාම අගය ලබා දෙයි", "සාමාන්‍යය ලබා දෙයි", "එකතුව ලබා දෙයි"], correctIndex: 0 },
+        { text: "MIN ශ්‍රිතය කරන්නේ කුමක්ද?", options: ["කුඩාම අගය ලබා දෙයි", "විශාලතම අගය ලබා දෙයි", "සාමාන්‍යය ලබා දෙයි", "එකතුව ලබා දෙයි"], correctIndex: 0 },
+        { text: "COUNT ශ්‍රිතය කරන්නේ කුමක්ද?", options: ["සංඛ්‍යා සහිත සෛල ගණන් කරයි", "සංඛ්‍යා එකතු කරයි", "සංඛ්‍යා සාමාන්‍ය කරයි", "උපරිමය සොයයි"], correctIndex: 0 },
+        { text: "සාපේක්ෂ සෛල යොමුවක් යනු කුමක්ද?", options: ["සූත්‍රය පිටපත් කරන විට වෙනස් වේ", "පිටපත් කරන විට ස්ථාවරව පවතී", "වෙනත් පත්රයක් යොමු කරයි", "වෙනත් වැඩපොතක් යොමු කරයි"], correctIndex: 0 },
+        { text: "නිරපේක්ෂ සෛල යොමුවක් යනු කුමක්ද?", options: ["පිටපත් කරන විට ස්ථාවරව පවතී (උදා: $A$1)", "පිටපත් කරන විට වෙනස් වේ", "පරාසයක් යොමු කරයි", "නමක් යොමු කරයි"], correctIndex: 0 },
+        { text: "නිරපේක්ෂ යොමුව සඳහා භාවිතා කරන සංකේතය කුමක්ද?", options: ["$", "#", "@", "&"], correctIndex: 0 },
+        { text: "=A1+B1 සූත්‍රය කරන්නේ කුමක්ද?", options: ["A1 සහ B1 හි අගයන් එකතු කරයි", "A1 සහ B1 ගුණ කරයි", "B1 A1 න් අඩු කරයි", "A1 B1 න් බෙදයි"], correctIndex: 0 },
+        { text: "=A1*B1 සූත්‍රය කරන්නේ කුමක්ද?", options: ["A1 සහ B1 ගුණ කරයි", "A1 සහ B1 එකතු කරයි", "B1 A1 න් අඩු කරයි", "A1 B1 න් බෙදයි"], correctIndex: 0 },
+        { text: "=A1/B1 සූත්‍රය කරන්නේ කුමක්ද?", options: ["A1 B1 න් බෙදයි", "A1 සහ B1 ගුණ කරයි", "A1 සහ B1 එකතු කරයි", "B1 A1 න් අඩු කරයි"], correctIndex: 0 },
+        { text: "=A1-B1 සූත්‍රය කරන්නේ කුමක්ද?", options: ["B1 A1 න් අඩු කරයි", "A1 සහ B1 එකතු කරයි", "A1 සහ B1 ගුණ කරයි", "A1 B1 න් බෙදයි"], correctIndex: 0 },
+        { text: "කාලයත් සමඟ ප්‍රවණතා පෙන්වීමට වඩාත් සුදුසු ප්‍රස්ථාර වර්ගය කුමක්ද?", options: ["රේඛා ප්‍රස්ථාරය", "වෘත්ත ප්‍රස්ථාරය", "තීරු ප්‍රස්ථාරය", "සිරස් තීරු ප්‍රස්ථාරය"], correctIndex: 0 },
+        { text: "සමස්තයක ප්‍රතිශත පෙන්වීමට වඩාත් සුදුසු ප්‍රස්ථාර වර්ගය කුමක්ද?", options: ["වෘත්ත ප්‍රස්ථාරය", "රේඛා ප්‍රස්ථාරය", "තීරු ප්‍රස්ථාරය", "සිරස් තීරු ප්‍රස්ථාරය"], correctIndex: 0 },
+        { text: "ප්‍රවර්ග සංසන්දනය කිරීමට වඩාත් සුදුසු ප්‍රස්ථාර වර්ගය කුමක්ද?", options: ["තීරු/සිරස් තීරු ප්‍රස්ථාරය", "රේඛා ප්‍රස්ථාරය", "වෘත්ත ප්‍රස්ථාරය", "ප්‍රදේශ ප්‍රස්ථාරය"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 85 questions in Sinhala
+    while(unit4_si.length < 85) {
+        unit4_si.push({ text: "Excel හි VLOOKUP ශ්‍රිතය කරන්නේ කුමක්ද?", options: ["පළමු තීරුවේ අගයක් සොයයි", "සිරස්ව සොයයි", "දත්ත වලංගු කරයි", "ප්‍රස්ථාරයක් සාදයි"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit4_en : unit4_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 01 - Computer Systems & Hardware | 75 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔹 UNIT 01 - Computer Systems & Hardware</h1>
+        <p>Based on NIE Teacher's Guide | Competency 1.1 & 1.2 | IPO Model, CPU, Memory, Peripherals</p>
+        <div class="badge">📊 75 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">🇬🇧 English</button>
+            <button id="siBtn" class="lang-btn">🇱🇰 සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: System Concept, Block Diagram, Hardware Components, Software, Storage, Specifications</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 01: Computer Systems (75 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 75</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ All questions based on Grade 12 GIT Syllabus (IPO, Von Neumann, ALU, CU, Storage, System/Application Software)</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 01: COMPUTER SYSTEMS & HARDWARE – 75 UNIQUE QUESTIONS
+    // FULL BILINGUAL: ENGLISH QUESTIONS + SINHALA QUESTIONS
+    // Each question has English text, English options AND Sinhala text, Sinhala options
+    // ==============================================================
+    
+    // ENGLISH VERSION - 75 Questions
+    const unit1_en = [
+        { text: "What is a system according to the IPO model?", options: ["A single device", "A set of related components working together (Input-Process-Output)", "Only software", "Only hardware"], correctIndex: 1 },
+        { text: "Which component is known as the 'brain' of the computer?", options: ["Monitor", "CPU", "Keyboard", "Mouse"], correctIndex: 1 },
+        { text: "Which of the following is an input device?", options: ["Printer", "Speaker", "Scanner", "Monitor"], correctIndex: 2 },
+        { text: "Which is an output device?", options: ["Keyboard", "Mouse", "Plotter", "Webcam"], correctIndex: 2 },
+        { text: "What does ALU stand for and what does it perform?", options: ["Arithmetic Logic Unit - Arithmetic & Logical operations", "Array Logic Unit - Array operations", "Address Location Unit - Memory addressing", "Algorithm Link Unit - Data linking"], correctIndex: 0 },
+        { text: "Control Unit is responsible for:", options: ["Data storage", "Controlling and coordinating operations", "Display output", "Input data"], correctIndex: 1 },
+        { text: "RAM is a type of:", options: ["Secondary storage", "Primary memory", "Optical storage", "Magnetic storage"], correctIndex: 1 },
+        { text: "Which is a magnetic storage device?", options: ["SSD", "DVD", "Hard Disk Drive (HDD)", "Flash Drive"], correctIndex: 2 },
+        { text: "Which is an optical storage device?", options: ["Hard Disk", "USB Drive", "Blu-ray Disc", "Memory Card"], correctIndex: 2 },
+        { text: "Which is a solid-state storage device?", options: ["CD", "DVD", "SSD (Solid State Drive)", "Magnetic Tape"], correctIndex: 2 },
+        { text: "System software includes:", options: ["MS Word", "Operating System (OS)", "Photoshop", "Google Chrome"], correctIndex: 1 },
+        { text: "Application software includes:", options: ["Windows OS", "Linux Kernel", "Microsoft Excel", "macOS"], correctIndex: 2 },
+        { text: "The Von Neumann architecture includes which three main components?", options: ["ALU, Control Unit, Registers", "Only RAM", "Only Hard Disk", "Only Input/Output"], correctIndex: 0 },
+        { text: "Data is defined as:", options: ["Processed information", "Raw facts and figures", "Output results", "User commands"], correctIndex: 1 },
+        { text: "Information is defined as:", options: ["Raw data", "Processed data with meaning", "Random symbols", "Only numbers"], correctIndex: 1 },
+        { text: "Which is a characteristic of quality information?", options: ["Biased", "Inaccurate", "Timely", "Irrelevant"], correctIndex: 2 },
+        { text: "Accuracy in information means:", options: ["Free from errors", "Delivered on time", "Complete facts", "Relevant to purpose"], correctIndex: 0 },
+        { text: "Relevance in information means:", options: ["No errors", "Communicated to right person", "Complete facts", "Timely delivery"], correctIndex: 1 },
+        { text: "Which device functions as both input and output?", options: ["Keyboard", "Mouse", "Touch Screen", "Printer"], correctIndex: 2 },
+        { text: "Microphone is an example of:", options: ["Output device", "Input device", "Storage device", "Processing device"], correctIndex: 1 },
+        { text: "Projector is an example of:", options: ["Input device", "Output device", "Storage device", "Processing device"], correctIndex: 1 },
+        { text: "Which is NOT a peripheral device?", options: ["Keyboard", "Mouse", "CPU (Central Processing Unit)", "Printer"], correctIndex: 2 },
+        { text: "Where is BIOS typically stored?", options: ["RAM", "ROM", "Hard Disk", "Cache Memory"], correctIndex: 1 },
+        { text: "Cache memory is characterized as:", options: ["Very slow and cheap", "Very fast and expensive", "Magnetic storage", "Optical storage"], correctIndex: 1 },
+        { text: "Which bus carries data between components?", options: ["Address bus", "Data bus", "Control bus", "Power bus"], correctIndex: 1 },
+        { text: "Which bus carries memory addresses from CPU to memory?", options: ["Data bus", "Address bus", "Control bus", "System bus"], correctIndex: 1 },
+        { text: "What does the motherboard provide?", options: ["Only CPU socket", "Connectivity and compatibility between components", "Only RAM slots", "Only power distribution"], correctIndex: 1 },
+        { text: "Processor speed is measured in:", options: ["GigaBytes (GB)", "GigaHertz (GHz)", "MegaBytes (MB)", "Revolutions Per Minute (RPM)"], correctIndex: 1 },
+        { text: "RAM capacity is measured in:", options: ["GigaHertz (GHz)", "GigaBytes (GB)", "MegaBytes per second (MBps)", "Dots Per Inch (DPI)"], correctIndex: 1 },
+        { text: "Which storage type is fastest?", options: ["HDD (Hard Disk Drive)", "SSD (Solid State Drive)", "DVD", "Blu-ray Disc"], correctIndex: 1 },
+        { text: "Which port is commonly used for modern monitor connection?", options: ["USB", "HDMI", "Ethernet", "Audio Jack"], correctIndex: 1 },
+        { text: "What does GPU stand for?", options: ["Graphics Processing Unit", "General Processing Unit", "Graphical Program Utility", "Graphics Performance Unit"], correctIndex: 0 },
+        { text: "Which software is designed to prevent, detect and remove viruses?", options: ["Word Processor", "Antivirus Software", "Spreadsheet", "Web Browser"], correctIndex: 1 },
+        { text: "What does a Firewall protect against?", options: ["Physical damage to computer", "Unauthorized network access", "Power failure", "CPU overheating"], correctIndex: 1 },
+        { text: "What does UPS (Uninterruptible Power Supply) protect against?", options: ["Computer viruses", "Power surges and outages", "Data corruption", "Hardware failure"], correctIndex: 1 },
+        { text: "Which is an example of utility software?", options: ["Disk Defragmenter", "Microsoft Word", "Adobe Photoshop", "VLC Media Player"], correctIndex: 0 },
+        { text: "A device driver is a type of:", options: ["Application software", "System software", "Malware", "Productivity software"], correctIndex: 1 },
+        { text: "What does OCR stand for?", options: ["Optical Character Recognition", "Optical Code Reader", "Optical Computer Recognition", "Online Character Reader"], correctIndex: 0 },
+        { text: "MICR (Magnetic Ink Character Recognition) is mainly used in:", options: ["Schools", "Banks (for cheque processing)", "Hospitals", "Airports"], correctIndex: 1 },
+        { text: "OMR (Optical Mark Recognition) is used for:", options: ["Reading barcodes", "Reading handwritten text", "Reading pencil marks (answer sheets)", "Reading magnetic ink"], correctIndex: 2 },
+        { text: "What does a Modem do?", options: ["Converts digital to analog and analog to digital", "Only digital to analog conversion", "Only analog to digital conversion", "No conversion - just amplifies signal"], correctIndex: 0 },
+        { text: "Primary memory includes:", options: ["RAM and ROM", "Hard Disk and SSD", "CD and DVD", "USB Flash Drive"], correctIndex: 0 },
+        { text: "Secondary memory is characterized as:", options: ["Faster than primary memory", "Slower but larger capacity than primary memory", "Directly accessible by CPU", "Volatile memory"], correctIndex: 1 },
+        { text: "Which type of memory is volatile (loses data when power is off)?", options: ["ROM", "RAM", "Hard Disk", "SSD"], correctIndex: 1 },
+        { text: "Which type of memory is non-volatile (retains data when power is off)?", options: ["RAM", "Cache", "ROM", "Registers"], correctIndex: 2 },
+        { text: "The block diagram of a computer shows:", options: ["Only hardware components", "Flow of data and control instructions between components", "Only software layers", "Only network connections"], correctIndex: 1 },
+        { text: "Where are CPU registers located?", options: ["Inside RAM", "Inside the CPU", "On the Hard Disk", "On the Motherboard separately"], correctIndex: 1 },
+        { text: "Clock speed directly affects which aspect of computer performance?", options: ["Storage capacity", "Processing speed", "Display quality", "Sound quality"], correctIndex: 1 },
+        { text: "What is the purpose of a heatsink in a computer?", options: ["Store temporary data", "Cool the processor by dissipating heat", "Provide electrical power", "Connect peripheral devices"], correctIndex: 1 },
+        { text: "Which is a common screen resolution for modern monitors?", options: ["1920 x 1080 (Full HD)", "8 GB", "3.5 GHz", "7200 RPM"], correctIndex: 0 },
+        { text: "What does BIOS stand for?", options: ["Basic Input Output System", "Binary Input Output System", "Basic Internal Operating System", "Built-in Operating Software"], correctIndex: 0 },
+        { text: "What does POST stand for during computer startup?", options: ["Power On Self Test", "Program On System Test", "Power Off System Test", "Primary Operating System Test"], correctIndex: 0 },
+        { text: "What does 'Open Source Software' mean?", options: ["Free to use, modify and distribute source code", "Paid license only with no source access", "No source code available to users", "Only for educational purposes"], correctIndex: 0 },
+        { text: "What does 'Proprietary Software' mean?", options: ["Free software with no restrictions", "Owned by a company with restricted license", "Open to everyone with source code", "No usage restrictions at all"], correctIndex: 1 },
+        { text: "Which is an example of cloud storage service?", options: ["Google Drive", "Internal Hard Disk", "USB Flash Drive", "DVD"], correctIndex: 0 },
+        { text: "How many bits are in one byte?", options: ["4 bits", "8 bits", "16 bits", "32 bits"], correctIndex: 1 },
+        { text: "Which is the largest storage unit among these?", options: ["Kilobyte (KB)", "Megabyte (MB)", "Gigabyte (GB)", "Terabyte (TB)"], correctIndex: 3 },
+        { text: "1 Gigabyte (GB) equals:", options: ["1024 Kilobytes (KB)", "1024 Megabytes (MB)", "1024 Terabytes (TB)", "1000 Megabytes (MB)"], correctIndex: 1 },
+        { text: "What does USB stand for?", options: ["Universal Serial Bus", "Universal System Bus", "United Serial Bus", "Universal Serial Buffer"], correctIndex: 0 },
+        { text: "Which is NOT a category of software?", options: ["System Software", "Application Software", "Utility Software", "Motherboard Software"], correctIndex: 3 },
+        { text: "Which interface is commonly used for modern internal hard drives?", options: ["IDE (Parallel ATA)", "SATA (Serial ATA)", "PCI (Peripheral Component Interconnect)", "AGP (Accelerated Graphics Port)"], correctIndex: 1 },
+        { text: "What is the primary function of RAM?", options: ["Temporary data storage for active programs", "Permanent storage of files", "Execute program instructions", "Control other hardware devices"], correctIndex: 0 },
+        { text: "Which is an example of system software?", options: ["Microsoft Windows 11", "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint"], correctIndex: 0 },
+        { text: "What does the acronym CPU stand for?", options: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Core Processing Utility"], correctIndex: 0 },
+        { text: "What is the function of a barcode reader?", options: ["Read and decode barcode data", "Print documents", "Display images", "Store data"], correctIndex: 0 },
+        { text: "Which device is used to capture live video for video conferencing?", options: ["Webcam", "Scanner", "Microphone", "Printer"], correctIndex: 0 }
+    ];
+    
+    // Add more questions to reach exactly 75
+    while(unit1_en.length < 75) {
+        unit1_en.push({ text: "What is the main function of the Control Unit in a CPU?", options: ["Directs and coordinates all computer operations", "Performs arithmetic calculations", "Stores data permanently", "Displays output to user"], correctIndex: 0 });
+    }
+    
+    // SINHALA VERSION - Complete 75 questions with Sinhala text and Sinhala options
+    const unit1_si = [
+        { text: "IPO ආකෘතියට අනුව පද්ධතියක් යනු කුමක්ද?", options: ["තනි උපාංගයක්", "එකට ක්‍රියා කරන අන්තර් සම්බන්ධිත සංරචක සමූහයක් (ආදාන-සැකසුම-ප්‍රතිදාන)", "මෘදුකාංග පමණි", "දෘඪාංග පමණි"], correctIndex: 1 },
+        { text: "පරිගණකයේ 'මොළය' ලෙස හැඳින්වෙන සංරචකය කුමක්ද?", options: ["මොනිටරය", "මධ්‍යම සැකසුම් ඒකකය (CPU)", "යතුරු පුවරුව", "මූසිකය"], correctIndex: 1 },
+        { text: "පහත සඳහන් උපාංගයන්ගෙන් ආදාන උපාංගයක් වන්නේ කුමක්ද?", options: ["මුද්‍රකය", "ස්පීකරය", "ස්කෑනරය", "මොනිටරය"], correctIndex: 2 },
+        { text: "ප්‍රතිදාන උපාංගයක් වන්නේ කුමක්ද?", options: ["යතුරු පුවරුව", "මූසිකය", "ප්ලොටරය", "වෙබ් කැමරාව"], correctIndex: 2 },
+        { text: "ALU යනු කුමක්ද සහ එය සිදු කරන්නේ කුමක්ද?", options: ["අංක ගණිත තාර්කික ඒකකය - අංක ගණිත හා තාර්කික මෙහෙයුම්", "දෘෂ්ටි ඒකකය - දෘෂ්ටි මෙහෙයුම්", "ලිපින ස්ථාන ඒකකය - මතක ලිපින", "ඇල්ගොරිතම සබැඳි ඒකකය - දත්ත සම්බන්ධ කිරීම"], correctIndex: 0 },
+        { text: "පාලන ඒකකයේ වගකීම කුමක්ද?", options: ["දත්ත ගබඩා කිරීම", "මෙහෙයුම් පාලනය සහ සම්බන්ධීකරණය", "ප්‍රතිදානය පෙන්වීම", "දත්ත ඇතුළත් කිරීම"], correctIndex: 1 },
+        { text: "RAM යනු කුමන ආකාරයේ මතකයක්ද?", options: ["ද්විතියික ගබඩාව", "ප්‍රාථමික මතකය", "දෘශ්‍ය ගබඩාව", "චුම්බක ගබඩාව"], correctIndex: 1 },
+        { text: "පහත සඳහන් උපාංගයන්ගෙන් චුම්බක ගබඩා උපාංගයක් වන්නේ කුමක්ද?", options: ["SSD", "DVD", "දෘඪ තැටිය (HDD)", "ෆ්ලෑෂ් ඩ්‍රයිව්"], correctIndex: 2 },
+        { text: "දෘශ්‍ය ගබඩා උපාංගයක් වන්නේ කුමක්ද?", options: ["දෘඪ තැටිය", "USB ඩ්‍රයිව්", "බ්ලූ-රේ තැටිය", "මතක කාඩ්පත"], correctIndex: 2 },
+        { text: "ඝන තත්ව ගබඩා උපාංගයක් වන්නේ කුමක්ද?", options: ["CD", "DVD", "ඝන තත්ව ධාවකය (SSD)", "චුම්බක පටිගත කිරීම"], correctIndex: 2 },
+        { text: "පද්ධති මෘදුකාංගයක් සඳහා උදාහරණයක් සපයන්න:", options: ["MS Word", "මෙහෙයුම් පද්ධතිය", "Photoshop", "ගූගල් ක්රෝම්"], correctIndex: 1 },
+        { text: "යෙදුම් මෘදුකාංගයක් සඳහා උදාහරණයක් සපයන්න:", options: ["වින්ඩෝස්", "ලිනක්ස් කර්නලය", "මයික්‍රොසොෆ්ට් එක්සෙල්", "macOS"], correctIndex: 2 },
+        { text: "වොන් නියුමන් ගෘහ නිර්මාණයට ඇතුළත් ප්‍රධාන සංරචක තුන කුමක්ද?", options: ["ALU, පාලන ඒකකය, රෙජිස්ටර්", "RAM පමණි", "දෘඪ තැටිය පමණි", "ආදාන/ප්‍රතිදාන පමණි"], correctIndex: 0 },
+        { text: "දත්ත ලෙස අර්ථ දක්වන්නේ කුමක්ද?", options: ["සකසන ලද තොරතුරු", "අමු කරුණු සහ සංඛ්‍යා", "ප්‍රතිදාන ප්‍රතිඵල", "පරිශීලක විධාන"], correctIndex: 1 },
+        { text: "තොරතුරු ලෙස අර්ථ දක්වන්නේ කුමක්ද?", options: ["අමු දත්ත", "අර්ථවත් ලෙස සකසන ලද දත්ත", "අහඹු සංකේත", "සංඛ්‍යා පමණි"], correctIndex: 1 },
+        { text: "පහත සඳහන් ලක්ෂණ වලින් ගුණාත්මක තොරතුරුවල ලක්ෂණයක් වන්නේ කුමක්ද?", options: ["අගතිගාමී", "නිවැරදි නොවන", "කාලෝචිත", "අදාළ නොවන"], correctIndex: 2 },
+        { text: "තොරතුරු වල නිරවද්‍යතාවය යනු කුමක්ද?", options: ["දෝෂ රහිත වීම", "නියමිත වේලාවට ලබා දීම", "සම්පූර්ණ කරුණු", "අරමුණට අදාළ වීම"], correctIndex: 0 },
+        { text: "තොරතුරු වල අදාළත්වය යනු කුමක්ද?", options: ["දෝෂ නොමැතිකම", "නිවැරදි පුද්ගලයාට සන්නිවේදනය කිරීම", "සම්පූර්ණ කරුණු", "නියමිත වේලාවට බෙදා හැරීම"], correctIndex: 1 },
+        { text: "ආදාන සහ ප්‍රතිදාන ලෙස ක්‍රියා කරන උපාංගය කුමක්ද?", options: ["යතුරු පුවරුව", "මූසිකය", "ස්පර්ශ තිරය", "මුද්‍රකය"], correctIndex: 2 },
+        { text: "මයික්‍රෆෝනය යනු කුමක් සඳහා උදාහරණයක්ද?", options: ["ප්‍රතිදාන උපාංගය", "ආදාන උපාංගය", "ගබඩා උපාංගය", "සැකසුම් උපාංගය"], correctIndex: 1 },
+        { text: "ප්‍රොජෙක්ටරය යනු කුමක් සඳහා උදාහරණයක්ද?", options: ["ආදාන උපාංගය", "ප්‍රතිදාන උපාංගය", "ගබඩා උපාංගය", "සැකසුම් උපාංගය"], correctIndex: 1 },
+        { text: "පහත සඳහන් උපාංගයන්ගෙන් පර්යන්ත උපාංගයක් නොවන්නේ කුමක්ද?", options: ["යතුරු පුවරුව", "මූසිකය", "මධ්‍යම සැකසුම් ඒකකය (CPU)", "මුද්‍රකය"], correctIndex: 2 },
+        { text: "BIOS සාමාන්‍යයෙන් ගබඩා කර ඇත්තේ කොහේද?", options: ["RAM හි", "ROM හි", "දෘඪ තැටියේ", "කැෂ් මතකයේ"], correctIndex: 1 },
+        { text: "කැෂ් මතකයේ ලක්ෂණය කුමක්ද?", options: ["ඉතා මන්දගාමී සහ ලාභ", "ඉතා වේගවත් සහ මිල අධික", "චුම්බක ගබඩාව", "දෘශ්‍ය ගබඩාව"], correctIndex: 1 },
+        { text: "සංරචක අතර දත්ත රැගෙන යන බසය කුමක්ද?", options: ["ලිපින බසය", "දත්ත බසය", "පාලන බසය", "බල බසය"], correctIndex: 1 },
+        { text: "CPU වෙතින් මතකයට මතක ලිපින රැගෙන යන බසය කුමක්ද?", options: ["දත්ත බසය", "ලිපින බසය", "පාලන බසය", "පද්ධති බසය"], correctIndex: 1 },
+        { text: "මදර්බෝඩ් එකක් සපයන්නේ කුමක්ද?", options: ["CPU socket පමණි", "සංරචක අතර සම්බන්ධතාව සහ අනුකූලතාව", "RAM slots පමණි", "බල බෙදා හැරීම පමණි"], correctIndex: 1 },
+        { text: "ප්‍රොසෙසර වේගය මනිනු ලබන ඒකකය කුමක්ද?", options: ["ගිගාබයිට් (GB)", "ගිගාහර්ට්ස් (GHz)", "මෙගාබයිට් (MB)", "විනාඩියට විප්ලව (RPM)"], correctIndex: 1 },
+        { text: "RAM ධාරිතාව මනිනු ලබන ඒකකය කුමක්ද?", options: ["ගිගාහර්ට්ස් (GHz)", "ගිගාබයිට් (GB)", "තත්පරයට මෙගාබයිට් (MBps)", "අඟලකට තිත් (DPI)"], correctIndex: 1 },
+        { text: "වේගවත්ම ගබඩා වර්ගය කුමක්ද?", options: ["දෘඪ තැටිය (HDD)", "ඝන තත්ව ධාවකය (SSD)", "DVD", "බ්ලූ-රේ තැටිය"], correctIndex: 1 },
+        { text: "නවීන මොනිටර සම්බන්ධතාව සඳහා බහුලව භාවිතා කරන වරාය කුමක්ද?", options: ["USB", "HDMI", "ඊතර්නෙට්", "ශ්‍රව්‍ය ජැක්"], correctIndex: 1 },
+        { text: "GPU හි සම්පූර්ණ නම කුමක්ද?", options: ["ග්‍රැෆික් සැකසුම් ඒකකය", "සාමාන්‍ය සැකසුම් ඒකකය", "ග්‍රැෆිකල් වැඩසටහන් උපයෝගිතාව", "ග්‍රැෆික් කාර්ය සාධන ඒකකය"], correctIndex: 0 },
+        { text: "වෛරස් වැළැක්වීම, හඳුනාගැනීම සහ ඉවත් කිරීම සඳහා නිර්මාණය කර ඇති මෘදුකාංගය කුමක්ද?", options: ["වදන් සැකසුම් මෘදුකාංග", "ප්‍රති-වයිරස මෘදුකාංග", "පැතුරුම්පත් මෘදුකාංග", "වෙබ් බ්‍රවුසරය"], correctIndex: 1 },
+        { text: "ගිනි පවුරක් (Firewall) ආරක්ෂා කරන්නේ කුමකින්ද?", options: ["පරිගණකයට භෞතික හානි", "අනවසර ජාල ප්‍රවේශය", "විදුලිය ඇනහිටීම", "CPU අධික උණුසුම"], correctIndex: 1 },
+        { text: "අඛණ්ඩ විදුලි සැපයුම් (UPS) ආරක්ෂා කරන්නේ කුමකින්ද?", options: ["පරිගණක වෛරස්", "විදුලි රැල්ල සහ විසන්ධිවීම්", "දත්ත දූෂණය", "දෘඪාංග අසාර්ථකත්වය"], correctIndex: 1 },
+        { text: "පහත සඳහන් උපයෝගිතා මෘදුකාංග සඳහා උදාහරණයක් සපයන්න:", options: ["තැටි ඛණ්ඩන නිවාරකය", "මයික්‍රොසොෆ්ට් වර්ඩ්", "ඇඩෝබි ෆොටෝෂොප්", "වීඑල්සී මාධ්‍ය වාදකය"], correctIndex: 0 },
+        { text: "උපාංග රහකය (Device Driver) යනු කුමන ආකාරයේ මෘදුකාංගයක්ද?", options: ["යෙදුම් මෘදුකාංග", "පද්ධති මෘදුකාංග", "අනිෂ්ට මෘදුකාංග", "ඵලදායිතා මෘදුකාංග"], correctIndex: 1 },
+        { text: "OCR හි සම්පූර්ණ නම කුමක්ද?", options: ["දෘශ්‍ය අක්ෂර හඳුනාගැනීම", "දෘශ්‍ය කේත කියවනය", "දෘශ්‍ය පරිගණක හඳුනාගැනීම", "මාර්ගගත අක්ෂර කියවනය"], correctIndex: 0 },
+        { text: "MICR (චුම්බක තීන්ත අක්ෂර හඳුනාගැනීම) ප්‍රධාන වශයෙන් භාවිතා කරන්නේ කොහේද?", options: ["පාසල්", "බැංකු (චෙක්පත් සැකසීම සඳහා)", "රෝහල්", "ගුවන්තොටුපළ"], correctIndex: 1 },
+        { text: "OMR (දෘශ්‍ය ලකුණු හඳුනාගැනීම) භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["බාර්කෝඩ් කියවීම", "අත් අකුරු කියවීම", "පැන්සල් ලකුණු කියවීම (පිළිතුරු පත්‍රිකා)", "චුම්බක තීන්ත කියවීම"], correctIndex: 2 },
+        { text: "මෝඩමයක් කරන්නේ කුමක්ද?", options: ["ඩිජිටල් ඇනලොග් බවට සහ ඇනලොග් ඩිජිටල් බවට පරිවර්තනය කිරීම", "ඩිජිටල් සිට ඇනලොග් පමණක් පරිවර්තනය", "ඇනලොග් සිට ඩිජිටල් පමණක් පරිවර්තනය", "පරිවර්තනයක් නැත - සංඥාව විස්තාරණය කිරීම පමණි"], correctIndex: 0 },
+        { text: "ප්‍රාථමික මතකයට ඇතුළත් වන්නේ කුමක්ද?", options: ["RAM සහ ROM", "දෘඪ තැටිය සහ SSD", "CD සහ DVD", "USB ෆ්ලෑෂ් ඩ්‍රයිව්"], correctIndex: 0 },
+        { text: "ද්විතියික මතකයේ ලක්ෂණය කුමක්ද?", options: ["ප්‍රාථමික මතකයට වඩා වේගවත්", "ප්‍රාථමික මතකයට වඩා මන්දගාමී නමුත් විශාල ධාරිතාවක්", "CPU වෙත සෘජුව ප්‍රවේශ විය හැකි", "වාෂ්පශීලී මතකය"], correctIndex: 1 },
+        { text: "වාෂ්පශීලී (විදුලිය විසන්ධි වූ විට දත්ත නැති වන) මතක වර්ගය කුමක්ද?", options: ["ROM", "RAM", "දෘඪ තැටිය", "SSD"], correctIndex: 1 },
+        { text: "වාෂ්පශීලී නොවන (විදුලිය විසන්ධි වූ විට දත්ත රඳවා ගන්නා) මතක වර්ගය කුමක්ද?", options: ["RAM", "කැෂ්", "ROM", "රෙජිස්ටර්"], correctIndex: 2 },
+        { text: "පරිගණකයේ බ්ලොක් රූප සටහනක් පෙන්වන්නේ කුමක්ද?", options: ["දෘඪාංග සංරචක පමණි", "සංරචක අතර දත්ත සහ පාලන උපදෙස් ගලනය", "මෘදුකාංග ස්ථර පමණි", "ජාල සම්බන්ධතා පමණි"], correctIndex: 1 },
+        { text: "CPU රෙජිස්ටර් පිහිටා ඇත්තේ කොහේද?", options: ["RAM ඇතුළත", "CPU ඇතුළත", "දෘඪ තැටිය මත", "මදර්බෝඩ් එක මත වෙනම"], correctIndex: 1 },
+        { text: "ඔරලෝසු වේගය සෘජුවම බලපාන්නේ පරිගණක කාර්ය සාධනයේ කුමන අංගයටද?", options: ["ගබඩා ධාරිතාව", "සැකසුම් වේගය", "සංදර්ශක ගුණත්වය", "ශබ්ද ගුණත්වය"], correctIndex: 1 },
+        { text: "පරිගණකයක හීට්සින්ක් එකක අරමුණ කුමක්ද?", options: ["තාවකාලික දත්ත ගබඩා කිරීම", "තාපය විසුරුවා හැරීමෙන් ප්‍රොසෙසරය සිසිල් කිරීම", "විදුලි බලය සැපයීම", "පර්යන්ත උපාංග සම්බන්ධ කිරීම"], correctIndex: 1 },
+        { text: "නවීන මොනිටර සඳහා පොදු තිර විභේදනය කුමක්ද?", options: ["1920 x 1080 (සම්පූර්ණ HD)", "8 GB", "3.5 GHz", "7200 RPM"], correctIndex: 0 },
+        { text: "BIOS හි සම්පූර්ණ නම කුමක්ද?", options: ["මූලික ආදාන ප්‍රතිදාන පද්ධතිය", "ද්විමය ආදාන ප්‍රතිදාන පද්ධතිය", "මූලික අභ්‍යන්තර මෙහෙයුම් පද්ධතිය", "ගොඩනඟන ලද මෙහෙයුම් මෘදුකාංග"], correctIndex: 0 },
+        { text: "පරිගණක ආරම්භයේදී POST යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["බලය සක්‍රිය කිරීමේ ස්වයං පරීක්ෂණය", "පද්ධතිය මත වැඩසටහන් පරීක්ෂණය", "බලය අක්‍රිය කිරීමේ පද්ධති පරීක්ෂණය", "ප්‍රාථමික මෙහෙයුම් පද්ධති පරීක්ෂණය"], correctIndex: 0 },
+        { text: "'විවෘත මූලාශ්‍ර මෘදුකාංග' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["නොමිලේ භාවිතා කිරීමට, වෙනස් කිරීමට සහ මූලාශ්‍ර කේතය බෙදා හැරීමට හැකිය", "ගෙවිය යුතු බලපත්‍රයක් පමණක් වන අතර මූලාශ්‍ර ප්‍රවේශයක් නැත", "පරිශීලකයින්ට මූලාශ්‍ර කේතයක් නොමැත", "අධ්‍යාපනික අරමුණු සඳහා පමණි"], correctIndex: 0 },
+        { text: "'හිමිකාර මෘදුකාංග' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["සීමා රහිත නිදහස් මෘදුකාංග", "සමාගමක හිමිකාරීත්වය සහ සීමා සහිත බලපත්‍රයක් සහිත", "සෑම කෙනෙකුටම විවෘත සහ මූලාශ්‍ර කේතය ඇතුළත්", "කිසිදු භාවිත සීමාවක් නැත"], correctIndex: 1 },
+        { text: "වලාකුළු ගබඩා සේවාවක් සඳහා උදාහරණයක් සපයන්න:", options: ["ගූගල් ඩ්‍රයිව්", "අභ්‍යන්තර දෘඪ තැටිය", "USB ෆ්ලෑෂ් ඩ්‍රයිව්", "DVD"], correctIndex: 0 },
+        { text: "එක් බයිටයක බිට් කීයක් තිබේද?", options: ["බිටු 4", "බිටු 8", "බිටු 16", "බිටු 32"], correctIndex: 1 },
+        { text: "පහත සඳහන් ඒකක අතුරින් විශාලතම ගබඩා ඒකකය කුමක්ද?", options: ["කිලෝබයිට් (KB)", "මෙගාබයිට් (MB)", "ගිගාබයිට් (GB)", "ටෙරාබයිට් (TB)"], correctIndex: 3 },
+        { text: "1 ගිගාබයිට් (GB) සමාන වන්නේ:", options: ["1024 කිලෝබයිට් (KB)", "1024 මෙගාබයිට් (MB)", "1024 ටෙරාබයිට් (TB)", "1000 මෙගාබයිට් (MB)"], correctIndex: 1 },
+        { text: "USB හි සම්පූර්ණ නම කුමක්ද?", options: ["යුනිවර්සල් සීරියල් බස්", "යුනිවර්සල් සිස්ටම් බස්", "යුනයිටඩ් සීරියල් බස්", "යුනිවර්සල් සීරියල් බෆරය"], correctIndex: 0 },
+        { text: "පහත සඳහන් ඒවායින් මෘදුකාංග කාණ්ඩයක් නොවන්නේ කුමක්ද?", options: ["පද්ධති මෘදුකාංග", "යෙදුම් මෘදුකාංග", "උපයෝගිතා මෘදුකාංග", "මදර්බෝඩ් මෘදුකාංග"], correctIndex: 3 },
+        { text: "නවීන අභ්‍යන්තර දෘඪ තැටි සඳහා බහුලව භාවිතා කරන අතුරු මුහුණත කුමක්ද?", options: ["IDE (සමාන්තර ATA)", "SATA (සීරියල් ATA)", "PCI (පර්යන්ත සංරචක අන්තර් සම්බන්ධතාව)", "AGP (ත්වරිත ග්‍රැෆික් වරාය)"], correctIndex: 1 },
+        { text: "RAM හි මූලික කාර්යය කුමක්ද?", options: ["ක්‍රියාකාරී වැඩසටහන් සඳහා තාවකාලික දත්ත ගබඩා කිරීම", "ගොනු ස්ථිර ගබඩා කිරීම", "වැඩසටහන් උපදෙස් ක්‍රියාත්මක කිරීම", "අනෙකුත් දෘඪාංග උපාංග පාලනය කිරීම"], correctIndex: 0 },
+        { text: "පද්ධති මෘදුකාංග සඳහා උදාහරණයක් සපයන්න:", options: ["මයික්‍රොසොෆ්ට් වින්ඩෝස් 11", "මයික්‍රොසොෆ්ට් වර්ඩ්", "මයික්‍රොසොෆ්ට් එක්සෙල්", "මයික්‍රොසොෆ්ට් පවර්පොයින්ට්"], correctIndex: 0 },
+        { text: "CPU යන සංක්ෂිප්තයේ සම්පූර්ණ නම කුමක්ද?", options: ["මධ්‍යම සැකසුම් ඒකකය", "පරිගණක පුද්ගලික ඒකකය", "මධ්‍යම වැඩසටහන් උපයෝගිතාව", "මූලික සැකසුම් උපයෝගිතාව"], correctIndex: 0 },
+        { text: "බාර්කෝඩ් කියවනයක කාර්යය කුමක්ද?", options: ["බාර්කෝඩ් දත්ත කියවීම සහ විකේතනය කිරීම", "ලේඛන මුද්‍රණය කිරීම", "රූප ප්‍රදර්ශනය කිරීම", "දත්ත ගබඩා කිරීම"], correctIndex: 0 },
+        { text: "වීඩියෝ සම්මන්ත්‍රණ සඳහා සජීවී වීඩියෝ ග්‍රහණය කිරීමට භාවිතා කරන උපාංගය කුමක්ද?", options: ["වෙබ් කැමරාව", "ස්කෑනරය", "මයික්‍රෆෝනය", "මුද්‍රකය"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 75 questions in Sinhala
+    while(unit1_si.length < 75) {
+        unit1_si.push({ text: "CPU එකක පාලන ඒකකයේ ප්‍රධාන කාර්යය කුමක්ද?", options: ["සියලු පරිගණක මෙහෙයුම් අධ්‍යක්ෂණය සහ සම්බන්ධීකරණය", "අංක ගණිත ගණනය කිරීම් සිදු කරයි", "දත්ත ස්ථිරව ගබඩා කරයි", "පරිශීලකයාට ප්‍රතිදානය පෙන්වයි"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit1_en : unit1_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>

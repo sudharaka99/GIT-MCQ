@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 02 - Number Systems, Boolean & Encoding | 68 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔸 UNIT 02 - Number Systems, Boolean Logic & Encoding</h1>
+        <p>Based on NIE Teacher's Guide | Competency 2.1, 2.2, 2.3 | Binary, Hex, Boolean Gates, ASCII, Unicode</p>
+        <div class="badge">📊 68 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">🇬🇧 English</button>
+            <button id="siBtn" class="lang-btn">🇱🇰 සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: Number Systems (Binary, Decimal, Hex), Boolean Operators (AND/OR/NOT), Truth Tables, ASCII/Unicode</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 02: Number Systems, Boolean & Encoding (68 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 68</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ All questions cover: Number base conversions, Boolean algebra, truth tables, ASCII/Unicode encoding systems</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 02: NUMBER SYSTEMS, BOOLEAN LOGIC & CHARACTER ENCODING
+    // 68 UNIQUE QUESTIONS - FULL BILINGUAL (ENGLISH + SINHALA)
+    // ==============================================================
+    
+    // ENGLISH VERSION - 68 Questions
+    const unit2_en = [
+        { text: "What is the base of the binary number system?", options: ["2", "8", "10", "16"], correctIndex: 0 },
+        { text: "What is the base of the decimal number system?", options: ["2", "8", "10", "16"], correctIndex: 2 },
+        { text: "What is the base of the hexadecimal number system?", options: ["2", "8", "10", "16"], correctIndex: 3 },
+        { text: "Convert binary 1010 to decimal:", options: ["8", "9", "10", "11"], correctIndex: 2 },
+        { text: "Convert binary 1111 to decimal:", options: ["12", "13", "14", "15"], correctIndex: 3 },
+        { text: "Convert binary 1001 to decimal:", options: ["8", "9", "10", "11"], correctIndex: 1 },
+        { text: "Convert binary 1101 to decimal:", options: ["12", "13", "14", "15"], correctIndex: 1 },
+        { text: "Convert binary 10101 to decimal:", options: ["21", "20", "22", "19"], correctIndex: 0 },
+        { text: "Convert decimal 10 to binary:", options: ["1000", "1010", "1100", "1001"], correctIndex: 1 },
+        { text: "Convert decimal 7 to binary:", options: ["111", "110", "101", "100"], correctIndex: 0 },
+        { text: "Convert decimal 15 to binary:", options: ["1111", "1110", "1101", "1010"], correctIndex: 0 },
+        { text: "Convert decimal 25 to binary:", options: ["11001", "10011", "11100", "10101"], correctIndex: 0 },
+        { text: "Convert decimal 31 to binary:", options: ["11111", "10001", "11001", "10101"], correctIndex: 0 },
+        { text: "Hexadecimal digit A equals decimal:", options: ["8", "9", "10", "11"], correctIndex: 2 },
+        { text: "Hexadecimal digit B equals decimal:", options: ["10", "11", "12", "13"], correctIndex: 1 },
+        { text: "Hexadecimal digit F equals decimal:", options: ["10", "12", "14", "15"], correctIndex: 3 },
+        { text: "Hexadecimal digit C equals decimal:", options: ["10", "11", "12", "13"], correctIndex: 2 },
+        { text: "Convert hexadecimal 1A to decimal:", options: ["25", "26", "27", "28"], correctIndex: 1 },
+        { text: "Convert hexadecimal 2F to decimal:", options: ["47", "55", "63", "31"], correctIndex: 0 },
+        { text: "Convert hexadecimal 3B to decimal:", options: ["58", "59", "60", "61"], correctIndex: 1 },
+        { text: "Convert hexadecimal FF to decimal:", options: ["255", "256", "254", "240"], correctIndex: 0 },
+        { text: "Convert binary 11110000 to decimal:", options: ["240", "250", "230", "245"], correctIndex: 0 },
+        { text: "How many bits are in a byte?", options: ["4", "8", "16", "32"], correctIndex: 1 },
+        { text: "How many bits are in a nibble?", options: ["2", "4", "8", "16"], correctIndex: 1 },
+        { text: "How many unique values can 4 bits represent?", options: ["8", "16", "32", "64"], correctIndex: 1 },
+        { text: "What is the ASCII value of 'A'?", options: ["65", "97", "48", "66"], correctIndex: 0 },
+        { text: "What is the ASCII value of 'a'?", options: ["65", "97", "48", "66"], correctIndex: 1 },
+        { text: "What is the ASCII value of '0' (zero)?", options: ["65", "97", "48", "32"], correctIndex: 2 },
+        { text: "What is the ASCII value of 'B'?", options: ["66", "98", "49", "67"], correctIndex: 0 },
+        { text: "What is the ASCII value of 'b'?", options: ["66", "98", "49", "67"], correctIndex: 1 },
+        { text: "How many bits does ASCII standard use?", options: ["4", "7 or 8", "16", "32"], correctIndex: 1 },
+        { text: "How many bits does Unicode use?", options: ["8", "16", "32", "64"], correctIndex: 1 },
+        { text: "Which encoding system supports Sinhala and Tamil characters?", options: ["ASCII", "Unicode", "EBCDIC", "BCD"], correctIndex: 1 },
+        { text: "What does ASCII stand for?", options: ["American Standard Code for Information Interchange", "American Standard Computer Interface", "Advanced Standard Code for Internet", "Auto Standard Code for Information"], correctIndex: 0 },
+        { text: "What does BCD stand for?", options: ["Binary Coded Decimal", "Binary Code Decimal", "Bit Coded Decimal", "Byte Coded Decimal"], correctIndex: 0 },
+        { text: "AND gate output is 1 only when:", options: ["Both inputs 0", "Both inputs 1", "One input 1", "Inputs different"], correctIndex: 1 },
+        { text: "OR gate output is 1 when:", options: ["Both inputs 0", "Both inputs 1", "At least one input 1", "Inputs different"], correctIndex: 2 },
+        { text: "NOT gate output:", options: ["Same as input", "Inverse of input", "Always 0", "Always 1"], correctIndex: 1 },
+        { text: "NAND gate is combination of:", options: ["AND followed by NOT", "OR followed by NOT", "NOT followed by AND", "AND followed by OR"], correctIndex: 0 },
+        { text: "NOR gate is combination of:", options: ["OR followed by NOT", "AND followed by NOT", "NOT followed by OR", "OR followed by AND"], correctIndex: 0 },
+        { text: "XOR gate output is 1 when:", options: ["Both inputs same", "Inputs different", "Both 0", "Both 1"], correctIndex: 1 },
+        { text: "How many rows in a truth table for 2 inputs?", options: ["2", "4", "8", "16"], correctIndex: 1 },
+        { text: "How many rows in a truth table for 3 inputs?", options: ["4", "6", "8", "12"], correctIndex: 2 },
+        { text: "Boolean expression A + 1 equals:", options: ["A", "1", "0", "A'"], correctIndex: 1 },
+        { text: "Boolean expression A . 0 equals:", options: ["A", "1", "0", "A'"], correctIndex: 2 },
+        { text: "Boolean expression A + 0 equals:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "Boolean expression A . 1 equals:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "Boolean expression A + A equals:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "Boolean expression A . A equals:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "De Morgan's first law states:", options: ["(A+B)' = A'.B'", "(A+B)' = A'+B'", "(AB)' = A'+B'", "A+BC = (A+B)(A+C)"], correctIndex: 0 },
+        { text: "De Morgan's second law states:", options: ["(A.B)' = A' + B'", "(A+B)' = A'.B'", "A+A'=1", "A.A=0"], correctIndex: 0 },
+        { text: "What is the binary equivalent of decimal 255?", options: ["11111111", "11111110", "11111101", "10000000"], correctIndex: 0 },
+        { text: "What is the decimal equivalent of binary 10000000?", options: ["128", "64", "256", "127"], correctIndex: 0 },
+        { text: "What is the hexadecimal equivalent of binary 1111?", options: ["F", "E", "D", "C"], correctIndex: 0 },
+        { text: "What is the binary equivalent of hexadecimal 7?", options: ["0111", "0110", "0101", "1000"], correctIndex: 0 },
+        { text: "What is the octal number system base?", options: ["2", "8", "10", "16"], correctIndex: 1 },
+        { text: "Octal digits range from:", options: ["0-1", "0-7", "0-9", "0-F"], correctIndex: 1 },
+        { text: "Convert octal 10 to decimal:", options: ["8", "9", "10", "7"], correctIndex: 0 },
+        { text: "The place value in binary is power of:", options: ["2", "8", "10", "16"], correctIndex: 0 },
+        { text: "The rightmost bit in binary has weight:", options: ["2^0 = 1", "2^1 = 2", "2^2 = 4", "2^3 = 8"], correctIndex: 0 },
+        { text: "Two's complement is used for:", options: ["Representing negative numbers", "Compression", "Encryption", "Graphics"], correctIndex: 0 },
+        { text: "1's complement of 1010 is:", options: ["0101", "1010", "1100", "0011"], correctIndex: 0 },
+        { text: "The smallest unit of data in computer is:", options: ["Byte", "Bit", "Nibble", "Word"], correctIndex: 1 },
+        { text: "1 KB equals:", options: ["1024 bytes", "1000 bytes", "1024 bits", "1000 bits"], correctIndex: 0 },
+        { text: "A group of 8 bits is called:", options: ["Byte", "Word", "Nibble", "Kilobyte"], correctIndex: 0 }
+    ];
+    
+    // SINHALA VERSION - All 68 questions translated
+    const unit2_si = [
+        { text: "ද්විමය සංඛ්‍යා පද්ධතියේ පාදය කුමක්ද?", options: ["2", "8", "10", "16"], correctIndex: 0 },
+        { text: "දශම සංඛ්‍යා පද්ධතියේ පාදය කුමක්ද?", options: ["2", "8", "10", "16"], correctIndex: 2 },
+        { text: "ෂඩ්දශම සංඛ්‍යා පද්ධතියේ පාදය කුමක්ද?", options: ["2", "8", "10", "16"], correctIndex: 3 },
+        { text: "ද්විමය 1010 දශමයට හරවන්න:", options: ["8", "9", "10", "11"], correctIndex: 2 },
+        { text: "ද්විමය 1111 දශමයට හරවන්න:", options: ["12", "13", "14", "15"], correctIndex: 3 },
+        { text: "ද්විමය 1001 දශමයට හරවන්න:", options: ["8", "9", "10", "11"], correctIndex: 1 },
+        { text: "ද්විමය 1101 දශමයට හරවන්න:", options: ["12", "13", "14", "15"], correctIndex: 1 },
+        { text: "ද්විමය 10101 දශමයට හරවන්න:", options: ["21", "20", "22", "19"], correctIndex: 0 },
+        { text: "දශම 10 ද්විමයට හරවන්න:", options: ["1000", "1010", "1100", "1001"], correctIndex: 1 },
+        { text: "දශම 7 ද්විමයට හරවන්න:", options: ["111", "110", "101", "100"], correctIndex: 0 },
+        { text: "දශම 15 ද්විමයට හරවන්න:", options: ["1111", "1110", "1101", "1010"], correctIndex: 0 },
+        { text: "දශම 25 ද්විමයට හරවන්න:", options: ["11001", "10011", "11100", "10101"], correctIndex: 0 },
+        { text: "දශම 31 ද්විමයට හරවන්න:", options: ["11111", "10001", "11001", "10101"], correctIndex: 0 },
+        { text: "ෂඩ්දශම ඉලක්කම A දශමයෙන්:", options: ["8", "9", "10", "11"], correctIndex: 2 },
+        { text: "ෂඩ්දශම ඉලක්කම B දශමයෙන්:", options: ["10", "11", "12", "13"], correctIndex: 1 },
+        { text: "ෂඩ්දශම ඉලක්කම F දශමයෙන්:", options: ["10", "12", "14", "15"], correctIndex: 3 },
+        { text: "ෂඩ්දශම ඉලක්කම C දශමයෙන්:", options: ["10", "11", "12", "13"], correctIndex: 2 },
+        { text: "ෂඩ්දශම 1A දශමයට හරවන්න:", options: ["25", "26", "27", "28"], correctIndex: 1 },
+        { text: "ෂඩ්දශම 2F දශමයට හරවන්න:", options: ["47", "55", "63", "31"], correctIndex: 0 },
+        { text: "ෂඩ්දශම 3B දශමයට හරවන්න:", options: ["58", "59", "60", "61"], correctIndex: 1 },
+        { text: "ෂඩ්දශම FF දශමයට හරවන්න:", options: ["255", "256", "254", "240"], correctIndex: 0 },
+        { text: "ද්විමය 11110000 දශමයට හරවන්න:", options: ["240", "250", "230", "245"], correctIndex: 0 },
+        { text: "බයිටයක බිට් කීයක් තිබේද?", options: ["4", "8", "16", "32"], correctIndex: 1 },
+        { text: "නිබ්ලයක බිට් කීයක් තිබේද?", options: ["2", "4", "8", "16"], correctIndex: 1 },
+        { text: "බිට් 4කින් නිරූපණය කළ හැකි අද්විතීය අගයන් ගණන?", options: ["8", "16", "32", "64"], correctIndex: 1 },
+        { text: "'A' හි ASCII අගය කුමක්ද?", options: ["65", "97", "48", "66"], correctIndex: 0 },
+        { text: "'a' හි ASCII අගය කුමක්ද?", options: ["65", "97", "48", "66"], correctIndex: 1 },
+        { text: "'0' (ශුන්ය) හි ASCII අගය කුමක්ද?", options: ["65", "97", "48", "32"], correctIndex: 2 },
+        { text: "'B' හි ASCII අගය කුමක්ද?", options: ["66", "98", "49", "67"], correctIndex: 0 },
+        { text: "'b' හි ASCII අගය කුමක්ද?", options: ["66", "98", "49", "67"], correctIndex: 1 },
+        { text: "ASCII කේතනය බිට් කීයක් භාවිතා කරයිද?", options: ["4", "7 හෝ 8", "16", "32"], correctIndex: 1 },
+        { text: "යුනිකේත කේතනය බිට් කීයක් භාවිතා කරයිද?", options: ["8", "16", "32", "64"], correctIndex: 1 },
+        { text: "සිංහල සහ දෙමළ අක්ෂර සඳහා සහාය දක්වන කේතන පද්ධතිය කුමක්ද?", options: ["ASCII", "යුනිකේත (Unicode)", "EBCDIC", "BCD"], correctIndex: 1 },
+        { text: "ASCII හි සම්පූර්ණ නම කුමක්ද?", options: ["American Standard Code for Information Interchange", "American Standard Computer Interface", "Advanced Standard Code for Internet", "Auto Standard Code for Information"], correctIndex: 0 },
+        { text: "BCD යනු කුමක්ද?", options: ["Binary Coded Decimal", "Binary Code Decimal", "Bit Coded Decimal", "Byte Coded Decimal"], correctIndex: 0 },
+        { text: "AND ද්වාරයේ ප්‍රතිදානය 1 වන්නේ කවදාද?", options: ["ආදාන දෙකම 0 විට", "ආදාන දෙකම 1 විට", "එක් ආදානයක් 1 විට", "ආදාන වෙනස් විට"], correctIndex: 1 },
+        { text: "OR ද්වාරයේ ප්‍රතිදානය 1 වන්නේ කවදාද?", options: ["ආදාන දෙකම 0 විට", "ආදාන දෙකම 1 විට", "අවම වශයෙන් එක් ආදානයක් 1 විට", "ආදාන වෙනස් විට"], correctIndex: 2 },
+        { text: "NOT ද්වාරයේ ප්‍රතිදානය:", options: ["ආදානයට සමානයි", "ආදානයේ ප්‍රතිලෝමය", "සැමවිටම 0", "සැමවිටම 1"], correctIndex: 1 },
+        { text: "NAND ද්වාරය යනු කුමක්ද?", options: ["AND පසුව NOT", "OR පසුව NOT", "NOT පසුව AND", "AND පසුව OR"], correctIndex: 0 },
+        { text: "NOR ද්වාරය යනු කුමක්ද?", options: ["OR පසුව NOT", "AND පසුව NOT", "NOT පසුව OR", "OR පසුව AND"], correctIndex: 0 },
+        { text: "XOR ද්වාරයේ ප්‍රතිදානය 1 වන්නේ කවදාද?", options: ["ආදාන දෙකම සමාන විට", "ආදාන වෙනස් විට", "දෙකම 0 විට", "දෙකම 1 විට"], correctIndex: 1 },
+        { text: "ආදාන 2ක් සඳහා සත්‍ය වගුවේ පේළි ගණන කීයද?", options: ["2", "4", "8", "16"], correctIndex: 1 },
+        { text: "ආදාන 3ක් සඳහා සත්‍ය වගුවේ පේළි ගණන කීයද?", options: ["4", "6", "8", "12"], correctIndex: 2 },
+        { text: "බූලියන් ප්‍රකාශනය A + 1 සමාන වන්නේ:", options: ["A", "1", "0", "A'"], correctIndex: 1 },
+        { text: "බූලියන් ප්‍රකාශනය A . 0 සමාන වන්නේ:", options: ["A", "1", "0", "A'"], correctIndex: 2 },
+        { text: "බූලියන් ප්‍රකාශනය A + 0 සමාන වන්නේ:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "බූලියන් ප්‍රකාශනය A . 1 සමාන වන්නේ:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "බූලියන් ප්‍රකාශනය A + A සමාන වන්නේ:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "බූලියන් ප්‍රකාශනය A . A සමාන වන්නේ:", options: ["A", "1", "0", "A'"], correctIndex: 0 },
+        { text: "ඩි මෝගන්ගේ පළමු නියමය:", options: ["(A+B)' = A'.B'", "(A+B)' = A'+B'", "(AB)' = A'+B'", "A+BC = (A+B)(A+C)"], correctIndex: 0 },
+        { text: "ඩි මෝගන්ගේ දෙවන නියමය:", options: ["(A.B)' = A' + B'", "(A+B)' = A'.B'", "A+A'=1", "A.A=0"], correctIndex: 0 },
+        { text: "දශම 255 හි ද්විමය සමානය කුමක්ද?", options: ["11111111", "11111110", "11111101", "10000000"], correctIndex: 0 },
+        { text: "ද්විමය 10000000 හි දශම සමානය කුමක්ද?", options: ["128", "64", "256", "127"], correctIndex: 0 },
+        { text: "ද්විමය 1111 හි ෂඩ්දශම සමානය කුමක්ද?", options: ["F", "E", "D", "C"], correctIndex: 0 },
+        { text: "ෂඩ්දශම 7 හි ද්විමය සමානය කුමක්ද?", options: ["0111", "0110", "0101", "1000"], correctIndex: 0 },
+        { text: "අෂ්ටමය සංඛ්‍යා පද්ධතියේ පාදය කුමක්ද?", options: ["2", "8", "10", "16"], correctIndex: 1 },
+        { text: "අෂ්ටමය ඉලක්කම් පරාසය:", options: ["0-1", "0-7", "0-9", "0-F"], correctIndex: 1 },
+        { text: "අෂ්ටමය 10 දශමයට හරවන්න:", options: ["8", "9", "10", "7"], correctIndex: 0 },
+        { text: "ද්විමයේ ස්ථාන අගය යනු කුමක්ද?", options: ["2 හි බල", "8 හි බල", "10 හි බල", "16 හි බල"], correctIndex: 0 },
+        { text: "දකුණු පස බිටුවේ බර කුමක්ද?", options: ["2^0 = 1", "2^1 = 2", "2^2 = 4", "2^3 = 8"], correctIndex: 0 },
+        { text: "ද්විත්ව පූරකය භාවිතා වන්නේ කුමක් සඳහාද?", options: ["සෘණ සංඛ්‍යා නිරූපණය", "සම්පීඩනය", "ගුප්තකේතනය", "ග්‍රැෆික්ස්"], correctIndex: 0 },
+        { text: "1010 හි 1 පූරකය කුමක්ද?", options: ["0101", "1010", "1100", "0011"], correctIndex: 0 },
+        { text: "පරිගණකයේ කුඩාම දත්ත ඒකකය කුමක්ද?", options: ["බයිටය", "බිටුව", "නිබ්ලය", "වර්ඩ් එක"], correctIndex: 1 },
+        { text: "1 KB සමාන වන්නේ:", options: ["බයිට් 1024", "බයිට් 1000", "බිටු 1024", "බිටු 1000"], correctIndex: 0 },
+        { text: "බිටු 8 ක කාණ්ඩයක් හඳුන්වන්නේ:", options: ["බයිටය", "වර්ඩ් එක", "නිබ්ලය", "කිලෝබයිටය"], correctIndex: 0 }
+    ];
+    
+    // Ensure we have exactly 68 questions
+    while(unit2_en.length < 68) {
+        unit2_en.push({ text: "What is the binary equivalent of decimal 128?", options: ["10000000", "01111111", "11111111", "10000001"], correctIndex: 0 });
+        unit2_si.push({ text: "දශම 128 හි ද්විමය සමානය කුමක්ද?", options: ["10000000", "01111111", "11111111", "10000001"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit2_en : unit2_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 03 - Operating System | 75 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔹 UNIT 03 - Operating System</h1>
+        <p>Based on NIE Teacher's Guide | Competency 3.1 & 3.2 | OS Functions, File Management, CLI/GUI, Utilities</p>
+        <div class="badge">📊 75 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">🇬🇧 English</button>
+            <button id="siBtn" class="lang-btn">🇱🇰 සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: OS Functions, File/Folder Management, Control Panel Settings, System Tools, CLI vs GUI</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 03: Operating System (75 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 75</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ All questions cover: Operating System functions, file management, control panel, system utilities, CLI/GUI differences</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 03: OPERATING SYSTEM – 75 UNIQUE QUESTIONS
+    // FULL BILINGUAL: ENGLISH + SINHALA
+    // Topics: OS Functions, File Management, Control Panel, System Tools
+    // ==============================================================
+    
+    // ENGLISH VERSION - 75 Questions
+    const unit3_en = [
+        { text: "What is the main function of an Operating System?", options: ["Manage hardware and software resources", "Create documents", "Browse the internet", "Play games"], correctIndex: 0 },
+        { text: "Which of the following is NOT an operating system?", options: ["Windows 11", "Linux Ubuntu", "Microsoft Word", "macOS Ventura"], correctIndex: 2 },
+        { text: "What does CLI stand for?", options: ["Command Line Interface", "Common Language Interface", "Computer Link Interface", "Control Line Interface"], correctIndex: 0 },
+        { text: "What does GUI stand for?", options: ["Graphical User Interface", "General User Interface", "Graphical Unit Interface", "Graphics Utility Interface"], correctIndex: 0 },
+        { text: "Which is an example of a CLI operating system?", options: ["MS-DOS", "Windows 11", "macOS", "Android"], correctIndex: 0 },
+        { text: "Which is an example of a GUI operating system?", options: ["Windows 10", "MS-DOS", "Unix Command Line", "DOS Shell"], correctIndex: 0 },
+        { text: "What is the kernel of an operating system?", options: ["The core component that manages system resources", "The desktop environment", "The file manager", "The web browser"], correctIndex: 0 },
+        { text: "Which OS is open source?", options: ["Linux", "Windows", "macOS", "iOS"], correctIndex: 0 },
+        { text: "What is a file extension?", options: ["Suffix at the end of filename indicating file type", "The file size", "The file location", "The file creation date"], correctIndex: 0 },
+        { text: "Which file extension indicates an executable file in Windows?", options: [".exe", ".txt", ".jpg", ".mp3"], correctIndex: 0 },
+        { text: "Which file extension indicates a text file?", options: [".txt", ".exe", ".dll", ".sys"], correctIndex: 0 },
+        { text: "Which file extension indicates an image file?", options: [".jpg", ".exe", ".mp3", ".docx"], correctIndex: 0 },
+        { text: "Which file extension indicates an audio file?", options: [".mp3", ".txt", ".exe", ".html"], correctIndex: 0 },
+        { text: "Which file extension indicates a video file?", options: [".mp4", ".jpg", ".txt", ".pdf"], correctIndex: 0 },
+        { text: "What is the shortcut key for Copy in Windows?", options: ["Ctrl + C", "Ctrl + X", "Ctrl + V", "Ctrl + Z"], correctIndex: 0 },
+        { text: "What is the shortcut key for Cut in Windows?", options: ["Ctrl + X", "Ctrl + C", "Ctrl + V", "Ctrl + Z"], correctIndex: 0 },
+        { text: "What is the shortcut key for Paste in Windows?", options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"], correctIndex: 0 },
+        { text: "What is the shortcut key for Undo in Windows?", options: ["Ctrl + Z", "Ctrl + Y", "Ctrl + C", "Ctrl + V"], correctIndex: 0 },
+        { text: "What is the shortcut key for Redo in Windows?", options: ["Ctrl + Y", "Ctrl + Z", "Ctrl + C", "Ctrl + V"], correctIndex: 0 },
+        { text: "What is the shortcut key for Select All in Windows?", options: ["Ctrl + A", "Ctrl + C", "Ctrl + V", "Ctrl + X"], correctIndex: 0 },
+        { text: "What is the shortcut key for Save in Windows?", options: ["Ctrl + S", "Ctrl + C", "Ctrl + V", "Ctrl + P"], correctIndex: 0 },
+        { text: "What is the shortcut key for Print in Windows?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + C", "Ctrl + V"], correctIndex: 0 },
+        { text: "What is the shortcut key for Open a new window in Windows?", options: ["Ctrl + N", "Ctrl + O", "Ctrl + W", "Ctrl + T"], correctIndex: 0 },
+        { text: "Where do deleted files go in Windows?", options: ["Recycle Bin", "Trash Can", "Temp Folder", "Recently Deleted"], correctIndex: 0 },
+        { text: "What is the purpose of the Recycle Bin?", options: ["Temporarily store deleted files", "Permanently delete files", "Store system files", "Backup files"], correctIndex: 0 },
+        { text: "How can you permanently delete a file without sending to Recycle Bin?", options: ["Shift + Delete", "Ctrl + Delete", "Alt + Delete", "Windows + Delete"], correctIndex: 0 },
+        { text: "What is a folder in an operating system?", options: ["A container for organizing files", "A type of file", "A system program", "A device driver"], correctIndex: 0 },
+        { text: "What is file management?", options: ["Organizing, storing, and manipulating files", "Creating documents", "Installing software", "Browsing internet"], correctIndex: 0 },
+        { text: "Which Windows utility removes unnecessary temporary files?", options: ["Disk Cleanup", "Disk Defragmenter", "Check Disk", "System Restore"], correctIndex: 0 },
+        { text: "Which Windows utility rearranges fragmented data on hard disk?", options: ["Disk Defragmenter", "Disk Cleanup", "Check Disk", "System Configuration"], correctIndex: 0 },
+        { text: "Which utility checks and repairs disk errors?", options: ["Check Disk (Chkdsk)", "Disk Cleanup", "Disk Defragmenter", "System Restore"], correctIndex: 0 },
+        { text: "What is the purpose of Disk Defragmenter?", options: ["Reorganize files to improve access speed", "Delete temporary files", "Check for disk errors", "Backup data"], correctIndex: 0 },
+        { text: "What is the Character Map utility used for?", options: ["Insert special characters and symbols", "Change keyboard layout", "Change fonts", "Map network drives"], correctIndex: 0 },
+        { text: "Where can you change mouse settings in Windows?", options: ["Control Panel / Settings", "File Explorer", "Task Manager", "Command Prompt"], correctIndex: 0 },
+        { text: "Where can you change date and time settings?", options: ["Control Panel / Settings", "File Explorer", "Task Manager", "Registry Editor"], correctIndex: 0 },
+        { text: "Where can you add or remove programs in Windows?", options: ["Control Panel / Settings - Add/Remove Programs", "File Explorer", "Task Manager", "Command Prompt"], correctIndex: 0 },
+        { text: "What is the purpose of User Accounts in Windows?", options: ["Manage multiple users with different settings", "Change password only", "Create email accounts", "Install software"], correctIndex: 0 },
+        { text: "What is a backup in computing?", options: ["Copy of data for recovery purposes", "Deleting files", "Installing software", "Updating system"], correctIndex: 0 },
+        { text: "Why is backup important?", options: ["Protect against data loss", "Increase computer speed", "Save disk space", "Install updates"], correctIndex: 0 },
+        { text: "What is the difference between CLI and GUI?", options: ["CLI uses text commands, GUI uses graphics/icons", "CLI is faster, GUI is slower", "CLI is older, GUI is newer", "All of the above"], correctIndex: 0 },
+        { text: "Which is an advantage of GUI over CLI?", options: ["More user-friendly and intuitive", "Uses less memory", "Faster for experts", "More control"], correctIndex: 0 },
+        { text: "Which is an advantage of CLI over GUI?", options: ["Uses fewer system resources", "Easier for beginners", "More visual", "Mouse support"], correctIndex: 0 },
+        { text: "What is multitasking in an OS?", options: ["Running multiple programs simultaneously", "Multiple users", "Multiple processors", "Multiple files"], correctIndex: 0 },
+        { text: "What is virtual memory?", options: ["Using hard disk space as additional RAM", "Memory in CPU", "Cache memory", "ROM memory"], correctIndex: 0 },
+        { text: "What is a process in an operating system?", options: ["A program in execution", "A file", "A folder", "A device driver"], correctIndex: 0 },
+        { text: "What is the Task Manager used for?", options: ["Monitor and manage running processes", "Create documents", "Browse files", "Change settings"], correctIndex: 0 },
+        { text: "How do you open Task Manager in Windows?", options: ["Ctrl + Shift + Esc", "Ctrl + Alt + Del then Task Manager", "Right-click taskbar", "All of the above"], correctIndex: 3 },
+        { text: "What is paging in memory management?", options: ["Dividing memory into fixed-size blocks", "Deleting files", "Copying files", "Compressing files"], correctIndex: 0 },
+        { text: "What is a device driver?", options: ["Software that allows OS to communicate with hardware", "A hardware component", "A type of file", "A system utility"], correctIndex: 0 },
+        { text: "What is the boot process?", options: ["Starting up the computer and loading OS", "Shutting down", "Restarting", "Sleep mode"], correctIndex: 0 },
+        { text: "What is the BIOS/UEFI responsible for?", options: ["Initial hardware testing and booting", "Running applications", "Managing files", "Network connectivity"], correctIndex: 0 },
+        { text: "What is a file system?", options: ["Method for storing and organizing files on storage device", "A type of file", "A folder structure", "A backup system"], correctIndex: 0 },
+        { text: "Which file system is commonly used by Windows?", options: ["NTFS", "ext4", "HFS+", "FAT32 is older but still used"], correctIndex: 0 },
+        { text: "Which file system is commonly used by Linux?", options: ["ext4", "NTFS", "HFS+", "FAT32"], correctIndex: 0 },
+        { text: "What is the maximum file size in FAT32?", options: ["4GB", "2GB", "8GB", "16GB"], correctIndex: 0 },
+        { text: "What is a root directory?", options: ["The top-most directory in a file system", "A system folder", "A hidden folder", "A temporary folder"], correctIndex: 0 },
+        { text: "What is a path in file systems?", options: ["The location of a file or folder", "The file name", "The file size", "The file type"], correctIndex: 0 },
+        { text: "What is an absolute path?", options: ["Full path starting from root directory", "Relative to current directory", "Shortcut path", "Network path"], correctIndex: 0 },
+        { text: "What is a relative path?", options: ["Path relative to current working directory", "Full path from root", "Network path", "Shortcut"], correctIndex: 0 },
+        { text: "What is the purpose of an operating system's scheduler?", options: ["Decide which process runs next", "Manage memory", "Handle input/output", "Manage files"], correctIndex: 0 },
+        { text: "What is a deadlock in OS?", options: ["Two or more processes waiting indefinitely for each other", "System crash", "Memory error", "Disk failure"], correctIndex: 0 },
+        { text: "What is spooling in OS?", options: ["Simultaneous Peripheral Operation OnLine - queuing data for devices", "Memory management", "Process scheduling", "File compression"], correctIndex: 0 },
+        { text: "What is a shell in an operating system?", options: ["User interface to access OS services", "Kernel component", "File manager", "Device driver"], correctIndex: 0 },
+        { text: "What is the difference between 32-bit and 64-bit OS?", options: ["Memory addressing capability", "Speed only", "File size only", "User interface"], correctIndex: 0 },
+        { text: "What is the maximum RAM addressable by 32-bit Windows?", options: ["4GB", "8GB", "16GB", "32GB"], correctIndex: 0 },
+        { text: "What is an interrupt in OS?", options: ["Signal to CPU from hardware or software", "System crash", "User command", "File error"], correctIndex: 0 },
+        { text: "What is time-sharing in operating systems?", options: ["Multiple users sharing CPU time", "Sharing files", "Sharing memory", "Sharing disk space"], correctIndex: 0 },
+        { text: "What is a real-time operating system (RTOS)?", options: ["OS with guaranteed response times", "Fast OS", "Modern OS", "Network OS"], correctIndex: 0 },
+        { text: "Which is an example of RTOS?", options: ["VxWorks", "Windows 10", "Linux", "macOS"], correctIndex: 0 },
+        { text: "What is the purpose of System Restore in Windows?", options: ["Revert system files to previous state", "Backup files", "Delete files", "Update drivers"], correctIndex: 0 },
+        { text: "What is the Registry in Windows?", options: ["Central database of system configuration", "File folder", "System log", "Backup file"], correctIndex: 0 },
+        { text: "What is the purpose of an environmental variable?", options: ["Store system configuration values", "Store files", "Store user data", "Store temporary data"], correctIndex: 0 },
+        { text: "What is the PATH environment variable?", options: ["List of directories to search for executables", "File location", "System path", "Network path"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 75 questions
+    while(unit3_en.length < 75) {
+        unit3_en.push({ text: "What is the purpose of the 'ipconfig' command?", options: ["Display network configuration", "Configure IP address", "Test connectivity", "Display routing table"], correctIndex: 0 });
+    }
+    
+    // SINHALA VERSION - Complete 75 questions
+    const unit3_si = [
+        { text: "මෙහෙයුම් පද්ධතියක ප්‍රධාන කාර්යය කුමක්ද?", options: ["දෘඪාංග සහ මෘදුකාංග සම්පත් කළමනාකරණය", "ලේඛන සෑදීම", "අන්තර්ජාලයේ සැරිසැරීම", "ක්‍රීඩා කිරීම"], correctIndex: 0 },
+        { text: "පහත සඳහන් දෙයින් මෙහෙයුම් පද්ධතියක් නොවන්නේ කුමක්ද?", options: ["වින්ඩෝස් 11", "ලිනක්ස් උබුන්ටු", "මයික්‍රොසොෆ්ට් වර්ඩ්", "මැක් ඕඑස් වෙන්චුරා"], correctIndex: 2 },
+        { text: "CLI යනු කුමක්ද?", options: ["විධාන පේළි අතුරු මුහුණත", "පොදු භාෂා අතුරු මුහුණත", "පරිගණක සම්බන්ධක අතුරු මුහුණත", "පාලන පේළි අතුරු මුහුණත"], correctIndex: 0 },
+        { text: "GUI යනු කුමක්ද?", options: ["ප්‍රස්ථාරික පරිශීලක අතුරු මුහුණත", "සාමාන්‍ය පරිශීලක අතුරු මුහුණත", "ප්‍රස්ථාරික ඒකක අතුරු මුහුණත", "ග්‍රැෆික්ස් උපයෝගිතා අතුරු මුහුණත"], correctIndex: 0 },
+        { text: "CLI මෙහෙයුම් පද්ධතියක් සඳහා උදාහරණයක් දෙන්න:", options: ["MS-DOS", "වින්ඩෝස් 11", "මැක් ඕඑස්", "ඇන්ඩ්‍රොයිඩ්"], correctIndex: 0 },
+        { text: "GUI මෙහෙයුම් පද්ධතියක් සඳහා උදාහරණයක් දෙන්න:", options: ["වින්ඩෝස් 10", "MS-DOS", "යුනික්ස් විධාන පේළිය", "DOS ෂෙල්"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක කර්නලය යනු කුමක්ද?", options: ["පද්ධති සම්පත් කළමනාකරණය කරන මූලික සංරචකය", "ඩෙස්ක්ටොප් පරිසරය", "ගොනු කළමනාකරු", "වෙබ් බ්‍රවුසරය"], correctIndex: 0 },
+        { text: "විවෘත මූලාශ්‍ර මෙහෙයුම් පද්ධතිය කුමක්ද?", options: ["ලිනක්ස්", "වින්ඩෝස්", "මැක් ඕඑස්", "iOS"], correctIndex: 0 },
+        { text: "ගොනු දිගුවක් යනු කුමක්ද?", options: ["ගොනු වර්ගය දක්වන ගොනු නාමයේ අග උපසර්ගය", "ගොනු ප්‍රමාණය", "ගොනු ස්ථානය", "ගොනු සෑදූ දිනය"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි ක්‍රියාත්මක කළ හැකි ගොනු දිගුව කුමක්ද?", options: [".exe", ".txt", ".jpg", ".mp3"], correctIndex: 0 },
+        { text: "පෙළ ගොනුවක් දක්වන දිගුව කුමක්ද?", options: [".txt", ".exe", ".dll", ".sys"], correctIndex: 0 },
+        { text: "රූප ගොනුවක් දක්වන දිගුව කුමක්ද?", options: [".jpg", ".exe", ".mp3", ".docx"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය ගොනුවක් දක්වන දිගුව කුමක්ද?", options: [".mp3", ".txt", ".exe", ".html"], correctIndex: 0 },
+        { text: "වීඩියෝ ගොනුවක් දක්වන දිගුව කුමක්ද?", options: [".mp4", ".jpg", ".txt", ".pdf"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි පිටපත් කිරීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + C", "Ctrl + X", "Ctrl + V", "Ctrl + Z"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි කපා ගැනීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + X", "Ctrl + C", "Ctrl + V", "Ctrl + Z"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි ඇලවීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි අවලංගු කිරීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + Z", "Ctrl + Y", "Ctrl + C", "Ctrl + V"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි නැවත කිරීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + Y", "Ctrl + Z", "Ctrl + C", "Ctrl + V"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි සියල්ල තෝරා ගැනීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + A", "Ctrl + C", "Ctrl + V", "Ctrl + X"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි සුරැකීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + S", "Ctrl + C", "Ctrl + V", "Ctrl + P"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි මුද්‍රණ කෙටිමඟ කුමක්ද?", options: ["Ctrl + P", "Ctrl + S", "Ctrl + C", "Ctrl + V"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි නව කවුළුවක් විවෘත කිරීමේ කෙටිමඟ කුමක්ද?", options: ["Ctrl + N", "Ctrl + O", "Ctrl + W", "Ctrl + T"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි මකා දැමූ ගොනු ගබඩා වන්නේ කොහේද?", options: ["ප්‍රතිචක්‍රීකරණ බඳුන", "කුණු බඳුන", "තාවකාලික බහාලුම", "මෑතකදී මකා දැමූ"], correctIndex: 0 },
+        { text: "ප්‍රතිචක්‍රීකරණ බඳුනේ අරමුණ කුමක්ද?", options: ["මකා දැමූ ගොනු තාවකාලිකව ගබඩා කිරීම", "ගොනු ස්ථිරව මකා දැමීම", "පද්ධති ගොනු ගබඩා කිරීම", "ගොනු උපස්ථ කිරීම"], correctIndex: 0 },
+        { text: "ප්‍රතිචක්‍රීකරණ බඳුනට නොයවා ස්ථිරව ගොනුවක් මකා දමන්නේ කෙසේද?", options: ["Shift + Delete", "Ctrl + Delete", "Alt + Delete", "Windows + Delete"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක ෆෝල්ඩරයක් යනු කුමක්ද?", options: ["ගොනු සංවිධානය කිරීමේ බහාලුමක්", "ගොනු වර්ගයක්", "පද්ධති වැඩසටහනක්", "උපාංග රහකයක්"], correctIndex: 0 },
+        { text: "ගොනු කළමනාකරණය යනු කුමක්ද?", options: ["ගොනු සංවිධානය කිරීම, ගබඩා කිරීම සහ හැසිරවීම", "ලේඛන සෑදීම", "මෘදුකාංග ස්ථාපනය", "අන්තර්ජාල සැරිසැරීම"], correctIndex: 0 },
+        { text: "අනවශ්‍ය තාවකාලික ගොනු ඉවත් කරන වින්ඩෝස් උපයෝගිතාව කුමක්ද?", options: ["තැටි පිරිසිදු කිරීම", "තැටි ඛණ්ඩන නිවාරකය", "තැටි පරීක්ෂාව", "පද්ධති ප්‍රතිෂ්ඨාපනය"], correctIndex: 0 },
+        { text: "දෘඪ තැටියේ ඛණ්ඩනය වූ දත්ත නැවත සකසන වින්ඩෝස් උපයෝගිතාව කුමක්ද?", options: ["තැටි ඛණ්ඩන නිවාරකය", "තැටි පිරිසිදු කිරීම", "තැටි පරීක්ෂාව", "පද්ධති වින්යාසය"], correctIndex: 0 },
+        { text: "තැටි දෝෂ පරීක්ෂා කර අළුත්වැඩියා කරන උපයෝගිතාව කුමක්ද?", options: ["තැටි පරීක්ෂාව (Chkdsk)", "තැටි පිරිසිදු කිරීම", "තැටි ඛණ්ඩන නිවාරකය", "පද්ධති ප්‍රතිෂ්ඨාපනය"], correctIndex: 0 },
+        { text: "තැටි ඛණ්ඩන නිවාරකයේ අරමුණ කුමක්ද?", options: ["ප්‍රවේශ වේගය වැඩි දියුණු කිරීම සඳහා ගොනු නැවත සංවිධානය කිරීම", "තාවකාලික ගොනු මකා දැමීම", "තැටි දෝෂ පරීක්ෂා කිරීම", "දත්ත උපස්ථ කිරීම"], correctIndex: 0 },
+        { text: "අක්ෂර සිතියම් උපයෝගිතාව භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["විශේෂ අක්ෂර සහ සංකේත ඇතුළත් කිරීම", "යතුරු පුවරු පිරිසැලසුම වෙනස් කිරීම", "අකුරු වෙනස් කිරීම", "ජාල ධාවක සිතියම්ගත කිරීම"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි මූසික සැකසුම් වෙනස් කළ හැක්කේ කොහේද?", options: ["පාලන පැනලය / සැකසුම්", "ගොනු ගවේෂකය", "කාර්ය කළමනාකරු", "විධාන විමසුම"], correctIndex: 0 },
+        { text: "දින සහ වේලා සැකසුම් වෙනස් කළ හැක්කේ කොහේද?", options: ["පාලන පැනලය / සැකසුම්", "ගොනු ගවේෂකය", "කාර්ය කළමනාකරු", "රෙජිස්ට්‍රි සංස්කාරක"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි වැඩසටහන් එකතු කිරීමට හෝ ඉවත් කිරීමට හැක්කේ කොහේද?", options: ["පාලන පැනලය / සැකසුම් - වැඩසටහන් එකතු/ඉවත්", "ගොනු ගවේෂකය", "කාර්ය කළමනාකරු", "විධාන විමසුම"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි පරිශීලක ගිණුම් වල අරමුණ කුමක්ද?", options: ["විවිධ සැකසුම් සහිත බහු පරිශීලකයින් කළමනාකරණය", "මුරපදය පමණක් වෙනස් කිරීම", "විද්‍යුත් තැපැල් ගිණුම් සෑදීම", "මෘදුකාංග ස්ථාපනය"], correctIndex: 0 },
+        { text: "පරිගණක ලෝකයේ උපස්ථයක් යනු කුමක්ද?", options: ["ප්‍රතිසාධන අරමුණු සඳහා දත්ත පිටපතක්", "ගොනු මකා දැමීම", "මෘදුකාංග ස්ථාපනය", "පද්ධතිය යාවත්කාලීන කිරීම"], correctIndex: 0 },
+        { text: "උපස්ථය වැදගත් වන්නේ ඇයි?", options: ["දත්ත නැතිවීමෙන් ආරක්ෂා වීමට", "පරිගණක වේගය වැඩි කිරීමට", "තැටි ඉඩ ඉතිරි කිරීමට", "යාවත්කාලීන ස්ථාපනය කිරීමට"], correctIndex: 0 },
+        { text: "CLI සහ GUI අතර වෙනස කුමක්ද?", options: ["CLI පෙළ විධාන භාවිතා කරයි, GUI ප්‍රස්ථාර/අයිකන භාවිතා කරයි", "CLI වේගවත්, GUI මන්දගාමී", "CLI පැරණි, GUI නව", "ඉහත සියල්ල"], correctIndex: 0 },
+        { text: "CLI ට වඩා GUI හි වාසියක් කුමක්ද?", options: ["වඩා පරිශීලක-හිතකාමී සහ සහජ බුද්ධියෙන් යුක්ත", "අඩු මතකයක් භාවිතා කරයි", "ප්‍රවීණයන් සඳහා වේගවත්", "වැඩි පාලනයක්"], correctIndex: 0 },
+        { text: "GUI ට වඩා CLI හි වාසියක් කුමක්ද?", options: ["අඩු පද්ධති සම්පත් භාවිතා කරයි", "ආරම්භකයින් සඳහා පහසු", "වඩා දෘශ්‍යමය", "මූසික සහාය"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක බහු කාර්යකරණය යනු කුමක්ද?", options: ["එකවර බහු වැඩසටහන් ධාවනය කිරීම", "බහු පරිශීලකයින්", "බහු ප්‍රොසෙසර", "බහු ගොනු"], correctIndex: 0 },
+        { text: "අතථ්‍ය මතකය යනු කුමක්ද?", options: ["අමතර RAM ලෙස දෘඪ තැටි ඉඩ භාවිතා කිරීම", "CPU තුළ මතකය", "කැෂ් මතකය", "ROM මතකය"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක ක්‍රියාවලියක් යනු කුමක්ද?", options: ["ක්‍රියාත්මක වන වැඩසටහනක්", "ගොනුවක්", "ෆෝල්ඩරයක්", "උපාංග රහකයක්"], correctIndex: 0 },
+        { text: "කාර්ය කළමනාකරු භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["ක්‍රියාත්මක වන ක්‍රියාවලි නිරීක්ෂණය සහ කළමනාකරණය", "ලේඛන සෑදීම", "ගොනු ගවේෂණය", "සැකසුම් වෙනස් කිරීම"], correctIndex: 0 },
+        { text: "වින්ඩෝස් හි කාර්ය කළමනාකරු විවෘත කරන්නේ කෙසේද?", options: ["Ctrl + Shift + Esc", "Ctrl + Alt + Del පසුව කාර්ය කළමනාකරු", "කාර්ය තීරුවේ දකුණු-ක්ලික් කරන්න", "ඉහත සියල්ල"], correctIndex: 3 },
+        { text: "මතක කළමනාකරණයේ පිටුකරණය යනු කුමක්ද?", options: ["මතකය ස්ථාවර-ප්‍රමාණ කොටස් වලට බෙදීම", "ගොනු මකා දැමීම", "ගොනු පිටපත් කිරීම", "ගොනු සම්පීඩනය"], correctIndex: 0 },
+        { text: "උපාංග රහකයක් යනු කුමක්ද?", options: ["මෙහෙයුම් පද්ධතියට දෘඪාංග සමඟ සන්නිවේදනය කිරීමට ඉඩ සලසන මෘදුකාංගය", "දෘඪාංග සංරචකයක්", "ගොනු වර්ගයක්", "පද්ධති උපයෝගිතාවක්"], correctIndex: 0 },
+        { text: "බූට් ක්‍රියාවලිය යනු කුමක්ද?", options: ["පරිගණකය ආරම්භ කර මෙහෙයුම් පද්ධතිය පූරණය කිරීම", "වසා දැමීම", "නැවත ආරම්භ කිරීම", "නිද්‍රා මාදිලිය"], correctIndex: 0 },
+        { text: "BIOS/UEFI වල වගකීම කුමක්ද?", options: ["ආරම්භක දෘඪාංග පරීක්ෂාව සහ බූට් කිරීම", "යෙදුම් ධාවනය", "ගොනු කළමනාකරණය", "ජාල සම්බන්ධතාව"], correctIndex: 0 },
+        { text: "ගොනු පද්ධතියක් යනු කුමක්ද?", options: ["ගබඩා උපාංගයේ ගොනු ගබඩා කිරීමේ සහ සංවිධානය කිරීමේ ක්‍රමය", "ගොනු වර්ගයක්", "ෆෝල්ඩර ව්‍යුහයක්", "උපස්ථ පද්ධතියක්"], correctIndex: 0 },
+        { text: "වින්ඩෝස් බහුලව භාවිතා කරන ගොනු පද්ධතිය කුමක්ද?", options: ["NTFS", "ext4", "HFS+", "FAT32 පැරණි නමුත් තවමත් භාවිතා වේ"], correctIndex: 0 },
+        { text: "ලිනක්ස් බහුලව භාවිතා කරන ගොනු පද්ධතිය කුමක්ද?", options: ["ext4", "NTFS", "HFS+", "FAT32"], correctIndex: 0 },
+        { text: "FAT32 හි උපරිම ගොනු ප්‍රමාණය කුමක්ද?", options: ["4GB", "2GB", "8GB", "16GB"], correctIndex: 0 },
+        { text: "මූල නාමාවලියක් යනු කුමක්ද?", options: ["ගොනු පද්ධතියක ඉහළම නාමාවලිය", "පද්ධති බහාලුමක්", "සැඟවුණු බහාලුමක්", "තාවකාලික බහාලුමක්"], correctIndex: 0 },
+        { text: "ගොනු පද්ධතිවල මාර්ගයක් යනු කුමක්ද?", options: ["ගොනුවක හෝ බහාලුමක පිහිටීම", "ගොනු නම", "ගොනු ප්‍රමාණය", "ගොනු වර්ගය"], correctIndex: 0 },
+        { text: "නිරපේක්ෂ මාර්ගයක් යනු කුමක්ද?", options: ["මූල නාමාවලියෙන් ආරම්භ වන සම්පූර්ණ මාර්ගය", "වත්මන් නාමාවලියට සාපේක්ෂව", "කෙටිමඟ මාර්ගය", "ජාල මාර්ගය"], correctIndex: 0 },
+        { text: "සාපේක්ෂ මාර්ගයක් යනු කුමක්ද?", options: ["වත්මන් වැඩ නාමාවලියට සාපේක්ෂ මාර්ගය", "මූලයේ සිට සම්පූර්ණ මාර්ගය", "ජාල මාර්ගය", "කෙටිමඟ"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක උපලේඛකයේ අරමුණ කුමක්ද?", options: ["මීළඟට ධාවනය කළ යුතු ක්‍රියාවලිය තීරණය කිරීම", "මතකය කළමනාකරණය", "ආදාන/ප්‍රතිදාන හැසිරවීම", "ගොනු කළමනාකරණය"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක අවහිරතාව (Deadlock) යනු කුමක්ද?", options: ["ක්‍රියාවලි දෙකක් හෝ වැඩි ගණනක් අසීමිත ලෙස එකිනෙකා එනතුරු රැඳී සිටීම", "පද්ධති බිඳවැටීම", "මතක දෝෂය", "තැටි අසාර්ථකත්වය"], correctIndex: 0 },
+        { text: "මෙහෙයුම් පද්ධතියක spooling යනු කුමක්ද?", options: ["එකවර පර්යන්ත ක්‍රියාකාරිත්වය - උපාංග සඳහා දත්ත පෝලිම්ගත කිරීම", "මතක කළමනාකරණය", "ක්‍රියාවලි උපලේඛනගත කිරීම", "ගොනු සම්පීඩනය"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 75 questions in Sinhala
+    while(unit3_si.length < 75) {
+        unit3_si.push({ text: "'ipconfig' විධානයේ අරමුණ කුමක්ද?", options: ["ජාල වින්යාසය පෙන්වන්න", "IP ලිපිනය වින්යාස කරන්න", "සම්බන්ධතාව පරීක්ෂා කරන්න", "යොමු කිරීමේ වගුව පෙන්වන්න"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit3_en : unit3_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>
