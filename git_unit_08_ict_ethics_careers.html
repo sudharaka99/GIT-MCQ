@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 08 - ICT & Society, Ethics, Careers | 70 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔸 UNIT 08 - ICT & Society, Ethics, Careers</h1>
+        <p>Based on NIE Teacher's Guide | Competency 8.1, 8.2, 8.3 | ICT Applications, Career Paths, Cyber Security, E-Waste, Green Computing</p>
+        <div class="badge">📊 70 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">English</button>
+            <button id="siBtn" class="lang-btn">සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: ICT in Education, Health, Agriculture, Business, E-Governance | ICT Careers (Software Engineer, Network Admin, DBA) | Cyber Security, Ethics, Privacy, E-Waste, Green Computing</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 08: ICT & Society, Ethics, Careers (70 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 70</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ Covers: ICT national development, e-Governance, telemedicine, e-learning, ICT careers (Software Engineer, DBA, Network Admin), cybercrimes, privacy, e-waste, green computing, SLCERT</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 08: ICT & SOCIETY, ETHICS, CAREERS – 70 UNIQUE QUESTIONS
+    // FULL BILINGUAL: ENGLISH + SINHALA
+    // Topics: ICT Applications (Education, Health, Agriculture, Business, E-Governance)
+    //         ICT Careers, Cyber Security, Ethics, E-Waste, Green Computing
+    // ==============================================================
+    
+    // ENGLISH VERSION - 70 Questions
+    const unit8_en = [
+        // ICT in Society / National Development (1-20)
+        { text: "What is telemedicine?", options: ["Remote healthcare using ICT", "Telephone medicine", "Hospital software", "Medical device"], correctIndex: 0 },
+        { text: "What is e-learning?", options: ["Learning using electronic technologies", "Electronic library", "Online exam only", "School software"], correctIndex: 0 },
+        { text: "What is e-governance?", options: ["Government services using ICT", "Electronic voting", "Government website", "Online tax payment only"], correctIndex: 0 },
+        { text: "What is ATM?", options: ["Automated Teller Machine", "Automatic Transfer Machine", "Automated Transaction Machine", "All Time Money"], correctIndex: 0 },
+        { text: "What is MRI scan used for?", options: ["Medical imaging", "Computer scanning", "Network scanning", "File scanning"], correctIndex: 0 },
+        { text: "What is a Learning Management System (LMS)?", options: ["Software to deliver educational courses", "School database", "Student registration", "Exam system"], correctIndex: 0 },
+        { text: "What is e-commerce?", options: ["Buying and selling online", "Electronic mail", "Online banking", "Social media"], correctIndex: 0 },
+        { text: "Which is an example of e-commerce?", options: ["Amazon.com", "Gmail", "Facebook", "Google Drive"], correctIndex: 0 },
+        { text: "What is online banking?", options: ["Banking services over internet", "ATM only", "Credit card only", "Mobile payment only"], correctIndex: 0 },
+        { text: "What is e-business?", options: ["Conducting business electronically", "Email marketing", "Online shopping only", "Digital marketing"], correctIndex: 0 },
+        { text: "What is an example of e-Governance in Sri Lanka?", options: ["www.gov.lk", "www.google.lk", "www.facebook.com", "www.youtube.com"], correctIndex: 0 },
+        { text: "What is the purpose of ICT in agriculture?", options: ["Weather info, market prices, crop management", "Farm machinery", "Pesticides", "Seeds"], correctIndex: 0 },
+        { text: "What is a School Management System?", options: ["Software to manage school operations", "Library system", "Exam system", "Attendance only"], correctIndex: 0 },
+        { text: "What is tele-conferencing?", options: ["Remote meeting using ICT", "Telephone call", "Video call only", "Conference call"], correctIndex: 0 },
+        { text: "What is distance education?", options: ["Learning without physical presence", "Online degree only", "Correspondence course", "All of above"], correctIndex: 3 },
+        { text: "Which medical device uses ICT for diagnosis?", options: ["CT Scanner", "Stethoscope", "Thermometer", "Blood pressure monitor"], correctIndex: 0 },
+        { text: "What is an example of ICT in transportation?", options: ["GPS navigation", "Traffic lights", "Railway reservation", "All of above"], correctIndex: 3 },
+        { text: "What is online employment/freelancing?", options: ["Working remotely via internet", "Office job", "Factory job", "Retail job"], correctIndex: 0 },
+        { text: "What is the benefit of ICT in education?", options: ["Access to global resources", "Reduces teacher role", "Expensive", "Complex"], correctIndex: 0 },
+        { text: "What is digital signature?", options: ["Electronic authentication of digital documents", "Handwritten signature scan", "Password", "Biometric"], correctIndex: 0 },
+        
+        // ICT Careers (21-40)
+        { text: "What does a Software Engineer do?", options: ["Designs and develops software", "Manages network", "Designs databases", "Manages IT projects"], correctIndex: 0 },
+        { text: "What does a Database Administrator (DBA) do?", options: ["Manages and maintains databases", "Develops software", "Designs websites", "Manages networks"], correctIndex: 0 },
+        { text: "What does a Network Administrator do?", options: ["Manages computer networks", "Develops software", "Designs graphics", "Manages databases"], correctIndex: 0 },
+        { text: "What does a Web Developer do?", options: ["Creates websites and web applications", "Manages databases", "Designs graphics", "Manages networks"], correctIndex: 0 },
+        { text: "What does a Graphic Designer do?", options: ["Creates visual content and graphics", "Writes code", "Manages servers", "Handles security"], correctIndex: 0 },
+        { text: "What does an IT Project Manager do?", options: ["Plans and manages IT projects", "Writes code", "Designs databases", "Manages networks"], correctIndex: 0 },
+        { text: "What does a Cyber Security Analyst do?", options: ["Protects systems from cyber threats", "Develops software", "Manages databases", "Designs websites"], correctIndex: 0 },
+        { text: "What does a Quality Assurance (QA) Engineer do?", options: ["Tests software for bugs", "Develops software", "Manages projects", "Designs UI"], correctIndex: 0 },
+        { text: "What does a System Administrator do?", options: ["Manages computer systems and servers", "Develops apps", "Designs graphics", "Manages databases"], correctIndex: 0 },
+        { text: "What does a Data Scientist do?", options: ["Analyzes complex data", "Manages network", "Develops games", "Designs websites"], correctIndex: 0 },
+        { text: "What does a DevOps Engineer do?", options: ["Manages development and operations", "Writes code only", "Manages databases only", "Designs UI"], correctIndex: 0 },
+        { text: "What does a UI/UX Designer do?", options: ["Designs user interface and experience", "Manages servers", "Writes backend code", "Manages databases"], correctIndex: 0 },
+        { text: "What does a Technical Support Specialist do?", options: ["Provides technical assistance to users", "Develops software", "Manages network", "Designs databases"], correctIndex: 0 },
+        { text: "What does a Cloud Architect do?", options: ["Designs cloud computing strategies", "Manages on-premise servers", "Develops mobile apps", "Designs graphics"], correctIndex: 0 },
+        { text: "What is an ICT career path?", options: ["Professional growth in ICT field", "One job only", "Degree only", "Certification only"], correctIndex: 0 },
+        { text: "Which skill is essential for ICT careers?", options: ["Problem-solving", "Cooking", "Driving", "Farming"], correctIndex: 0 },
+        { text: "What is a freelancer in ICT?", options: ["Self-employed ICT professional", "Company employee", "Government worker", "Student"], correctIndex: 0 },
+        { text: "Which platform offers ICT freelance jobs?", options: ["Upwork", "Amazon", "Google", "Microsoft"], correctIndex: 0 },
+        { text: "What is the role of a Business Analyst in ICT?", options: ["Analyzes business needs and IT solutions", "Writes code only", "Manages servers", "Designs graphics"], correctIndex: 0 },
+        { text: "What does an AI/Machine Learning Engineer do?", options: ["Develops AI models and algorithms", "Manages databases", "Designs websites", "Manages networks"], correctIndex: 0 },
+        
+        // Ethics, Cyber Security, E-Waste, Green Computing (41-70)
+        { text: "What is cybercrime?", options: ["Criminal activity using computers/internet", "Computer virus", "Hacking only", "Online fraud only"], correctIndex: 0 },
+        { text: "What is phishing?", options: ["Fraudulent attempt to steal sensitive information", "Fishing online", "Email spam", "Virus attack"], correctIndex: 0 },
+        { text: "What is hacking?", options: ["Unauthorized access to computer systems", "Legal access", "Computer repair", "Software development"], correctIndex: 0 },
+        { text: "What is software piracy?", options: ["Illegal copying/distribution of software", "Free software", "Open source", "Shareware"], correctIndex: 0 },
+        { text: "What is intellectual property?", options: ["Creations of the mind owned by creator", "Physical property", "Computer hardware", "Software only"], correctIndex: 0 },
+        { text: "What is copyright?", options: ["Legal right protecting original works", "Copying right", "Patent", "Trademark"], correctIndex: 0 },
+        { text: "What is plagiarism?", options: ["Using others' work without credit", "Legal citation", "Referencing", "Quoting"], correctIndex: 0 },
+        { text: "What is privacy in ICT?", options: ["Right to control personal information", "Public data", "Open access", "Free information"], correctIndex: 0 },
+        { text: "What is a firewall?", options: ["Network security system", "Physical wall", "Anti-virus only", "Software update"], correctIndex: 0 },
+        { text: "What is SLCERT?", options: ["Sri Lanka Computer Emergency Readiness Team", "Software License Certification", "Sri Lanka Cyber Emergency Team", "Security Certification"], correctIndex: 0 },
+        { text: "What is a strong password?", options: ["Mix of letters, numbers, symbols", "Simple word", "Birthdate", "Name only"], correctIndex: 0 },
+        { text: "What is two-factor authentication?", options: ["Two-step verification process", "Two passwords", "Two users", "Two devices"], correctIndex: 0 },
+        { text: "What is malware?", options: ["Malicious software (viruses, worms, trojans)", "Hardware", "Firmware", "Freeware"], correctIndex: 0 },
+        { text: "What is antivirus software?", options: ["Protects against malware", "Firewall", "Backup software", "Encryption tool"], correctIndex: 0 },
+        { text: "What is social engineering?", options: ["Psychological manipulation to get information", "Social media", "Networking", "Online chat"], correctIndex: 0 },
+        { text: "What is cyber stalking?", options: ["Harassment using electronic communication", "Online shopping", "Social media use", "Email marketing"], correctIndex: 0 },
+        { text: "What is e-waste?", options: ["Discarded electronic devices", "Email waste", "Electronic files", "Digital trash"], correctIndex: 0 },
+        { text: "What is green computing?", options: ["Environmentally responsible use of computers", "Green colored computers", "Energy saving only", "Recycling only"], correctIndex: 0 },
+        { text: "How can e-waste be reduced?", options: ["Reuse, recycle, reduce", "Dump in landfill", "Burn waste", "Export waste"], correctIndex: 0 },
+        { text: "What is UPS used for?", options: ["Protect against power outages", "Increase speed", "Store data", "Connect network"], correctIndex: 0 },
+        { text: "What is a surge protector?", options: ["Protects against voltage spikes", "Power supply", "Battery backup", "Network switch"], correctIndex: 0 },
+        { text: "What is data backup?", options: ["Copying data for recovery", "Deleting data", "Encrypting data", "Compressing data"], correctIndex: 0 },
+        { text: "What is encryption?", options: ["Converting data to secure format", "Deleting data", "Copying data", "Compressing data"], correctIndex: 0 },
+        { text: "What is RSI (Repetitive Strain Injury)?", options: ["Injury from repetitive computer use", "Virus infection", "Eye strain", "Back pain"], correctIndex: 0 },
+        { text: "What is CVS (Computer Vision Syndrome)?", options: ["Eye strain from computer use", "Carpal tunnel", "Back pain", "Headache"], correctIndex: 0 },
+        { text: "What is ergonomics?", options: ["Designing workspace for comfort and safety", "Computer science", "Networking", "Programming"], correctIndex: 0 },
+        { text: "What is ethical behavior in cyberspace?", options: ["Respecting others' privacy and rights online", "Hacking", "Piracy", "Spamming"], correctIndex: 0 },
+        { text: "What is the right way to dispose of e-waste?", options: ["Handover to authorized recyclers", "Throw in garbage", "Burn", "Bury"], correctIndex: 0 },
+        { text: "What is the purpose of e-law?", options: ["Legal framework for electronic transactions", "Email law", "Internet ban", "Computer tax"], correctIndex: 0 },
+        { text: "What is the Electronic Transactions Act in Sri Lanka?", options: ["Law recognizing electronic transactions", "Cyber crime law", "Privacy law", "Data protection law"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 70 questions
+    while(unit8_en.length < 70) {
+        unit8_en.push({ text: "What is a botnet?", options: ["Network of infected computers", "Robot network", "Search bot", "Chat bot"], correctIndex: 0 });
+    }
+    
+    // SINHALA VERSION - 70 questions
+    const unit8_si = [
+        { text: "ටෙලි වෛද්‍ය විද්‍යාව යනු කුමක්ද?", options: ["ICT භාවිතයෙන් දුරස්ථ සෞඛ්‍ය සේවා", "දුරකථන වෛද්‍ය විද්‍යාව", "රෝහල් මෘදුකාංග", "වෛද්‍ය උපාංගය"], correctIndex: 0 },
+        { text: "වි-ඉගෙනීම යනු කුමක්ද?", options: ["ඉලෙක්ට්‍රොනික තාක්ෂණය භාවිතයෙන් ඉගෙනීම", "ඉලෙක්ට්‍රොනික පුස්තකාලය", "මාර්ගගත විභාගය පමණි", "පාසල් මෘදුකාංග"], correctIndex: 0 },
+        { text: "වි-පාලනය යනු කුමක්ද?", options: ["ICT භාවිතයෙන් රාජ්‍ය සේවා", "ඉලෙක්ට්‍රොනික ඡන්දය", "රාජ්‍ය වෙබ් අඩවිය", "මාර්ගගත බදු ගෙවීම පමණි"], correctIndex: 0 },
+        { text: "ATM යනු කුමක්ද?", options: ["ස්වයංක්‍රීය මුදල් බෙදාහැරීමේ යන්ත්‍රය", "ස්වයංක්‍රීය මාරු කිරීමේ යන්ත්‍රය", "ස්වයංක්‍රීය ගනුදෙනු යන්ත්‍රය", "සියලු කාලයේ මුදල්"], correctIndex: 0 },
+        { text: "MRI ස්කෑනය භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["වෛද්‍ය රූපකරණය", "පරිගණක ස්කෑනය", "ජාල ස්කෑනය", "ගොනු ස්කෑනය"], correctIndex: 0 },
+        { text: "ඉගෙනුම් කළමනාකරණ පද්ධතියක් (LMS) යනු කුමක්ද?", options: ["අධ්‍යාපන පාඨමාලා බෙදා හැරීමේ මෘදුකාංග", "පාසල් දත්ත සමුදාය", "ශිෂ්ය ලියාපදිංචිය", "විභාග පද්ධතිය"], correctIndex: 0 },
+        { text: "වි-වාණිජ්‍යය යනු කුමක්ද?", options: ["මාර්ගගත මිලදී ගැනීම් සහ විකිණීම්", "ඉලෙක්ට්‍රොනික තැපෑල", "මාර්ගගත බැංකුකරණය", "සමාජ මාධ්‍ය"], correctIndex: 0 },
+        { text: "පහත සඳහන් දෙයින් වි-වාණිජ්‍යයට උදාහරණයක් කුමක්ද?", options: ["Amazon.com", "Gmail", "ෆේස්බුක්", "ගූගල් ඩ්‍රයිව්"], correctIndex: 0 },
+        { text: "මාර්ගගත බැංකුකරණය යනු කුමක්ද?", options: ["අන්තර්ජාලය හරහා බැංකු සේවා", "ATM පමණි", "ක්‍රෙඩිට් කාඩ් පමණි", "ජංගම ගෙවීම් පමණි"], correctIndex: 0 },
+        { text: "වි-ව්‍යාපාර යනු කුමක්ද?", options: ["ඉලෙක්ට්‍රොනිකව ව්‍යාපාර පැවැත්වීම", "විද්‍යුත් තැපැල් අලෙවිකරණය", "මාර්ගගත සාප්පු සවාරි පමණි", "ඩිජිටල් අලෙවිකරණය"], correctIndex: 0 },
+        { text: "ශ්‍රී ලංකාවේ වි-පාලනය සඳහා උදාහරණයක් කුමක්ද?", options: ["www.gov.lk", "www.google.lk", "www.facebook.com", "www.youtube.com"], correctIndex: 0 },
+        { text: "කෘෂිකර්මාන්තයේ ICT හි අරමුණ කුමක්ද?", options: ["කාලගුණ තොරතුරු, වෙළඳපල මිල, බෝග කළමනාකරණය", "ගොවිපල යන්ත්‍රෝපකරණ", "පළිබෝධනාශක", "බීජ"], correctIndex: 0 },
+        { text: "පාසල් කළමනාකරණ පද්ධතියක් යනු කුමක්ද?", options: ["පාසල් මෙහෙයුම් කළමනාකරණය කරන මෘදුකාංග", "පුස්තකාල පද්ධතිය", "විභාග පද්ධතිය", "පැමිණීම පමණි"], correctIndex: 0 },
+        { text: "ටෙලි-සම්මන්ත්‍රණය යනු කුමක්ද?", options: ["ICT භාවිතයෙන් දුරස්ථ රැස්වීම", "දුරකථන ඇමතුම", "වීඩියෝ ඇමතුම පමණි", "සම්මන්ත්‍රණ ඇමතුම"], correctIndex: 0 },
+        { text: "දුරස්ථ අධ්‍යාපනය යනු කුමක්ද?", options: ["භෞතික පැමිණීමකින් තොරව ඉගෙනීම", "මාර්ගගත උපාධිය පමණි", "ලිපි පාඨමාලා", "ඉහත සියල්ල"], correctIndex: 3 },
+        { text: "රෝග විනිශ්චය සඳහා ICT භාවිතා කරන වෛද්‍ය උපාංගය කුමක්ද?", options: ["CT ස්කෑනරය", "ස්ටෙතොස්කෝපය", "උෂ්ණත්වමානය", "රුධිර පීඩන මාපකය"], correctIndex: 0 },
+        { text: "ප්‍රවාහනයේදී ICT සඳහා උදාහරණයක් කුමක්ද?", options: ["GPS නාවිකකරණය", "රථවාහන ලයිට්", "දුම්රිය වෙන්කිරීම", "ඉහත සියල්ල"], correctIndex: 3 },
+        { text: "මාර්ගගත රැකියා/නිදහස් වැඩ යනු කුමක්ද?", options: ["අන්තර්ජාලය හරහා දුරස්ථව වැඩ කිරීම", "කාර්යාලීය රැකියාව", "කර්මාන්තශාලා රැකියාව", "සිල්ලර රැකියාව"], correctIndex: 0 },
+        { text: "අධ්‍යාපනයේ ICT හි ප්‍රතිලාභය කුමක්ද?", options: ["ගෝලීය සම්පත් වෙත ප්‍රවේශය", "ගුරු කාර්යභාරය අඩු කරයි", "මිල අධිකයි", "සංකීර්ණයි"], correctIndex: 0 },
+        { text: "ඩිජිටල් අත්සන යනු කුමක්ද?", options: ["ඩිජිටල් ලේඛනවල ඉලෙක්ට්‍රොනික සත්‍යාපනය", "අතින් ලියූ අත්සනේ ස්කෑනය", "මුරපදය", "ජෛවමිතික"], correctIndex: 0 },
+        
+        // ICT Careers Sinhala
+        { text: "මෘදුකාංග ඉංජිනේරුවෙකු කරන්නේ කුමක්ද?", options: ["මෘදුකාංග සැලසුම් කර සංවර්ධනය කරයි", "ජාලය කළමනාකරණය කරයි", "දත්ත සමුදා සැලසුම් කරයි", "IT ව්‍යාපෘති කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "දත්ත සමුදා පරිපාලකයෙකු (DBA) කරන්නේ කුමක්ද?", options: ["දත්ත සමුදා කළමනාකරණය සහ නඩත්තු කරයි", "මෘදුකාංග සංවර්ධනය කරයි", "වෙබ් අඩවි සැලසුම් කරයි", "ජාල කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "ජාල පරිපාලකයෙකු කරන්නේ කුමක්ද?", options: ["පරිගණක ජාල කළමනාකරණය කරයි", "මෘදුකාංග සංවර්ධනය කරයි", "ග්‍රැෆික් සැලසුම් කරයි", "දත්ත සමුදා කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "වෙබ් සංවර්ධකයෙකු කරන්නේ කුමක්ද?", options: ["වෙබ් අඩවි සහ වෙබ් යෙදුම් නිර්මාණය කරයි", "දත්ත සමුදා කළමනාකරණය කරයි", "ග්‍රැෆික් සැලසුම් කරයි", "ජාල කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "ග්‍රැෆික් නිර්මාණකරුවෙකු කරන්නේ කුමක්ද?", options: ["දෘශ්‍ය අන්තර්ගතය සහ ග්‍රැෆික් නිර්මාණය කරයි", "කේත ලියයි", "සේවාදායක කළමනාකරණය කරයි", "ආරක්ෂාව හසුරුවයි"], correctIndex: 0 },
+        { text: "IT ව්‍යාපෘති කළමනාකරුවෙකු කරන්නේ කුමක්ද?", options: ["IT ව්‍යාපෘති සැලසුම් කර කළමනාකරණය කරයි", "කේත ලියයි", "දත්ත සමුදා සැලසුම් කරයි", "ජාල කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "සයිබර් ආරක්ෂක විශ්ලේෂකයෙකු කරන්නේ කුමක්ද?", options: ["සයිබර් තර්ජන වලින් පද්ධති ආරක්ෂා කරයි", "මෘදුකාංග සංවර්ධනය කරයි", "දත්ත සමුදා කළමනාකරණය කරයි", "වෙබ් අඩවි සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "ගුණත්ව සහතික (QA) ඉංජිනේරුවෙකු කරන්නේ කුමක්ද?", options: ["දෝෂ සඳහා මෘදුකාංග පරීක්ෂා කරයි", "මෘදුකාංග සංවර්ධනය කරයි", "ව්‍යාපෘති කළමනාකරණය කරයි", "UI සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "පද්ධති පරිපාලකයෙකු කරන්නේ කුමක්ද?", options: ["පරිගණක පද්ධති සහ සේවාදායක කළමනාකරණය කරයි", "යෙදුම් සංවර්ධනය කරයි", "ග්‍රැෆික් සැලසුම් කරයි", "දත්ත සමුදා කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "දත්ත විද්‍යාඥයෙකු කරන්නේ කුමක්ද?", options: ["සංකීර්ණ දත්ත විශ්ලේෂණය කරයි", "ජාල කළමනාකරණය කරයි", "ක්‍රීඩා සංවර්ධනය කරයි", "වෙබ් අඩවි සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "DevOps ඉංජිනේරුවෙකු කරන්නේ කුමක්ද?", options: ["සංවර්ධනය සහ මෙහෙයුම් කළමනාකරණය කරයි", "කේත පමණක් ලියයි", "දත්ත සමුදා පමණක් කළමනාකරණය කරයි", "UI සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "UI/UX නිර්මාණකරුවෙකු කරන්නේ කුමක්ද?", options: ["පරිශීලක අතුරුමුහුණත සහ අත්දැකීම සැලසුම් කරයි", "සේවාදායක කළමනාකරණය කරයි", "පසුපස කේත ලියයි", "දත්ත සමුදා කළමනාකරණය කරයි"], correctIndex: 0 },
+        { text: "තාක්ෂණික සහාය විශේෂඥයෙකු කරන්නේ කුමක්ද?", options: ["පරිශීලකයින්ට තාක්ෂණික සහාය සපයයි", "මෘදුකාංග සංවර්ධනය කරයි", "ජාල කළමනාකරණය කරයි", "දත්ත සමුදා සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "වලාකුළු ගෘහ නිර්මාණ ශිල්පියෙකු කරන්නේ කුමක්ද?", options: ["වලාකුළු පරිගණක උපාය මාර්ග සැලසුම් කරයි", "ස්ථානීය සේවාදායක කළමනාකරණය කරයි", "ජංගම යෙදුම් සංවර්ධනය කරයි", "ග්‍රැෆික් සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "ICT වෘත්තීය මාර්ගයක් යනු කුමක්ද?", options: ["ICT ක්ෂේත්‍රයේ වෘත්තීය වර්ධනය", "එක් රැකියාවක් පමණි", "උපාධිය පමණි", "සහතික කිරීම පමණි"], correctIndex: 0 },
+        { text: "ICT රැකියා සඳහා අත්‍යවශ්‍ය කුසලතාව කුමක්ද?", options: ["ගැටළු විසඳීම", "ඉවුම් පිහුම්", "රිය පැදවීම", "ගොවිතැන"], correctIndex: 0 },
+        { text: "ICT හි නිදහස් සේවකයෙකු යනු කුමක්ද?", options: ["ස්වයං රැකියා කරන ICT වෘත්තිකයා", "සමාගම් සේවකයෙක්", "රාජ්‍ය සේවකයෙක්", "ශිෂ්‍යයෙක්"], correctIndex: 0 },
+        { text: "ICT නිදහස් රැකියා ලබා දෙන වේදිකාව කුමක්ද?", options: ["Upwork", "Amazon", "Google", "Microsoft"], correctIndex: 0 },
+        { text: "ICT හි ව්‍යාපාර විශ්ලේෂකයෙකුගේ කාර්යභාරය කුමක්ද?", options: ["ව්‍යාපාර අවශ්‍යතා සහ IT විසඳුම් විශ්ලේෂණය කරයි", "කේත පමණක් ලියයි", "සේවාදායක කළමනාකරණය කරයි", "ග්‍රැෆික් සැලසුම් කරයි"], correctIndex: 0 },
+        { text: "AI/යන්ත්‍ර ඉගෙනුම් ඉංජිනේරුවෙකු කරන්නේ කුමක්ද?", options: ["AI ආකෘති සහ ඇල්ගොරිතම සංවර්ධනය කරයි", "දත්ත සමුදා කළමනාකරණය කරයි", "වෙබ් අඩවි සැලසුම් කරයි", "ජාල කළමනාකරණය කරයි"], correctIndex: 0 },
+        
+        // Ethics & Security Sinhala
+        { text: "සයිබර් අපරාධය යනු කුමක්ද?", options: ["පරිගණක/අන්තර්ජාලය භාවිතා කරන අපරාධ ක්‍රියාකාරකම්", "පරිගණක වෛරසය", "හැකි කිරීම පමණි", "මාර්ගගත වංචාව පමණි"], correctIndex: 0 },
+        { text: "මසුන් ඇල්ලීම (Phishing) යනු කුමක්ද?", options: ["සංවේදී තොරතුරු සොරකම් කිරීමේ වංචනික උත්සාහය", "මාර්ගගත මසුන් ඇල්ලීම", "විද්‍යුත් තැපැල් අයාචිත තැපෑල", "වෛරස් ප්‍රහාරය"], correctIndex: 0 },
+        { text: "හැකි කිරීම යනු කුමක්ද?", options: ["පරිගණක පද්ධතිවලට අනවසර ප්‍රවේශය", "නීත්‍යානුකූල ප්‍රවේශය", "පරිගණක අලුත්වැඩියාව", "මෘදුකාංග සංවර්ධනය"], correctIndex: 0 },
+        { text: "මෘදුකාංග ව්‍යාජ පිටපත් කිරීම යනු කුමක්ද?", options: ["මෘදුකාංග නීති විරෝධීව පිටපත් කිරීම/බෙදා හැරීම", "නිදහස් මෘදුකාංග", "විවෘත මූලාශ්‍ර", "බෙදාගැනීමේ මෘදුකාංග"], correctIndex: 0 },
+        { text: "බුද්ධිමය දේපළ යනු කුමක්ද?", options: ["නිර්මාණකරුට අයත් මනසෙහි නිර්මාණ", "භෞතික දේපළ", "පරිගණක දෘඪාංග", "මෘදුකාංග පමණි"], correctIndex: 0 },
+        { text: "ප්‍රකාශන හිමිකම යනු කුමක්ද?", options: ["මුල් කෘති ආරක්ෂා කරන නීතිමය අයිතිය", "පිටපත් කිරීමේ අයිතිය", "පේටන්ට් බලපත්‍රය", "වෙළඳ ලකුණ"], correctIndex: 0 },
+        { text: "සාහිත්‍ය සොරකම (Plagiarism) යනු කුමක්ද?", options: ["අන් අයගේ කාර්යය ණය පිළිගැනීමකින් තොරව භාවිතා කිරීම", "නීත්‍යානුකූල උපුටා දැක්වීම", "යොමු කිරීම", "උපුටා දැක්වීම"], correctIndex: 0 },
+        { text: "ICT හි පෞද්ගලිකත්වය යනු කුමක්ද?", options: ["පුද්ගලික තොරතුරු පාලනය කිරීමේ අයිතිය", "පොදු දත්ත", "විවෘත ප්‍රවේශය", "නිදහස් තොරතුරු"], correctIndex: 0 },
+        { text: "ගිනි පවුරක් (Firewall) යනු කුමක්ද?", options: ["ජාල ආරක්ෂක පද්ධතිය", "භෞතික බිත්තිය", "ප්‍රති-වයිරස පමණි", "මෘදුකාංග යාවත්කාලීන කිරීම"], correctIndex: 0 },
+        { text: "SLCERT යනු කුමක්ද?", options: ["ශ්‍රී ලංකා පරිගණක හදිසි සූදානම් කණ්ඩායම", "මෘදුකාංග බලපත්‍ර සහතික කිරීම", "ශ්‍රී ලංකා සයිබර් හදිසි කණ්ඩායම", "ආරක්ෂක සහතික කිරීම"], correctIndex: 0 },
+        { text: "ශක්තිමත් මුරපදයක් යනු කුමක්ද?", options: ["අකුරු, සංඛ්‍යා, සංකේත මිශ්‍රණයක්", "සරල වචනයක්", "උපන් දිනය", "නම පමණි"], correctIndex: 0 },
+        { text: "සාධක දෙකක සත්‍යාපනය යනු කුමක්ද?", options: ["පියවර දෙකක සත්‍යාපන ක්‍රියාවලිය", "මුරපද දෙකක්", "පරිශීලකයින් දෙදෙනෙක්", "උපාංග දෙකක්"], correctIndex: 0 },
+        { text: "අනිෂ්ට මෘදුකාංග (Malware) යනු කුමක්ද?", options: ["වෛරස්, පණුවන්, ට්‍රෝජන් වැනි හානිකර මෘදුකාංග", "දෘඪාංග", "ස්ථිරාංග", "නිදහස් මෘදුකාංග"], correctIndex: 0 },
+        { text: "ප්‍රති-වයිරස මෘදුකාංග යනු කුමක්ද?", options: ["අනිෂ්ට මෘදුකාංග වලින් ආරක්ෂා කරයි", "ගිනි පවුර", "උපස්ථ මෘදුකාංග", "ගුප්තකේතන මෙවලම"], correctIndex: 0 },
+        { text: "සමාජ ඉංජිනේරු විද්‍යාව යනු කුමක්ද?", options: ["තොරතුරු ලබා ගැනීමට මානසික උපායශීලීත්වය", "සමාජ මාධ්‍ය", "ජාලකරණය", "මාර්ගගත කතාබහ"], correctIndex: 0 },
+        { text: "සයිබර් හිංසා කිරීම යනු කුමක්ද?", options: ["ඉලෙක්ට්‍රොනික සන්නිවේදනය භාවිතයෙන් හිංසා කිරීම", "මාර්ගගත සාප්පු සවාරි", "සමාජ මාධ්‍ය භාවිතය", "විද්‍යුත් තැපැල් අලෙවිකරණය"], correctIndex: 0 },
+        { text: "වි-අපද්‍රව්‍ය (E-waste) යනු කුමක්ද?", options: ["ඉවතලන ඉලෙක්ට්‍රොනික උපාංග", "විද්‍යුත් තැපැල් අපද්‍රව්‍ය", "ඉලෙක්ට්‍රොනික ගොනු", "ඩිජිටල් කුණු"], correctIndex: 0 },
+        { text: "හරිත පරිගණකකරණය යනු කුමක්ද?", options: ["පාරිසරික වශයෙන් වගකිවයුතු පරිගණක භාවිතය", "හරිත පැහැති පරිගණක", "බලශක්ති ඉතිරිකිරීම පමණි", "ප්‍රතිචක්‍රීකරණය පමණි"], correctIndex: 0 },
+        { text: "වි-අපද්‍රව්‍ය අඩු කරන්නේ කෙසේද?", options: ["නැවත භාවිතය, ප්‍රතිචක්‍රීකරණය, අඩු කිරීම", "ගොඩකිරීමේ බිමක බැහැර කිරීම", "අපද්‍රව්‍ය පුළුස්සා දැමීම", "අපද්‍රව්‍ය අපනයනය"], correctIndex: 0 },
+        { text: "UPS භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["විදුලිය ඇනහිටීම් වලින් ආරක්ෂා වීමට", "වේගය වැඩි කිරීමට", "දත්ත ගබඩා කිරීමට", "ජාලය සම්බන්ධ කිරීමට"], correctIndex: 0 },
+        { text: "සර්ජ් ආරක්ෂකයක් යනු කුමක්ද?", options: ["වෝල්ටීයතා වැඩිවීම් වලින් ආරක්ෂා කරයි", "බල සැපයුම", "බැටරි උපස්ථය", "ජාල ස්විචය"], correctIndex: 0 },
+        { text: "දත්ත උපස්ථය යනු කුමක්ද?", options: ["ප්‍රතිසාධනය සඳහා දත්ත පිටපත් කිරීම", "දත්ත මකා දැමීම", "දත්ත ගුප්තකේතනය කිරීම", "දත්ත සම්පීඩනය"], correctIndex: 0 },
+        { text: "ගුප්තකේතනය යනු කුමක්ද?", options: ["දත්ත ආරක්ෂිත ආකෘතියකට පරිවර්තනය කිරීම", "දත්ත මකා දැමීම", "දත්ත පිටපත් කිරීම", "දත්ත සම්පීඩනය"], correctIndex: 0 },
+        { text: "RSI (පුනරාවර්තන ආතති තුවාලය) යනු කුමක්ද?", options: ["නැවත නැවත පරිගණක භාවිතයෙන් සිදුවන තුවාලය", "වෛරස් ආසාදනය", "ඇස් ආතතිය", "පිටුපස වේදනාව"], correctIndex: 0 },
+        { text: "CVS (පරිගණක දර්ශන සින්ඩ්‍රෝමය) යනු කුමක්ද?", options: ["පරිගණක භාවිතයෙන් ඇස් ආතතිය", "කාපල් ටන්ල්", "පිටුපස වේදනාව", "හිසරදය"], correctIndex: 0 },
+        { text: "එර්ගොනොමික්ස් යනු කුමක්ද?", options: ["සුවපහසුව සහ ආරක්ෂාව සඳහා වැඩබිම සැලසුම් කිරීම", "පරිගණක විද්‍යාව", "ජාලකරණය", "ක්‍රමලේඛනය"], correctIndex: 0 },
+        { text: "සයිබර් අවකාශයේ සදාචාරාත්මක හැසිරීම යනු කුමක්ද?", options: ["මාර්ගගතව අන් අයගේ පෞද්ගලිකත්වයට ගරු කිරීම", "හැකි කිරීම", "ව්‍යාජ පිටපත් කිරීම", "අයාචිත තැපෑල"], correctIndex: 0 },
+        { text: "වි-අපද්‍රව්‍ය බැහැර කිරීමේ නිවැරදි ක්‍රමය කුමක්ද?", options: ["බලයලත් ප්‍රතිචක්‍රීකරණය කරන්නන්ට භාර දීම", "කුණු කූඩයට දැමීම", "පුළුස්සා දැමීම", "වළලනු"], correctIndex: 0 },
+        { text: "වි-නීතියේ අරමුණ කුමක්ද?", options: ["ඉලෙක්ට්‍රොනික ගනුදෙනු සඳහා නීතිමය රාමුව", "විද්‍යුත් තැපැල් නීතිය", "අන්තර්ජාල තහනම", "පරිගණක බද්ද"], correctIndex: 0 },
+        { text: "ශ්‍රී ලංකාවේ ඉලෙක්ට්‍රොනික ගනුදෙනු පනත යනු කුමක්ද?", options: ["ඉලෙක්ට්‍රොනික ගනුදෙනු හඳුනාගන්නා නීතිය", "සයිබර් අපරාධ නීතිය", "පෞද්ගලිකත්ව නීතිය", "දත්ත ආරක්ෂණ නීතිය"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 70 questions in Sinhala
+    while(unit8_si.length < 70) {
+        unit8_si.push({ text: "බොට්නෙට් එකක් යනු කුමක්ද?", options: ["ආසාදිත පරිගණක ජාලයක්", "රොබෝ ජාලයක්", "සෙවුම් බොට්", "කතාබහ බොට්"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit8_en : unit8_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>

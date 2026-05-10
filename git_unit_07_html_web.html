@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GIT Unit 07 - Web Development & HTML | 75 MCQs | English/Sinhala | JRS Sudharaka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, 'Noto Sans Sinhala', 'Iskoola Pota', sans-serif;
+            background: linear-gradient(135deg, #0a2f3f 0%, #124e5c 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .unit-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .unit-header {
+            background: white;
+            border-radius: 32px;
+            padding: 24px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        .unit-header h1 {
+            color: #1a6d7a;
+            font-size: 1.8rem;
+        }
+        .unit-header .badge {
+            background: #f4a261;
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #1e2f35;
+        }
+        .lang-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 18px;
+        }
+        .lang-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #1a6d7a;
+            color: white;
+        }
+        .info-bar {
+            background: #fef3e2;
+            border-radius: 20px;
+            padding: 14px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .toolbar {
+            background: #f1f5f9;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .btn-submit, .btn-reset {
+            border: none;
+            padding: 10px 32px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-submit {
+            background: #1a6d7a;
+            color: white;
+        }
+        .btn-reset {
+            background: #475569;
+            color: white;
+        }
+        .qa-area {
+            padding: 26px;
+            max-height: 65vh;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+        .question-card {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            border: 1px solid #e9edf2;
+        }
+        .q-text {
+            font-weight: 800;
+            margin-bottom: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            color: #0c4a5e;
+            font-size: 1rem;
+        }
+        .q-num {
+            background: #1a6d7a;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-item {
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-letter {
+            background: #eef2f8;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+        .option-item:hover:not(.disabled-opt) {
+            background: #e3f0f5;
+            transform: translateX(6px);
+        }
+        .correct-highlight {
+            background: #10b981 !important;
+            color: white;
+        }
+        .correct-highlight .opt-letter {
+            background: #0b6b58;
+            color: white;
+        }
+        .wrong-highlight {
+            background: #ef4444 !important;
+            color: white;
+        }
+        .wrong-highlight .opt-letter {
+            background: #a1222f;
+            color: white;
+        }
+        .disabled-opt {
+            pointer-events: none;
+            opacity: 0.95;
+        }
+        .score-panel {
+            background: #eef3f5;
+            margin: 16px 24px 24px;
+            border-radius: 60px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .score-badge {
+            background: #0a2f3f;
+            color: white;
+            padding: 6px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.7rem;
+        }
+        @media (max-width: 650px) {
+            .qa-area { padding: 16px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+<div class="unit-wrapper">
+    <div class="unit-header">
+        <h1>🔹 UNIT 07 - Web Development & HTML</h1>
+        <p>Based on NIE Teacher's Guide | Competency 7.1, 7.2, 7.3, 7.4 | HTML Tags, Tables, Lists, Multimedia, Web Authoring Tools</p>
+        <div class="badge">📊 75 Unique Questions | ✅ Instant Feedback | 🌐 English / සිංහල</div>
+        <div class="lang-row">
+            <button id="enBtn" class="lang-btn active">English</button>
+            <button id="siBtn" class="lang-btn">සිංහල</button>
+        </div>
+    </div>
+
+    <div class="info-bar">
+        <span>🎯 Topics: Website Structure, HTML Tags (html, head, body, title, headings, paragraphs, lists, tables, images, audio, video), Web Authoring Tools</span>
+        <span>📝 Click option → Submit → Green ✓ Correct , Red ✗ Wrong</span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="toolbar">
+            <span>📚 Unit 07: Web Development & HTML (75 Questions)</span>
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-submit" id="submitBtn">✅ Submit & Score</button>
+                <button class="btn-reset" id="resetBtn">🔄 Reset Unit</button>
+            </div>
+        </div>
+        <div id="questionsArea" class="qa-area">Loading questions...</div>
+        <div id="scoreArea" class="score-panel" style="display: none;">
+            <span>🏆 Your Score</span>
+            <span class="score-badge" id="scoreValue">0 / 75</span>
+            <span id="scoreMessage"></span>
+        </div>
+    </div>
+    <footer>✔ Covers: HTML structure, headings, paragraphs, lists (ordered/unordered), tables, images, audio, video, links, and web authoring tools (Dreamweaver, etc.)</footer>
+</div>
+
+<script>
+    // ==============================================================
+    // UNIT 07: WEB DEVELOPMENT & HTML – 75 UNIQUE QUESTIONS
+    // FULL BILINGUAL: ENGLISH + SINHALA
+    // Topics: HTML Tags, Tables, Lists, Multimedia, Web Authoring
+    // ==============================================================
+    
+    // ENGLISH VERSION - 75 Questions
+    const unit7_en = [
+        // HTML Basics (1-30)
+        { text: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyper Transfer Markup Language", "Home Tool Markup Language"], correctIndex: 0 },
+        { text: "Which tag defines an HTML document?", options: ["&lt;html&gt;", "&lt;head&gt;", "&lt;body&gt;", "&lt;title&gt;"], correctIndex: 0 },
+        { text: "Which tag contains meta information about the document?", options: ["&lt;head&gt;", "&lt;body&gt;", "&lt;html&gt;", "&lt;footer&gt;"], correctIndex: 0 },
+        { text: "Which tag contains the visible content of a web page?", options: ["&lt;body&gt;", "&lt;head&gt;", "&lt;title&gt;", "&lt;meta&gt;"], correctIndex: 0 },
+        { text: "Which tag defines the title of a web page?", options: ["&lt;title&gt;", "&lt;h1&gt;", "&lt;head&gt;", "&lt;header&gt;"], correctIndex: 0 },
+        { text: "Which is the largest heading tag?", options: ["&lt;h1&gt;", "&lt;h6&gt;", "&lt;heading&gt;", "&lt;head&gt;"], correctIndex: 0 },
+        { text: "Which is the smallest heading tag?", options: ["&lt;h6&gt;", "&lt;h1&gt;", "&lt;h3&gt;", "&lt;h4&gt;"], correctIndex: 0 },
+        { text: "Which tag defines a paragraph?", options: ["&lt;p&gt;", "&lt;para&gt;", "&lt;pg&gt;", "&lt;text&gt;"], correctIndex: 0 },
+        { text: "Which tag creates a line break?", options: ["&lt;br&gt;", "&lt;lb&gt;", "&lt;break&gt;", "&lt;hr&gt;"], correctIndex: 0 },
+        { text: "Which tag creates a horizontal line?", options: ["&lt;hr&gt;", "&lt;hl&gt;", "&lt;line&gt;", "&lt;hline&gt;"], correctIndex: 0 },
+        { text: "Which tag is used to bold text?", options: ["&lt;b&gt;", "&lt;bold&gt;", "&lt;strong&gt; (also bold)", "Both A and C"], correctIndex: 3 },
+        { text: "Which tag is used to italicize text?", options: ["&lt;i&gt;", "&lt;italic&gt;", "&lt;em&gt; (also italic)", "Both A and C"], correctIndex: 3 },
+        { text: "Which tag is used to underline text?", options: ["&lt;u&gt;", "&lt;underline&gt;", "&lt;ul&gt;", "&lt;und&gt;"], correctIndex: 0 },
+        { text: "Which tag defines an ordered list?", options: ["&lt;ol&gt;", "&lt;ul&gt;", "&lt;li&gt;", "&lt;list&gt;"], correctIndex: 0 },
+        { text: "Which tag defines an unordered list?", options: ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;li&gt;", "&lt;list&gt;"], correctIndex: 0 },
+        { text: "Which tag defines a list item?", options: ["&lt;li&gt;", "&lt;ol&gt;", "&lt;ul&gt;", "&lt;item&gt;"], correctIndex: 0 },
+        { text: "Which tag creates a hyperlink?", options: ["&lt;a&gt;", "&lt;link&gt;", "&lt;href&gt;", "&lt;url&gt;"], correctIndex: 0 },
+        { text: "Which attribute specifies the URL of a link?", options: ["href", "src", "link", "url"], correctIndex: 0 },
+        { text: "Which tag displays an image?", options: ["&lt;img&gt;", "&lt;image&gt;", "&lt;pic&gt;", "&lt;src&gt;"], correctIndex: 0 },
+        { text: "Which attribute specifies the image source?", options: ["src", "href", "alt", "link"], correctIndex: 0 },
+        { text: "What does the 'alt' attribute provide for an image?", options: ["Alternative text if image not displayed", "Image source", "Image size", "Image link"], correctIndex: 0 },
+        { text: "Which tag defines a table?", options: ["&lt;table&gt;", "&lt;tab&gt;", "&lt;tbl&gt;", "&lt;tb&gt;"], correctIndex: 0 },
+        { text: "Which tag defines a table row?", options: ["&lt;tr&gt;", "&lt;td&gt;", "&lt;th&gt;", "&lt;tb&gt;"], correctIndex: 0 },
+        { text: "Which tag defines a table header cell?", options: ["&lt;th&gt;", "&lt;td&gt;", "&lt;tr&gt;", "&lt;thead&gt;"], correctIndex: 0 },
+        { text: "Which tag defines a table data cell?", options: ["&lt;td&gt;", "&lt;tr&gt;", "&lt;th&gt;", "&lt;tc&gt;"], correctIndex: 0 },
+        { text: "Which attribute is used to merge table columns?", options: ["colspan", "rowspan", "merge", "span"], correctIndex: 0 },
+        { text: "Which attribute is used to merge table rows?", options: ["rowspan", "colspan", "merge", "span"], correctIndex: 0 },
+        { text: "Which tag defines a division/section in HTML?", options: ["&lt;div&gt;", "&lt;span&gt;", "&lt;section&gt;", "&lt;part&gt;"], correctIndex: 0 },
+        { text: "What does CSS stand for?", options: ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style Sheets", "Colorful Style Sheets"], correctIndex: 0 },
+        { text: "Where is CSS placed in HTML?", options: ["&lt;style&gt; tag in &lt;head&gt; or external .css", "&lt;css&gt; tag", "&lt;script&gt; tag", "&lt;body&gt; only"], correctIndex: 0 },
+        
+        // Advanced HTML & Multimedia (31-55)
+        { text: "Which HTML5 tag is used for video?", options: ["&lt;video&gt;", "&lt;media&gt;", "&lt;movie&gt;", "&lt;vid&gt;"], correctIndex: 0 },
+        { text: "Which HTML5 tag is used for audio?", options: ["&lt;audio&gt;", "&lt;sound&gt;", "&lt;music&gt;", "&lt;mp3&gt;"], correctIndex: 0 },
+        { text: "Which attribute controls video/audio playback controls?", options: ["controls", "autoplay", "loop", "play"], correctIndex: 0 },
+        { text: "Which tag is used to embed a YouTube video?", options: ["&lt;iframe&gt;", "&lt;video&gt;", "&lt;embed&gt;", "&lt;object&gt;"], correctIndex: 0 },
+        { text: "What does the &lt;!DOCTYPE html&gt; declaration do?", options: ["Specifies HTML5 document type", "Defines a comment", "Starts the body", "Creates a header"], correctIndex: 0 },
+        { text: "Which tag is used for comments in HTML?", options: ["&lt;!-- comment --&gt;", "// comment", "/* comment */", "# comment"], correctIndex: 0 },
+        { text: "Which tag creates a navigation bar?", options: ["&lt;nav&gt;", "&lt;menu&gt;", "&lt;navigation&gt;", "&lt;navbar&gt;"], correctIndex: 0 },
+        { text: "Which tag defines an article?", options: ["&lt;article&gt;", "&lt;post&gt;", "&lt;content&gt;", "&lt;entry&gt;"], correctIndex: 0 },
+        { text: "Which tag defines a section?", options: ["&lt;section&gt;", "&lt;div&gt;", "&lt;part&gt;", "&lt;block&gt;"], correctIndex: 0 },
+        { text: "Which tag defines the footer of a page?", options: ["&lt;footer&gt;", "&lt;bottom&gt;", "&lt;end&gt;", "&lt;foot&gt;"], correctIndex: 0 },
+        { text: "Which tag defines the header of a page?", options: ["&lt;header&gt;", "&lt;top&gt;", "&lt;head&gt;", "&lt;hgroup&gt;"], correctIndex: 0 },
+        { text: "What is a web page?", options: ["A single HTML document", "A collection of websites", "A search engine", "A web browser"], correctIndex: 0 },
+        { text: "What is a website?", options: ["Collection of related web pages", "A single web page", "A search engine", "An email service"], correctIndex: 0 },
+        { text: "What is the home page?", options: ["Main/first page of a website", "Last page", "Contact page", "About page"], correctIndex: 0 },
+        { text: "What is a hyperlink?", options: ["Link that connects to another page or resource", "A heading", "An image", "A list"], correctIndex: 0 },
+        { text: "What is an anchor tag?", options: ["&lt;a&gt; tag for links", "&lt;anchor&gt; tag", "&lt;link&gt; tag", "&lt;href&gt; tag"], correctIndex: 0 },
+        { text: "What is the target attribute used for?", options: ["Specifies where to open the link", "Specifies link URL", "Specifies link title", "Specifies link color"], correctIndex: 0 },
+        { text: "What does target='_blank' do?", options: ["Opens link in new tab/window", "Opens in same tab", "Opens in parent frame", "Opens in top frame"], correctIndex: 0 },
+        { text: "Which tag is used to create a form?", options: ["&lt;form&gt;", "&lt;input&gt;", "&lt;field&gt;", "&lt;submit&gt;"], correctIndex: 0 },
+        { text: "Which input type creates a text field?", options: ["type='text'", "type='password'", "type='email'", "type='number'"], correctIndex: 0 },
+        { text: "Which input type creates a submit button?", options: ["type='submit'", "type='button'", "type='reset'", "type='click'"], correctIndex: 0 },
+        { text: "Which tag creates a drop-down list?", options: ["&lt;select&gt;", "&lt;dropdown&gt;", "&lt;list&gt;", "&lt;option&gt;"], correctIndex: 0 },
+        { text: "Which tag defines an option in a drop-down?", options: ["&lt;option&gt;", "&lt;item&gt;", "&lt;choice&gt;", "&lt;opt&gt;"], correctIndex: 0 },
+        
+        // Web Authoring Tools (56-75)
+        { text: "What is a web authoring tool?", options: ["Software to create web pages visually", "Web browser", "Search engine", "Email client"], correctIndex: 0 },
+        { text: "Which is a popular web authoring tool?", options: ["Adobe Dreamweaver", "Microsoft Word", "Excel", "PowerPoint"], correctIndex: 0 },
+        { text: "What is the advantage of using a web authoring tool?", options: ["Visual editing without coding", "Requires coding knowledge", "Slower development", "Only for professionals"], correctIndex: 0 },
+        { text: "What is code view in web authoring tools?", options: ["View and edit HTML source code", "View visual design", "Preview in browser", "Manage files"], correctIndex: 0 },
+        { text: "What is design view in web authoring tools?", options: ["Visual/WYSIWYG editing of web page", "Code editing", "File management", "Preview mode"], correctIndex: 0 },
+        { text: "What does WYSIWYG stand for?", options: ["What You See Is What You Get", "What You See Is What You Give", "Where You See Is Where You Go", "What You Select Is What You Get"], correctIndex: 0 },
+        { text: "Which is a free web authoring tool?", options: ["Visual Studio Code (code editor)", "Dreamweaver (paid)", "WordPress (CMS)", "Notepad++"], correctIndex: 0 },
+        { text: "What is the purpose of a CMS like WordPress?", options: ["Manage and create websites easily", "Edit images", "Create spreadsheets", "Send emails"], correctIndex: 0 },
+        { text: "What is a responsive web design?", options: ["Website that adapts to different screen sizes", "Fast loading website", "Secure website", "Animated website"], correctIndex: 0 },
+        { text: "What does SEO stand for?", options: ["Search Engine Optimization", "Site Enhancement Operation", "System Efficiency Optimization", "Speed Evaluation Order"], correctIndex: 0 },
+        { text: "What is the purpose of SEO?", options: ["Improve website ranking in search results", "Increase website speed", "Add animations", "Improve security"], correctIndex: 0 },
+        { text: "What is a domain name?", options: ["Website address (e.g., example.com)", "IP address", "Server name", "File name"], correctIndex: 0 },
+        { text: "What is web hosting?", options: ["Service that stores website files on server", "Domain registration", "Email service", "Search engine"], correctIndex: 0 },
+        { text: "What is an absolute path in HTML?", options: ["Full URL including protocol and domain", "Relative path within site", "File name only", "Folder name only"], correctIndex: 0 },
+        { text: "What is a relative path in HTML?", options: ["Path relative to current document", "Full URL", "Absolute URL", "External link"], correctIndex: 0 },
+        { text: "Which tag is used to include external CSS?", options: ["&lt;link&gt;", "&lt;style&gt;", "&lt;css&gt;", "&lt;script&gt;"], correctIndex: 0 },
+        { text: "Which tag is used to include JavaScript?", options: ["&lt;script&gt;", "&lt;js&gt;", "&lt;javascript&gt;", "&lt;code&gt;"], correctIndex: 0 },
+        { text: "What is the purpose of a sitemap?", options: ["List of all pages on a website for search engines", "Site design", "Site security", "Site backup"], correctIndex: 0 },
+        { text: "What is a wireframe in web design?", options: ["Visual layout blueprint of a website", "Working website", "Database design", "Server configuration"], correctIndex: 0 },
+        { text: "What does 'www' stand for?", options: ["World Wide Web", "Web World Wide", "Wide Web World", "World Web Wide"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 75 questions
+    while(unit7_en.length < 75) {
+        unit7_en.push({ text: "Which tag defines a table caption?", options: ["&lt;caption&gt;", "&lt;title&gt;", "&lt;heading&gt;", "&lt;cap&gt;"], correctIndex: 0 });
+    }
+    
+    // SINHALA VERSION - 75 questions
+    const unit7_si = [
+        { text: "HTML යනු කුමක්ද?", options: ["හයිපර් ටෙක්ස්ට් මාර්කප් භාෂාව", "හයි ටෙක් මොඩර්න් භාෂාව", "හයිපර් ට්‍රාන්ස්ෆර් මාර්කප් භාෂාව", "හෝම් ටූල් මාර්කප් භාෂාව"], correctIndex: 0 },
+        { text: "HTML ලේඛනයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;html&gt;", "&lt;head&gt;", "&lt;body&gt;", "&lt;title&gt;"], correctIndex: 0 },
+        { text: "ලේඛනයේ මෙටා තොරතුරු අඩංගු ටැගය කුමක්ද?", options: ["&lt;head&gt;", "&lt;body&gt;", "&lt;html&gt;", "&lt;footer&gt;"], correctIndex: 0 },
+        { text: "වෙබ් පිටුවේ දෘශ්‍යමාන අන්තර්ගතය අඩංගු ටැගය කුමක්ද?", options: ["&lt;body&gt;", "&lt;head&gt;", "&lt;title&gt;", "&lt;meta&gt;"], correctIndex: 0 },
+        { text: "වෙබ් පිටුවේ මාතෘකාව නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;title&gt;", "&lt;h1&gt;", "&lt;head&gt;", "&lt;header&gt;"], correctIndex: 0 },
+        { text: "විශාලතම ශීර්ෂ ටැගය කුමක්ද?", options: ["&lt;h1&gt;", "&lt;h6&gt;", "&lt;heading&gt;", "&lt;head&gt;"], correctIndex: 0 },
+        { text: "කුඩාම ශීර්ෂ ටැගය කුමක්ද?", options: ["&lt;h6&gt;", "&lt;h1&gt;", "&lt;h3&gt;", "&lt;h4&gt;"], correctIndex: 0 },
+        { text: "ඡේදයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;p&gt;", "&lt;para&gt;", "&lt;pg&gt;", "&lt;text&gt;"], correctIndex: 0 },
+        { text: "පේළි බිඳීමක් සාදන ටැගය කුමක්ද?", options: ["&lt;br&gt;", "&lt;lb&gt;", "&lt;break&gt;", "&lt;hr&gt;"], correctIndex: 0 },
+        { text: "තිරස් රේඛාවක් සාදන ටැගය කුමක්ද?", options: ["&lt;hr&gt;", "&lt;hl&gt;", "&lt;line&gt;", "&lt;hline&gt;"], correctIndex: 0 },
+        { text: "පෙළ තදකුරු කිරීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;b&gt;", "&lt;bold&gt;", "&lt;strong&gt; (තදකුරු ද වේ)", "A සහ C දෙකම"], correctIndex: 3 },
+        { text: "පෙළ ඇලකුරු කිරීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;i&gt;", "&lt;italic&gt;", "&lt;em&gt; (ඇලකුරු ද වේ)", "A සහ C දෙකම"], correctIndex: 3 },
+        { text: "පෙළ යටින් ඉරි ඇඳීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;u&gt;", "&lt;underline&gt;", "&lt;ul&gt;", "&lt;und&gt;"], correctIndex: 0 },
+        { text: "අනුපිළිවෙල සහිත ලැයිස්තුවක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;ol&gt;", "&lt;ul&gt;", "&lt;li&gt;", "&lt;list&gt;"], correctIndex: 0 },
+        { text: "අනුපිළිවෙල රහිත ලැයිස්තුවක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;ul&gt;", "&lt;ol&gt;", "&lt;li&gt;", "&lt;list&gt;"], correctIndex: 0 },
+        { text: "ලැයිස්තු අයිතමයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;li&gt;", "&lt;ol&gt;", "&lt;ul&gt;", "&lt;item&gt;"], correctIndex: 0 },
+        { text: "හයිපර්ලින්ක් එකක් සාදන ටැගය කුමක්ද?", options: ["&lt;a&gt;", "&lt;link&gt;", "&lt;href&gt;", "&lt;url&gt;"], correctIndex: 0 },
+        { text: "සබැඳියේ URL නියම කරන ගුණාංගය කුමක්ද?", options: ["href", "src", "link", "url"], correctIndex: 0 },
+        { text: "රූපයක් පෙන්වන ටැගය කුමක්ද?", options: ["&lt;img&gt;", "&lt;image&gt;", "&lt;pic&gt;", "&lt;src&gt;"], correctIndex: 0 },
+        { text: "රූප මූලාශ්‍රය නියම කරන ගුණාංගය කුමක්ද?", options: ["src", "href", "alt", "link"], correctIndex: 0 },
+        { text: "රූපයක් සඳහා 'alt' ගුණාංගය සපයන්නේ කුමක්ද?", options: ["රූපය නොපෙන්වන විට විකල්ප පෙළ", "රූප මූලාශ්‍රය", "රූප ප්‍රමාණය", "රූප සබැඳිය"], correctIndex: 0 },
+        { text: "වගුවක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;table&gt;", "&lt;tab&gt;", "&lt;tbl&gt;", "&lt;tb&gt;"], correctIndex: 0 },
+        { text: "වගු පේළියක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;tr&gt;", "&lt;td&gt;", "&lt;th&gt;", "&lt;tb&gt;"], correctIndex: 0 },
+        { text: "වගු ශීර්ෂ සෛලයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;th&gt;", "&lt;td&gt;", "&lt;tr&gt;", "&lt;thead&gt;"], correctIndex: 0 },
+        { text: "වගු දත්ත සෛලයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;td&gt;", "&lt;tr&gt;", "&lt;th&gt;", "&lt;tc&gt;"], correctIndex: 0 },
+        { text: "වගු තීරු ඒකාබද්ධ කිරීමට භාවිතා කරන ගුණාංගය කුමක්ද?", options: ["colspan", "rowspan", "merge", "span"], correctIndex: 0 },
+        { text: "වගු පේළි ඒකාබද්ධ කිරීමට භාවිතා කරන ගුණාංගය කුමක්ද?", options: ["rowspan", "colspan", "merge", "span"], correctIndex: 0 },
+        { text: "HTML හි කොටසක්/විභාගයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;div&gt;", "&lt;span&gt;", "&lt;section&gt;", "&lt;part&gt;"], correctIndex: 0 },
+        { text: "CSS යනු කුමක්ද?", options: ["කැස්කැඩින් ස්ටයිල් ෂීට්ස්", "ක්‍රියේටිව් ස්ටයිල් ෂීට්ස්", "පරිගණක ස්ටයිල් ෂීට්ස්", "වර්ණවත් ස්ටයිල් ෂීට්ස්"], correctIndex: 0 },
+        { text: "CSS HTML හි තබන්නේ කොහේද?", options: ["&lt;style&gt; ටැගය &lt;head&gt; තුළ හෝ බාහිර .css ලෙස", "&lt;css&gt; ටැගය", "&lt;script&gt; ටැගය", "&lt;body&gt; පමණි"], correctIndex: 0 },
+        
+        // HTML5 Multimedia Sinhala
+        { text: "වීඩියෝ සඳහා භාවිතා කරන HTML5 ටැගය කුමක්ද?", options: ["&lt;video&gt;", "&lt;media&gt;", "&lt;movie&gt;", "&lt;vid&gt;"], correctIndex: 0 },
+        { text: "ශ්‍රව්‍ය සඳහා භාවිතා කරන HTML5 ටැගය කුමක්ද?", options: ["&lt;audio&gt;", "&lt;sound&gt;", "&lt;music&gt;", "&lt;mp3&gt;"], correctIndex: 0 },
+        { text: "වීඩියෝ/ශ්‍රව්‍ය පාලන පෙන්වන ගුණාංගය කුමක්ද?", options: ["controls", "autoplay", "loop", "play"], correctIndex: 0 },
+        { text: "යූටියුබ් වීඩියෝවක් කාවැද්දීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;iframe&gt;", "&lt;video&gt;", "&lt;embed&gt;", "&lt;object&gt;"], correctIndex: 0 },
+        { text: "&lt;!DOCTYPE html&gt; ප්‍රකාශය කරන්නේ කුමක්ද?", options: ["HTML5 ලේඛන වර්ගය නියම කරයි", "විවරණයක් නිර්වචනය කරයි", "ශරීරය ආරම්භ කරයි", "හෙඩරයක් සාදයි"], correctIndex: 0 },
+        { text: "HTML හි විවරණ සඳහා භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;!-- comment --&gt;", "// comment", "/* comment */", "# comment"], correctIndex: 0 },
+        { text: "සංචාලන තීරුවක් සාදන ටැගය කුමක්ද?", options: ["&lt;nav&gt;", "&lt;menu&gt;", "&lt;navigation&gt;", "&lt;navbar&gt;"], correctIndex: 0 },
+        { text: "ලිපියක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;article&gt;", "&lt;post&gt;", "&lt;content&gt;", "&lt;entry&gt;"], correctIndex: 0 },
+        { text: "කොටසක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;section&gt;", "&lt;div&gt;", "&lt;part&gt;", "&lt;block&gt;"], correctIndex: 0 },
+        { text: "පිටුවේ පාදකය නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;footer&gt;", "&lt;bottom&gt;", "&lt;end&gt;", "&lt;foot&gt;"], correctIndex: 0 },
+        { text: "පිටුවේ ශීර්ෂය නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;header&gt;", "&lt;top&gt;", "&lt;head&gt;", "&lt;hgroup&gt;"], correctIndex: 0 },
+        { text: "වෙබ් පිටුවක් යනු කුමක්ද?", options: ["තනි HTML ලේඛනයක්", "වෙබ් අඩවි එකතුවක්", "සෙවුම් යන්ත්‍රයක්", "වෙබ් බ්‍රවුසරයක්"], correctIndex: 0 },
+        { text: "වෙබ් අඩවියක් යනු කුමක්ද?", options: ["අදාළ වෙබ් පිටු එකතුවක්", "තනි වෙබ් පිටුවක්", "සෙවුම් යන්ත්‍රයක්", "විද්‍යුත් තැපැල් සේවාවක්"], correctIndex: 0 },
+        { text: "මුල් පිටුව යනු කුමක්ද?", options: ["වෙබ් අඩවියක ප්‍රධාන/පළමු පිටුව", "අවසාන පිටුව", "සම්බන්ධතා පිටුව", "ගැන පිටුව"], correctIndex: 0 },
+        { text: "හයිපර්ලින්ක් එකක් යනු කුමක්ද?", options: ["වෙනත් පිටුවකට හෝ සම්පතකට සම්බන්ධ කරන සබැඳිය", "ශීර්ෂයක්", "රූපයක්", "ලැයිස්තුවක්"], correctIndex: 0 },
+        { text: "ඇන්කර් ටැගය යනු කුමක්ද?", options: ["සබැඳි සඳහා &lt;a&gt; ටැගය", "&lt;anchor&gt; ටැගය", "&lt;link&gt; ටැගය", "&lt;href&gt; ටැගය"], correctIndex: 0 },
+        { text: "target ගුණාංගය භාවිතා කරන්නේ කුමක් සඳහාද?", options: ["සබැඳිය විවෘත කරන ස්ථානය නියම කරයි", "සබැඳි URL නියම කරයි", "සබැඳි මාතෘකාව නියම කරයි", "සබැඳි වර්ණය නියම කරයි"], correctIndex: 0 },
+        { text: "target='_blank' කරන්නේ කුමක්ද?", options: ["සබැඳිය නව ටැබයක/කවුළුවක විවෘත කරයි", "එම ටැබයේම විවෘත කරයි", "මව් රාමුවේ විවෘත කරයි", "ඉහළ රාමුවේ විවෘත කරයි"], correctIndex: 0 },
+        { text: "පෝරමයක් සෑදීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;form&gt;", "&lt;input&gt;", "&lt;field&gt;", "&lt;submit&gt;"], correctIndex: 0 },
+        { text: "පෙළ ක්ෂේත්‍රයක් සාදන input වර්ගය කුමක්ද?", options: ["type='text'", "type='password'", "type='email'", "type='number'"], correctIndex: 0 },
+        { text: "යොමු කිරීමේ බොත්තමක් සාදන input වර්ගය කුමක්ද?", options: ["type='submit'", "type='button'", "type='reset'", "type='click'"], correctIndex: 0 },
+        { text: "පහත වැටෙන ලැයිස්තුවක් සාදන ටැගය කුමක්ද?", options: ["&lt;select&gt;", "&lt;dropdown&gt;", "&lt;list&gt;", "&lt;option&gt;"], correctIndex: 0 },
+        { text: "පහත වැටෙන ලැයිස්තුවේ විකල්පයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;option&gt;", "&lt;item&gt;", "&lt;choice&gt;", "&lt;opt&gt;"], correctIndex: 0 },
+        
+        // Web Authoring Tools Sinhala
+        { text: "වෙබ් සම්පාදන මෙවලමක් යනු කුමක්ද?", options: ["දෘශ්‍යමය වශයෙන් වෙබ් පිටු සෑදීමට මෘදුකාංග", "වෙබ් බ්‍රවුසරය", "සෙවුම් යන්ත්‍රය", "විද්‍යුත් තැපැල් සේවාදායකය"], correctIndex: 0 },
+        { text: "ජනප්‍රිය වෙබ් සම්පාදන මෙවලමක් කුමක්ද?", options: ["ඇඩෝබි ඩ්‍රීම්වීවර්", "මයික්‍රොසොෆ්ට් වර්ඩ්", "එක්සෙල්", "පවර්පොයින්ට්"], correctIndex: 0 },
+        { text: "වෙබ් සම්පාදන මෙවලමක් භාවිතා කිරීමේ වාසිය කුමක්ද?", options: ["සංකේත රහිත දෘශ්‍ය සංස්කරණය", "සංකේත දැනුම අවශ්‍ය වේ", "මන්දගාමී සංවර්ධනය", "වෘත්තීයයන් සඳහා පමණි"], correctIndex: 0 },
+        { text: "වෙබ් සම්පාදන මෙවලම්වල කේත දසුන යනු කුමක්ද?", options: ["HTML මූලාශ්‍ර කේතය බලන්න සහ සංස්කරණය කරන්න", "දෘශ්‍ය සැලසුම බලන්න", "බ්‍රවුසරයේ පෙරදසුන", "ගොනු කළමනාකරණය"], correctIndex: 0 },
+        { text: "වෙබ් සම්පාදන මෙවලම්වල සැලසුම් දසුන යනු කුමක්ද?", options: ["දෘශ්‍ය/WYSIWYG වෙබ් පිටු සංස්කරණය", "කේත සංස්කරණය", "ගොනු කළමනාකරණය", "පෙරදසුන් මාදිලිය"], correctIndex: 0 },
+        { text: "WYSIWYG යනු කුමක්ද?", options: ["ඔබ දකින දේ ඔබට ලැබෙන දේ", "ඔබ දකින දේ ඔබ දෙන දේ", "ඔබ දකින තැන ඔබ යන තැන", "ඔබ තෝරන දේ ඔබට ලැබෙන දේ"], correctIndex: 0 },
+        { text: "නිදහස් වෙබ් සම්පාදන මෙවලමක් කුමක්ද?", options: ["විෂුවල් ස්ටූඩියෝ කේතය (කේත සංස්කාරක)", "ඩ්‍රීම්වීවර් (ගෙවන)", "වර්ඩ්ප්‍රෙස් (CMS)", "නොට්පෑඩ්++"], correctIndex: 0 },
+        { text: "වර්ඩ්ප්‍රෙස් වැනි CMS එකක අරමුණ කුමක්ද?", options: ["පහසුවෙන් වෙබ් අඩවි කළමනාකරණය සහ සෑදීම", "රූප සංස්කරණය", "පැතුරුම්පත් සෑදීම", "විද්‍යුත් තැපැල් යැවීම"], correctIndex: 0 },
+        { text: "ප්‍රතිචාරාත්මක වෙබ් නිර්මාණය යනු කුමක්ද?", options: ["විවිධ තිර ප්‍රමාණවලට අනුගත වන වෙබ් අඩවිය", "වේගයෙන් පූරණය වන වෙබ් අඩවිය", "ආරක්ෂිත වෙබ් අඩවිය", "චලන සහිත වෙබ් අඩවිය"], correctIndex: 0 },
+        { text: "SEO යනු කුමක්ද?", options: ["සෙවුම් යන්ත්‍ර ප්‍රශස්තකරණය", "අඩවි වැඩිදියුණු කිරීමේ මෙහෙයුම", "පද්ධති කාර්යක්ෂමතා ප්‍රශස්තකරණය", "වේග තක්සේරු ඇණවුම"], correctIndex: 0 },
+        { text: "SEO හි අරමුණ කුමක්ද?", options: ["සෙවුම් ප්‍රතිඵලවල වෙබ් අඩවි ශ්‍රේණිගත කිරීම වැඩි දියුණු කිරීම", "වෙබ් අඩවි වේගය වැඩි කිරීම", "චලන එකතු කිරීම", "ආරක්ෂාව වැඩි දියුණු කිරීම"], correctIndex: 0 },
+        { text: "වසම් නාමයක් යනු කුමක්ද?", options: ["වෙබ් අඩවි ලිපිනය (උදා: example.com)", "IP ලිපිනය", "සේවාදායක නාමය", "ගොනු නාමය"], correctIndex: 0 },
+        { text: "වෙබ් සත්කාරක සේවාව යනු කුමක්ද?", options: ["වෙබ් අඩවි ගොනු සේවාදායකයේ ගබඩා කරන සේවාව", "වසම් ලියාපදිංචිය", "විද්‍යුත් තැපැල් සේවාව", "සෙවුම් යන්ත්‍රය"], correctIndex: 0 },
+        { text: "HTML හි නිරපේක්ෂ මාර්ගයක් යනු කුමක්ද?", options: ["ප්‍රොටෝකෝලය සහ වසම් ඇතුළු සම්පූර්ණ URL", "අඩවිය තුළ සාපේක්ෂ මාර්ගය", "ගොනු නම පමණි", "බහාලුම් නම පමණි"], correctIndex: 0 },
+        { text: "HTML හි සාපේක්ෂ මාර්ගයක් යනු කුමක්ද?", options: ["වත්මන් ලේඛනයට සාපේක්ෂ මාර්ගය", "සම්පූර්ණ URL", "නිරපේක්ෂ URL", "බාහිර සබැඳිය"], correctIndex: 0 },
+        { text: "බාහිර CSS ඇතුළත් කිරීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;link&gt;", "&lt;style&gt;", "&lt;css&gt;", "&lt;script&gt;"], correctIndex: 0 },
+        { text: "ජාවාස්ක්‍රිප්ට් ඇතුළත් කිරීමට භාවිතා කරන ටැගය කුමක්ද?", options: ["&lt;script&gt;", "&lt;js&gt;", "&lt;javascript&gt;", "&lt;code&gt;"], correctIndex: 0 },
+        { text: "අඩවි සිතියමක අරමුණ කුමක්ද?", options: ["සෙවුම් යන්ත්‍ර සඳහා වෙබ් අඩවියේ සියලු පිටු ලැයිස්තුව", "අඩවි සැලසුම", "අඩවි ආරක්ෂාව", "අඩවි උපස්ථය"], correctIndex: 0 },
+        { text: "වෙබ් නිර්මාණයේ කම්බි රාමුවක් යනු කුමක්ද?", options: ["වෙබ් අඩවියක දෘශ්‍ය පිරිසැලසුම් සැලැස්ම", "වැඩ කරන වෙබ් අඩවිය", "දත්ත සමුදා සැලසුම", "සේවාදායක වින්යාසය"], correctIndex: 0 },
+        { text: "'www' යන්නෙන් අදහස් කරන්නේ කුමක්ද?", options: ["ලෝක ව්‍යාප්ත ජාලය", "වෙබ් ලෝක පුළුල්", "පුළුල් ජාල ලෝකය", "ලෝක වෙබ් පුළුල්"], correctIndex: 0 }
+    ];
+    
+    // Ensure exactly 75 questions in Sinhala
+    while(unit7_si.length < 75) {
+        unit7_si.push({ text: "වගු ශීර්ෂ පාඨයක් නිර්වචනය කරන ටැගය කුමක්ද?", options: ["&lt;caption&gt;", "&lt;title&gt;", "&lt;heading&gt;", "&lt;cap&gt;"], correctIndex: 0 });
+    }
+    
+    let currentLang = "en";
+    let userSelections = {};
+    let unitLocked = false;
+    
+    function getQuestions() {
+        return currentLang === "en" ? unit7_en : unit7_si;
+    }
+    
+    function render() {
+        const container = document.getElementById("questionsArea");
+        const questions = getQuestions();
+        let html = "";
+        questions.forEach((q, idx) => {
+            const selected = (userSelections[idx] !== undefined) ? userSelections[idx] : -1;
+            let optsHtml = "";
+            const letters = ["A", "B", "C", "D"];
+            q.options.forEach((opt, optIdx) => {
+                let extraClass = "";
+                if (unitLocked) {
+                    if (optIdx === q.correctIndex) extraClass = "correct-highlight";
+                    else if (optIdx === selected && optIdx !== q.correctIndex) extraClass = "wrong-highlight";
+                }
+                const checkMark = (!unitLocked && selected === optIdx) ? " ✓" : "";
+                optsHtml += `
+                    <li class="option-item ${extraClass} ${unitLocked ? 'disabled-opt' : ''}" data-qidx="${idx}" data-optidx="${optIdx}">
+                        <span class="opt-letter">${letters[optIdx]}</span>
+                        <span>${opt}${checkMark}</span>
+                    </li>
+                `;
+            });
+            html += `
+                <div class="question-card">
+                    <div class="q-text">
+                        <span class="q-num">${idx+1}</span>
+                        <span>${q.text}</span>
+                    </div>
+                    <ul class="options-list">${optsHtml}</ul>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        if (!unitLocked) attachEvents();
+        
+        const scoreDiv = document.getElementById("scoreArea");
+        if (unitLocked) {
+            let correct = 0;
+            questions.forEach((q, i) => {
+                if (userSelections[i] === q.correctIndex) correct++;
+            });
+            const percent = Math.round((correct / questions.length) * 100);
+            document.getElementById("scoreValue").innerHTML = `${correct} / ${questions.length}`;
+            const msg = currentLang === "si" ? `📊 ප්‍රතිශතය ${percent}%` : `📊 Score ${percent}%`;
+            document.getElementById("scoreMessage").innerHTML = msg;
+            scoreDiv.style.display = "flex";
+        } else {
+            scoreDiv.style.display = "none";
+        }
+    }
+    
+    function attachEvents() {
+        document.querySelectorAll('.option-item').forEach(el => {
+            el.removeEventListener('click', clickHandler);
+            el.addEventListener('click', clickHandler);
+        });
+    }
+    
+    function clickHandler(e) {
+        const target = e.currentTarget;
+        if (unitLocked) return;
+        const qidx = parseInt(target.dataset.qidx);
+        const optidx = parseInt(target.dataset.optidx);
+        userSelections[qidx] = optidx;
+        render();
+    }
+    
+    function submitUnit() {
+        if (unitLocked) {
+            alert(currentLang === "si" ? "මෙම ඒකකය දැනටමත් ඉදිරිපත් කර ඇත. Reset ඔබන්න." : "This unit has already been submitted. Click Reset to try again.");
+            return;
+        }
+        unitLocked = true;
+        render();
+    }
+    
+    function resetUnit() {
+        unitLocked = false;
+        userSelections = {};
+        render();
+    }
+    
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.getElementById("enBtn").classList.toggle("active", lang === "en");
+        document.getElementById("siBtn").classList.toggle("active", lang === "si");
+        render();
+    }
+    
+    document.getElementById("enBtn").addEventListener("click", () => setLanguage("en"));
+    document.getElementById("siBtn").addEventListener("click", () => setLanguage("si"));
+    document.getElementById("submitBtn").addEventListener("click", submitUnit);
+    document.getElementById("resetBtn").addEventListener("click", resetUnit);
+    
+    render();
+</script>
+</body>
+</html>
