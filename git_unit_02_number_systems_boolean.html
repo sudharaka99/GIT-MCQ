@@ -204,6 +204,22 @@
             border-radius: 40px;
             font-weight: bold;
         }
+
+        .answer-explanation {
+            margin-top: 14px;
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: #0f172a;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .answer-explanation strong {
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
         footer {
             text-align: center;
             margin-top: 24px;
@@ -395,6 +411,161 @@
         { text: "බිටු 8 ක කාණ්ඩයක් හඳුන්වන්නේ:", options: ["බයිටය", "වර්ඩ් එක", "නිබ්ලය", "කිලෝබයිටය"], correctIndex: 0 }
     ];
     
+
+    const explanationsEn = [
+        "Binary uses base 2, so it has only two digits: 0 and 1.",
+        "Decimal uses base 10, so it has ten digits: 0 to 9.",
+        "Hexadecimal uses base 16, so it has 16 symbols: 0-9 and A-F.",
+        "1010₂ = (1×2^3) + (0×2^2) + (1×2^1) + (0×2^0) = 8 + 0 + 2 + 0 = 10₁₀.",
+        "1111₂ = (1×2^3) + (1×2^2) + (1×2^1) + (1×2^0) = 8 + 4 + 2 + 1 = 15₁₀.",
+        "1001₂ = (1×2^3) + (0×2^2) + (0×2^1) + (1×2^0) = 8 + 0 + 0 + 1 = 9₁₀.",
+        "1101₂ = (1×2^3) + (1×2^2) + (0×2^1) + (1×2^0) = 8 + 4 + 0 + 1 = 13₁₀.",
+        "10101₂ = (1×2^4) + (0×2^3) + (1×2^2) + (0×2^1) + (1×2^0) = 16 + 0 + 4 + 0 + 1 = 21₁₀.",
+        "10₁₀ to binary: 10 ÷ 2 = 5 r0, 5 ÷ 2 = 2 r1, 2 ÷ 2 = 1 r0, 1 ÷ 2 = 0 r1. Read remainders upward → 1010₂.",
+        "7₁₀ to binary: 7 ÷ 2 = 3 r1, 3 ÷ 2 = 1 r1, 1 ÷ 2 = 0 r1 → 111₂.",
+        "15₁₀ to binary: 15 ÷ 2 = 7 r1, 7 ÷ 2 = 3 r1, 3 ÷ 2 = 1 r1, 1 ÷ 2 = 0 r1 → 1111₂.",
+        "25₁₀ to binary: 25 ÷ 2 = 12 r1, 12 ÷ 2 = 6 r0, 6 ÷ 2 = 3 r0, 3 ÷ 2 = 1 r1, 1 ÷ 2 = 0 r1 → 11001₂.",
+        "31₁₀ to binary: 31 ÷ 2 = 15 r1, 15 ÷ 2 = 7 r1, 7 ÷ 2 = 3 r1, 3 ÷ 2 = 1 r1, 1 ÷ 2 = 0 r1 → 11111₂.",
+        "Hex digit A represents decimal 10.",
+        "Hex digit B represents decimal 11.",
+        "Hex digit F represents decimal 15.",
+        "Hex digit C represents decimal 12.",
+        "1A₁₆ = (1×16¹) + (10×16⁰) = 16 + 10 = 26₁₀.",
+        "2F₁₆ = (2×16¹) + (15×16⁰) = 32 + 15 = 47₁₀.",
+        "3B₁₆ = (3×16¹) + (11×16⁰) = 48 + 11 = 59₁₀.",
+        "FF₁₆ = (15×16¹) + (15×16⁰) = 240 + 15 = 255₁₀.",
+        "11110000₂ = 128 + 64 + 32 + 16 + 0 + 0 + 0 + 0 = 240₁₀.",
+        "A byte contains 8 bits.",
+        "A nibble contains 4 bits.",
+        "4 bits give 2^4 = 16 possible combinations.",
+        "ASCII code for uppercase A is 65.",
+        "ASCII code for lowercase a is 97.",
+        "ASCII code for digit 0 is 48.",
+        "ASCII code for uppercase B is 66.",
+        "ASCII code for lowercase b is 98.",
+        "ASCII is commonly taught as a 7-bit code; extended ASCII often uses 8 bits.",
+        "Unicode uses a much larger code space; in school-level questions it is commonly treated as 16 bits here.",
+        "Unicode supports Sinhala and Tamil because it includes characters from many scripts worldwide.",
+        "ASCII stands for American Standard Code for Information Interchange.",
+        "BCD stands for Binary Coded Decimal.",
+        "AND gate = 1 only when both inputs are 1.",
+        "OR gate = 1 when at least one input is 1.",
+        "NOT gate inverts the input: 0→1 and 1→0.",
+        "NAND = AND followed by NOT.",
+        "NOR = OR followed by NOT.",
+        "XOR = 1 only when the inputs are different.",
+        "For 2 inputs, truth table rows = 2^2 = 4.",
+        "For 3 inputs, truth table rows = 2^3 = 8.",
+        "A + 1 = 1 by the OR identity law.",
+        "A · 0 = 0 by the AND null law.",
+        "A + 0 = A by the OR identity law.",
+        "A · 1 = A by the AND identity law.",
+        "A + A = A by the idempotent law.",
+        "A · A = A by the idempotent law.",
+        "(A + B)' = A' · B' : complement of OR becomes AND of complements.",
+        "(A · B)' = A' + B' : complement of AND becomes OR of complements.",
+        "255₁₀ = 11111111₂ because all 8 bits are 1.",
+        "10000000₂ = 1×2^7 = 128₁₀.",
+        "1111₂ = 15₁₀, and 15 in hexadecimal is F.",
+        "7₁₆ = 7₁₀ = 0111₂.",
+        "Octal uses base 8.",
+        "Octal digits are only 0 to 7.",
+        "10₈ = (1×8¹) + (0×8⁰) = 8₁₀.",
+        "Binary place values are powers of 2: 1, 2, 4, 8, 16, ...",
+        "The rightmost binary bit has weight 2^0 = 1.",
+        "Two's complement is used to represent negative numbers.",
+        "1's complement of 1010 is 0101: every bit is flipped.",
+        "The bit is the smallest unit of data.",
+        "1 KB = 1024 bytes in the binary-based storage system used in school questions.",
+        "8 bits make 1 byte.",
+        "Binary uses base 2, so it has only two digits: 0 and 1.",
+        "Decimal uses base 10, so it has ten digits: 0 to 9.",
+        "Hexadecimal uses base 16, so it has 16 symbols: 0-9 and A-F."
+];
+    const explanationsSi = [
+        "ද්විමය පද්ධතියේ පාදය 2 වන අතර 0 සහ 1 පමණක් තිබේ.",
+        "දශම පද්ධතියේ පාදය 10 වේ.",
+        "ෂඩ්දශම පද්ධතියේ පාදය 16 වන අතර 0-9 සහ A-F භාවිතා කරයි.",
+        "1010₂ = (1×2³) + (0×2²) + (1×2¹) + (0×2⁰) = 8 + 0 + 2 + 0 = 10₁₀.",
+        "1111₂ = (1×2³) + (1×2²) + (1×2¹) + (1×2⁰) = 8 + 4 + 2 + 1 = 15₁₀.",
+        "1001₂ = 8 + 1 = 9₁₀.",
+        "1101₂ = 8 + 4 + 1 = 13₁₀.",
+        "10101₂ = 16 + 4 + 1 = 21₁₀.",
+        "10₁₀ → 1010₂. 2න් බෙදා ඉතිරි ඉහළට කියවයි.",
+        "7₁₀ → 111₂.",
+        "15₁₀ → 1111₂.",
+        "25₁₀ → 11001₂.",
+        "31₁₀ → 11111₂.",
+        "A = දශම 10.",
+        "B = දශම 11.",
+        "F = දශම 15.",
+        "C = දශම 12.",
+        "1A₁₆ = (1×16¹) + (10×16⁰) = 16 + 10 = 26₁₀.",
+        "2F₁₆ = (2×16¹) + (15×16⁰) = 32 + 15 = 47₁₀.",
+        "3B₁₆ = (3×16¹) + (11×16⁰) = 48 + 11 = 59₁₀.",
+        "FF₁₆ = (15×16¹) + (15×16⁰) = 240 + 15 = 255₁₀.",
+        "11110000₂ = 128 + 64 + 32 + 16 = 240₁₀.",
+        "බයිටයක බිට් 8 ක් ඇත.",
+        "නිබ්ලයක බිට් 4 ක් ඇත.",
+        "බිට් 4කින් 2⁴ = 16 අගයන් නිරූපණය කළ හැක.",
+        "'A' හි ASCII අගය 65 වේ.",
+        "'a' හි ASCII අගය 97 වේ.",
+        "'0' හි ASCII අගය 48 වේ.",
+        "'B' හි ASCII අගය 66 වේ.",
+        "'b' හි ASCII අගය 98 වේ.",
+        "ASCII සාමාන්‍යයෙන් 7 හෝ 8 බිට් භාවිතා කරයි.",
+        "Unicode සාමාන්‍යයෙන් 16 බිට් ලෙස සලකයි.",
+        "Unicode තුළ සිංහල සහ දෙමළ අක්ෂර ඇතුළත්ය.",
+        "ASCII = American Standard Code for Information Interchange.",
+        "BCD = Binary Coded Decimal.",
+        "AND ද්වාරයේ ප්‍රතිදානය 1 වන්නේ ආදාන දෙකම 1 විට පමණි.",
+        "OR ද්වාරයේ ප්‍රතිදානය 1 වන්නේ අවම වශයෙන් එක ආදානයක් 1 විටය.",
+        "NOT ද්වාරය ආදානයේ ප්‍රතිවිරුද්ධය ලබා දෙයි.",
+        "NAND = AND පසුව NOT.",
+        "NOR = OR පසුව NOT.",
+        "XOR = ආදාන වෙනස් විට 1.",
+        "ආදාන 2ක් සඳහා සත්‍ය වගුවේ පේළි ගණන 2² = 4 වේ.",
+        "ආදාන 3ක් සඳහා සත්‍ය වගුවේ පේළි ගණන 2³ = 8 වේ.",
+        "A + 1 = 1.",
+        "A . 0 = 0.",
+        "A + 0 = A.",
+        "A . 1 = A.",
+        "A + A = A.",
+        "A . A = A.",
+        "(A+B)' = A'.B'.",
+        "(A.B)' = A' + B'.",
+        "255₁₀ = 11111111₂.",
+        "10000000₂ = 1×2⁷ = 128₁₀.",
+        "1111₂ = F₁₆.",
+        "7₁₆ = 0111₂.",
+        "අෂ්ටමය පද්ධතියේ පාදය 8 වේ.",
+        "අෂ්ටමය ඉලක්කම් 0 සිට 7 දක්වාය.",
+        "10₈ = (1×8¹) + (0×8⁰) = 8₁₀.",
+        "ද්විමයේ ස්ථාන අගයන් 2 හි බල වේ.",
+        "දකුණු පස බිටුවේ බර 2⁰ = 1 වේ.",
+        "Two's complement සෘණ සංඛ්‍යා නිරූපණයට භාවිතා කරයි.",
+        "1010 හි 1's complement = 0101.",
+        "බිටුව දත්තයේ කුඩාම ඒකකයයි.",
+        "1 KB = 1024 bytes.",
+        "බිට් 8 = බයිටය.",
+        "දශම 128 හි ද්විමය සමානය 10000000₂ වේ.",
+        "ද්විමය පද්ධතියේ පාදය 2 වන අතර 0 සහ 1 පමණක් තිබේ.",
+        "දශම පද්ධතියේ පාදය 10 වේ."
+];
+
+    function escapeHtml(text) {
+        return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function getExplanation(idx) {
+        return currentLang === "si" ? explanationsSi[idx] : explanationsEn[idx];
+    }
+
     // Ensure we have exactly 68 questions
     while(unit2_en.length < 68) {
         unit2_en.push({ text: "What is the binary equivalent of decimal 128?", options: ["10000000", "01111111", "11111111", "10000001"], correctIndex: 0 });
@@ -431,6 +602,11 @@
                     </li>
                 `;
             });
+
+            const explanationHtml = unitLocked
+                ? `<div class="answer-explanation"><strong>${currentLang === "si" ? "විස්තරය" : "Explanation"}:</strong><br>${escapeHtml(getExplanation(idx))}</div>`
+                : "";
+
             html += `
                 <div class="question-card">
                     <div class="q-text">
@@ -438,12 +614,13 @@
                         <span>${q.text}</span>
                     </div>
                     <ul class="options-list">${optsHtml}</ul>
+                    ${explanationHtml}
                 </div>
             `;
         });
         container.innerHTML = html;
         if (!unitLocked) attachEvents();
-        
+
         const scoreDiv = document.getElementById("scoreArea");
         if (unitLocked) {
             let correct = 0;
@@ -459,7 +636,7 @@
             scoreDiv.style.display = "none";
         }
     }
-    
+
     function attachEvents() {
         document.querySelectorAll('.option-item').forEach(el => {
             el.removeEventListener('click', clickHandler);

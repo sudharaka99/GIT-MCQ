@@ -166,6 +166,21 @@
             background: #e3f0f5;
             transform: translateX(6px);
         }
+        .explanation-box {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: #eefaf4;
+            border: 1px solid #c9ead9;
+            color: #0f3d2e;
+            line-height: 1.5;
+            display: none;
+        }
+        .explanation-label {
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: block;
+        }
         .correct-highlight {
             background: #10b981 !important;
             color: white;
@@ -445,6 +460,10 @@
                         <span>${q.text}</span>
                     </div>
                     <ul class="options-list">${optsHtml}</ul>
+                    <div class="explanation-box" style="display: ${unitLocked ? 'block' : 'none'};">
+                        <span class="explanation-label">${currentLang === 'si' ? 'හේතුව' : 'Explanation'}</span>
+                        <div>${unitLocked ? getExplanation(q, currentLang) : ''}</div>
+                    </div>
                 </div>
             `;
         });
@@ -474,6 +493,161 @@
         });
     }
     
+
+    function getExplanation(q, lang) {
+        const correct = q.options[q.correctIndex];
+        const text = q.text.toLowerCase();
+
+        const enMap = [
+            [/ipo model|system according/i, 'A system is a set of related components that work together through Input, Process and Output.'],
+            [/brain of the computer|cpu/i, 'The CPU is called the brain because it controls processing and executes instructions.'],
+            [/input device/i, 'An input device sends data into the computer for processing.'],
+            [/output device/i, 'An output device presents processed results to the user.'],
+            [/alu stand for/i, 'ALU means Arithmetic Logic Unit, and it performs arithmetic and logical operations.'],
+            [/control unit/i, 'The Control Unit coordinates and controls all computer operations.'],
+            [/ram is a type of/i, 'RAM is primary memory used for temporary working data.'],
+            [/magnetic storage device/i, 'HDD stores data magnetically on rotating disks.'],
+            [/optical storage device/i, 'Blu-ray discs are optical storage media that use laser light.'],
+            [/solid-state storage device/i, 'SSD stores data on flash memory with no moving parts.'],
+            [/system software/i, 'Operating systems are system software because they manage the computer and hardware.'],
+            [/application software/i, 'Microsoft Excel is application software because it helps users perform specific tasks.'],
+            [/von neumann architecture/i, 'Von Neumann architecture uses the ALU, Control Unit and registers in a stored-program design.'],
+            [/data is defined/i, 'Data is raw facts and figures before processing.'],
+            [/information is defined/i, 'Information is processed data that has meaning.'],
+            [/quality information/i, 'Timely information reaches the user when it is needed.'],
+            [/accuracy in information/i, 'Accurate information is free from errors.'],
+            [/relevance in information/i, 'Relevant information matches the purpose or need.'],
+            [/touch screen/i, 'A touch screen can accept input and also show output.'],
+            [/microphone/i, 'A microphone captures sound and sends it into the computer.'],
+            [/projector/i, 'A projector displays computer output onto a larger screen.'],
+            [/not a peripheral/i, 'The CPU is the main processing component, not a peripheral device.'],
+            [/bios/i, 'BIOS is stored in ROM so it remains available when power is off.'],
+            [/cache memory/i, 'Cache memory is very fast but expensive because it is close to the CPU.'],
+            [/which bus carries data/i, 'The data bus transfers actual data between components.'],
+            [/address bus/i, 'The address bus carries the memory location from the CPU to memory.'],
+            [/motherboard provide/i, 'The motherboard connects components and allows them to work together.'],
+            [/processor speed/i, 'Processor speed is measured in GHz because it refers to clock frequency.'],
+            [/ram capacity/i, 'RAM capacity is measured in GB because it refers to memory size.'],
+            [/fastest/i, 'SSD is faster than HDD, DVD and Blu-ray because it has no moving parts.'],
+            [/monitor connection/i, 'HDMI is a common digital interface for modern monitors.'],
+            [/gpu stand for/i, 'GPU means Graphics Processing Unit.'],
+            [/prevent, detect and remove viruses/i, 'Antivirus software is designed to protect computers from malware.'],
+            [/firewall protect/i, 'A firewall blocks unauthorized network access.'],
+            [/ups/i, 'UPS keeps power available temporarily during surges or outages.'],
+            [/utility software/i, 'A disk defragmenter is utility software used to maintain storage performance.'],
+            [/device driver/i, 'A device driver is system software that lets the operating system control hardware.'],
+            [/ocr stand for/i, 'OCR means Optical Character Recognition.'],
+            [/micr/i, 'MICR is used by banks to read cheque characters printed with magnetic ink.'],
+            [/omr/i, 'OMR reads shaded marks on forms such as answer sheets.'],
+            [/modem/i, 'A modem converts digital and analog signals for communication.'],
+            [/primary memory includes/i, 'Primary memory includes RAM and ROM.'],
+            [/secondary memory/i, 'Secondary memory is slower than primary memory but has larger capacity.'],
+            [/volatile/i, 'RAM is volatile memory, so it loses data when power is off.'],
+            [/non-volatile/i, 'ROM is non-volatile, so it keeps data without power.'],
+            [/block diagram/i, 'A block diagram shows how data and control flow between computer components.'],
+            [/cpu registers/i, 'Registers are tiny high-speed storage areas inside the CPU.'],
+            [/clock speed/i, 'Clock speed affects how fast the CPU can process instructions.'],
+            [/heatsink/i, 'A heatsink helps cool the processor by spreading and releasing heat.'],
+            [/screen resolution/i, '1920 × 1080 is a common Full HD display resolution.'],
+            [/bios stand for/i, 'BIOS means Basic Input Output System.'],
+            [/post stand for/i, 'POST means Power On Self Test.'],
+            [/open source software/i, 'Open source software lets users view, modify and share the source code.'],
+            [/proprietary software/i, 'Proprietary software is owned by a company and usually has usage restrictions.'],
+            [/cloud storage/i, 'Google Drive is a cloud storage service that keeps files online.'],
+            [/how many bits are in one byte/i, 'One byte equals 8 bits.'],
+            [/largest storage unit/i, 'Terabyte is the largest unit listed here.'],
+            [/1 gigabyte/i, '1 GB equals 1024 MB in binary-based storage units.'],
+            [/usb stand for/i, 'USB means Universal Serial Bus.'],
+            [/not a category of software/i, 'Motherboard software is not a standard software category.'],
+            [/modern internal hard drives/i, 'SATA is the common interface used by modern internal hard drives.'],
+            [/primary function of ram/i, 'RAM holds data temporarily while programs are running.'],
+            [/example of system software/i, 'Windows 11 is system software because it is an operating system.'],
+            [/acronym cpu/i, 'CPU means Central Processing Unit.'],
+            [/barcode reader/i, 'A barcode reader scans and decodes barcode data.'],
+            [/live video/i, 'A webcam captures live video for communication and conferencing.']
+        ];
+
+        if (lang === 'si') {
+            const siMap = [
+                [/ipo ආකෘතිය/i, 'පද්ධතියක් යනු ආදාන, සැකසුම් සහ ප්‍රතිදාන ලෙස එකට ක්‍රියා කරන කොටස් සමූහයකි.'],
+                [/මොළය/i, 'CPU එක පරිගණකයේ උපදෙස් ක්‍රියාත්මක කරමින් පාලනය කරන නිසා එය මොළය ලෙස හැඳින්වේ.'],
+                [/ආදාන උපාංග/i, 'ආදාන උපාංගයක් දත්ත පරිගණකයට ඇතුළත් කරයි.'],
+                [/ප්‍රතිදාන උපාංග/i, 'ප්‍රතිදාන උපාංගයක් සැකසූ ප්‍රතිඵල පරිශීලකයාට පෙන්වයි.'],
+                [/alu යනු කුමක්ද/i, 'ALU යනු අංක ගණිත තාර්කික ඒකකය වන අතර එය ගණනය සහ තාර්කික මෙහෙයුම් කරයි.'],
+                [/පාලන ඒකකය/i, 'පාලන ඒකකය සියලු පරිගණක මෙහෙයුම් සම්බන්ධීකරණය කරයි.'],
+                [/ram යනු/i, 'RAM යනු තාවකාලිකව වැඩ කරන දත්ත තබාගන්නා ප්‍රාථමික මතකයකි.'],
+                [/චුම්බක ගබඩා උපාංග/i, 'HDD එක තැටි මත චුම්බක ලෙස දත්ත ගබඩා කරයි.'],
+                [/දෘශ්‍ය ගබඩා උපාංග/i, 'බ්ලූ-රේ තැටිය ලේසර් ආලෝකය භාවිතා කරන දෘශ්‍ය ගබඩා මාධ්‍යයකි.'],
+                [/ඝන තත්ව ගබඩා උපාංග/i, 'SSD එක චලන කොටස් නොමැතිව ෆ්ලෑෂ් මතකය භාවිතා කරයි.'],
+                [/පද්ධති මෘදුකාංග/i, 'මෙහෙයුම් පද්ධතිය පරිගණකය සහ දෘඪාංග කළමනාකරණය කරන නිසා එය පද්ධති මෘදුකාංගයකි.'],
+                [/යෙදුම් මෘදුකාංග/i, 'මයික්‍රොසොෆ්ට් එක්සෙල් වැනි මෘදුකාංග විශේෂිත කාර්යයන් සඳහා භාවිතා වේ.'],
+                [/වොන් නියුමන්/i, 'වොන් නියුමන් ගෘහ නිර්මාණයේ ALU, පාලන ඒකකය සහ රෙජිස්ටර් ඇතුළත් වේ.'],
+                [/දත්ත ලෙස/i, 'දත්ත යනු සැකසීමට පෙර ඇති අමු කරුණු සහ සංඛ්‍යා වේ.'],
+                [/තොරතුරු ලෙස/i, 'තොරතුරු යනු අර්ථය ඇති ලෙස සකසන ලද දත්ත වේ.'],
+                [/ගුණාත්මක තොරතුරු/i, 'කාලෝචිත තොරතුරු අවශ්‍ය වේලාවටම ලබා දෙන තොරතුරු වේ.'],
+                [/නිරවද්‍යතාවය/i, 'නිරවද්‍ය තොරතුරු දෝෂ රහිත වේ.'],
+                [/අදාළත්වය/i, 'අදාළ තොරතුරු අදහස් කරන්නේ අරමුණට ගැළපෙන තොරතුරුය.'],
+                [/ස්පර්ශ තිරය/i, 'ස්පර්ශ තිරයක් ආදාන හා ප්‍රතිදාන දෙකම ලෙස ක්‍රියා කළ හැකිය.'],
+                [/මයික්‍රෆෝනය/i, 'මයික්‍රෆෝනය ශබ්දය ග්‍රහණය කර පරිගණකයට ඇතුළත් කරයි.'],
+                [/ප්‍රොජෙක්ටරය/i, 'ප්‍රොජෙක්ටරය පරිගණක ප්‍රතිදානය විශාල තිරයකට පෙන්වයි.'],
+                [/පර්යන්ත උපාංගයක් නොවන්නේ/i, 'CPU එක ප්‍රධාන සැකසුම් ඒකකය නිසා පර්යන්ත උපාංගයක් නොවේ.'],
+                [/bios/i, 'BIOS එක විදුලිය නොතිබූ අවස්ථාවලත් රැඳී සිටීමට ROM තුළ ගබඩා කරයි.'],
+                [/කැෂ් මතකය/i, 'කැෂ් මතකය CPU එකට ඉතා ආසන්න වන නිසා ඉතා වේගවත්ය.'],
+                [/දත්ත රැගෙන යන බසය/i, 'දත්ත බසය සංරචක අතර සත්‍ය දත්ත ගෙන යයි.'],
+                [/ලිපින බසය/i, 'ලිපින බසය CPU එකෙන් මතක ලිපිනය ගෙන යයි.'],
+                [/මදර්බෝඩ් එකක්/i, 'මදර්බෝඩ් එක සංරචක සම්බන්ධ කර එකට ක්‍රියා කිරීමට ඉඩ සලසයි.'],
+                [/ප්‍රොසෙසර වේගය/i, 'ප්‍රොසෙසර වේගය GHz වලින් මනිනු ලබයි.'],
+                [/RAM ධාරිතාව/i, 'RAM ධාරිතාව මතක ප්‍රමාණය නිසා GB වලින් මනිනු ලබයි.'],
+                [/වේගවත්ම ගබඩා වර්ගය/i, 'SSD එක චලන කොටස් නොමැති නිසා HDD, DVD සහ Blu-ray වලට වඩා වේගවත්ය.'],
+                [/නවීන මොනිටර/i, 'HDMI යනු නවීන මොනිටර සඳහා පොදු ඩිජිටල් සම්බන්ධතාවකි.'],
+                [/gpu හි/i, 'GPU යනු Graphics Processing Unit ය.'],
+                [/වෛරස්/i, 'ප්‍රති-වයිරස මෘදුකාංග අනිෂ්ට මෘදුකාංග වලින් ආරක්ෂා කරයි.'],
+                [/firewall/i, 'Firewall එක අනවසර ජාල ප්‍රවේශය අවහිර කරයි.'],
+                [/ups/i, 'UPS එක විදුලි ඇනහිටිවලදී තාවකාලිකව බලය ලබා දෙයි.'],
+                [/උපයෝගිතා මෘදුකාංග/i, 'තැටි ඛණ්ඩන නිවාරකය වැනි මෘදුකාංග පද්ධතිය නඩත්තු කිරීමට භාවිතා වේ.'],
+                [/device driver/i, 'Device Driver එකක් මෙහෙයුම් පද්ධතියට දෘඪාංග පාලනය කිරීමට උදව් කරන පද්ධති මෘදුකාංගයකි.'],
+                [/ocr හි/i, 'OCR යනු Optical Character Recognition ය.'],
+                [/micr/i, 'MICR බැංකු විසින් චෙක්පත් කියවීමට භාවිතා කරයි.'],
+                [/omr/i, 'OMR පිළිතුරු පත්‍රිකා වැනි තැටිවල කළු කළ ලකුණු කියවයි.'],
+                [/මෝඩමයක්/i, 'මෝඩමය ඩිජිටල් සහ ඇනලොග් සංඥා අතර පරිවර්තනය කරයි.'],
+                [/ප්‍රාථමික මතකයට/i, 'ප්‍රාථමික මතකයට RAM සහ ROM ඇතුළත් වේ.'],
+                [/ද්විතියික මතකය/i, 'ද්විතියික මතකය මන්දගාමී වුවත් වැඩි ධාරිතාවක් ඇත.'],
+                [/වාෂ්පශීලී/i, 'RAM වාෂ්පශීලී මතකයක් වන අතර විදුලිය නැතිවූ විට දත්ත නැති වේ.'],
+                [/වාෂ්පශීලී නොවන/i, 'ROM වාෂ්පශීලී නොවන මතකයක් වන අතර විදුලිය නැතිවූ විටත් දත්ත රඳවා ගනී.'],
+                [/බ්ලොක් රූප සටහන/i, 'බ්ලොක් රූප සටහන පරිගණක සංරචක අතර දත්ත සහ පාලන ගලනය පෙන්වයි.'],
+                [/රෙජිස්ටර්/i, 'රෙජිස්ටර් CPU ඇතුළත ඇති අධිවේගී කුඩා මතක කොටස් වේ.'],
+                [/ඔරලෝසු වේගය/i, 'ඔරලෝසු වේගය උපදෙස් සැකසීමේ වේගයට බලපායි.'],
+                [/හීට්සින්ක්/i, 'හීට්සින්ක් එක ප්‍රොසෙසරයෙන් උෂ්ණත්වය ඉවත් කර සිසිල් කරයි.'],
+                [/තිර විභේදනය/i, '1920 × 1080 යනු පොදු Full HD විභේදනයකි.'],
+                [/bios හි සම්පූර්ණ නම/i, 'BIOS යනු Basic Input Output System ය.'],
+                [/post යන්නෙන්/i, 'POST යනු Power On Self Test ය.'],
+                [/විවෘත මූලාශ්‍ර/i, 'විවෘත මූලාශ්‍ර මෘදුකාංගයේ කේතය බලන්න, වෙනස් කරන්න සහ බෙදා ගන්න පුළුවන්.'],
+                [/හිමිකාර මෘදුකාංග/i, 'හිමිකාර මෘදුකාංග සමාගමකට අයත් වන අතර සාමාන්‍යයෙන් සීමා ඇත.'],
+                [/වලාකුළු ගබඩා සේවාව/i, 'Google Drive වැනි සේවාවන් දත්ත අන්තර්ජාලයේ ගබඩා කරයි.'],
+                [/බිටු කීයක්/i, 'බයිටයක් බිටු 8 කින් සමන්විත වේ.'],
+                [/විශාලතම ගබඩා ඒකකය/i, 'මෙහි දී ඇති ඒකක අතර ටෙරාබයිට් විශාලතම වේ.'],
+                [/1 ගිගාබයිට්/i, '1 GB යනු 1024 MB ට සමානය.'],
+                [/usb හි/i, 'USB යනු Universal Serial Bus ය.'],
+                [/මෘදුකාංග කාණ්ඩයක් නොවන්නේ/i, 'මදර්බෝඩ් මෘදුකාංග කියන දෙය සාමාන්‍ය මෘදුකාංග කාණ්ඩයක් නොවේ.'],
+                [/අතුරු මුහුණත/i, 'SATA යනු නවීන අභ්‍යන්තර දෘඪ තැටි සඳහා පොදු අතුරු මුහුණතකි.'],
+                [/RAM හි මූලික කාර්යය/i, 'RAM ක්‍රියාත්මක වැඩසටහන් සඳහා තාවකාලික දත්ත තබා ගනී.'],
+                [/පද්ධති මෘදුකාංග සඳහා උදාහරණයක්/i, 'Windows 11 යනු මෙහෙයුම් පද්ධතියක් නිසා පද්ධති මෘදුකාංගයකි.'],
+                [/CPU යන සංක්ෂිප්තයේ/i, 'CPU යනු Central Processing Unit ය.'],
+                [/බාර්කෝඩ් කියවනය/i, 'බාර්කෝඩ් කියවනය බාර්කෝඩ් දත්ත කියවා විකේතනය කරයි.'],
+                [/වීඩියෝ සම්මන්ත්‍රණ/i, 'වෙබ් කැමරාව සජීවී වීඩියෝ ග්‍රහණය කරයි.']
+            ];
+            for (const [pattern, explanation] of siMap) {
+                if (pattern.test(text)) return explanation;
+            }
+            return `නිවැරදි පිළිතුර: ${correct}`;
+        }
+
+        for (const [pattern, explanation] of enMap) {
+            if (pattern.test(text)) return explanation;
+        }
+        return `The correct answer is “${correct}”.`;
+    }
+
     function clickHandler(e) {
         const target = e.currentTarget;
         if (unitLocked) return;

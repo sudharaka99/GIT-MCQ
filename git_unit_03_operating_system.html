@@ -204,6 +204,22 @@
             border-radius: 40px;
             font-weight: bold;
         }
+
+        .explanation-box {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: #eefaf4;
+            border: 1px solid #c9ead9;
+            color: #0f3d2e;
+            line-height: 1.5;
+            display: none;
+        }
+        .explanation-label {
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: block;
+        }
         footer {
             text-align: center;
             margin-top: 24px;
@@ -335,6 +351,162 @@
         { text: "What is the PATH environment variable?", options: ["List of directories to search for executables", "File location", "System path", "Network path"], correctIndex: 0 }
     ];
     
+
+    const explanationsEn = [
+    "The OS manages hardware and software resources.",
+    "Microsoft Word is application software, not an operating system.",
+    "CLI stands for Command Line Interface.",
+    "GUI stands for Graphical User Interface.",
+    "MS-DOS is a command-line operating system.",
+    "Windows 10 uses a graphical interface.",
+    "The kernel is the core part of the OS.",
+    "Linux is open source.",
+    "File extensions show the file type.",
+    ".exe is used for executable programs.",
+    ".txt is used for text files.",
+    ".jpg is an image file format.",
+    ".mp3 is an audio file format.",
+    ".mp4 is a video file format.",
+    "Ctrl + C copies selected content.",
+    "Ctrl + X cuts selected content.",
+    "Ctrl + V pastes copied content.",
+    "Ctrl + Z undoes the last action.",
+    "Ctrl + Y redoes an undone action.",
+    "Ctrl + A selects all items.",
+    "Ctrl + S saves the current file.",
+    "Ctrl + P opens the print dialog.",
+    "Ctrl + N creates a new file or window.",
+    "Deleted files go to the Recycle Bin.",
+    "Recycle Bin stores deleted files temporarily.",
+    "Shift + Delete deletes a file permanently.",
+    "Folders are used to organize files.",
+    "File management means organizing and handling files.",
+    "Disk Cleanup removes temporary files.",
+    "Disk Defragmenter rearranges fragmented data.",
+    "Check Disk finds and repairs disk errors.",
+    "Defragmenting improves file access speed.",
+    "Character Map inserts special characters and symbols.",
+    "Mouse settings are changed in Control Panel or Settings.",
+    "Date and time settings are changed in Control Panel or Settings.",
+    "Programs can be added or removed from system settings.",
+    "User Accounts manage different users on the same computer.",
+    "A backup is a copy of data kept for recovery.",
+    "Backups protect against data loss.",
+    "CLI uses text commands, while GUI uses graphics and icons.",
+    "GUI is easier for beginners.",
+    "CLI uses fewer system resources.",
+    "Multitasking means running multiple programs at once.",
+    "Virtual memory uses disk space as extra RAM.",
+    "A process is a program in execution.",
+    "Task Manager monitors running processes.",
+    "Task Manager can be opened with keyboard shortcuts or the taskbar.",
+    "Paging divides memory into fixed-size blocks.",
+    "Device drivers let the OS communicate with hardware.",
+    "Booting is the process of starting the computer and loading the OS.",
+    "BIOS or UEFI performs startup checks and begins booting.",
+    "A file system stores and organizes files on a storage device.",
+    "NTFS is commonly used by Windows.",
+    "ext4 is commonly used by Linux.",
+    "FAT32 has a maximum file size of 4GB.",
+    "The root directory is the top-most directory.",
+    "A path shows the location of a file or folder.",
+    "An absolute path starts from the root directory.",
+    "A relative path depends on the current working directory.",
+    "The scheduler decides which process runs next.",
+    "Deadlock happens when processes wait forever for each other.",
+    "Spooling queues data for output devices.",
+    "A shell is the user interface for interacting with the OS.",
+    "A 64-bit OS can address more memory than a 32-bit OS.",
+    "32-bit Windows can address up to 4GB of RAM.",
+    "An interrupt is a signal sent to the CPU.",
+    "Time-sharing shares CPU time among users or processes.",
+    "RTOS means Real-Time Operating System.",
+    "VxWorks is an example of an RTOS.",
+    "System Restore returns system files to a previous state.",
+    "The Registry is a central database of Windows settings.",
+    "Environment variables store configuration values.",
+    "PATH lists directories searched for executable files.",
+    "ipconfig displays network configuration information.",
+    "ipconfig displays network configuration information."
+];
+    const explanationsSi = [
+    "මෙහෙයුම් පද්ධතිය දෘඪාංග සහ මෘදුකාංග සම්පත් කළමනාකරණය කරයි.",
+    "Microsoft Word මෙහෙයුම් පද්ධතියක් නොව, යෙදුම් මෘදුකාංගයකි.",
+    "CLI යනු Command Line Interface (විධාන පේළි අතුරු මුහුණත) වේ.",
+    "GUI යනු Graphical User Interface (ප්‍රස්ථාරික පරිශීලක අතුරු මුහුණත) වේ.",
+    "MS-DOS විධාන පේළි ආකාරයේ OS එකකි.",
+    "Windows 10 GUI භාවිතා කරන මෙහෙයුම් පද්ධතියකි.",
+    "Kernel යනු මෙහෙයුම් පද්ධතියේ මූලික කොටසයි.",
+    "Linux විවෘත මූලාශ්‍ර මෘදුකාංගයකි.",
+    "ගොනු දිගුව මඟින් ගොනු වර්ගය හඳුනාගැනේ.",
+    ".exe ක්‍රියාත්මක කළ හැකි වැඩසටහන් සඳහා භාවිතා වේ.",
+    ".txt පෙළ ගොනු සඳහා භාවිතා වේ.",
+    ".jpg රූප ගොනු ආකෘතියකි.",
+    ".mp3 ශ්‍රව්‍ය ගොනු ආකෘතියකි.",
+    ".mp4 වීඩියෝ ගොනු ආකෘතියකි.",
+    "Ctrl + C මඟින් පිටපත් කරයි.",
+    "Ctrl + X මඟින් කපා ගනී.",
+    "Ctrl + V මඟින් අලවයි.",
+    "Ctrl + Z මඟින් අවසන් ක්‍රියාව අවලංගු කරයි.",
+    "Ctrl + Y මඟින් නැවත සිදු කරයි.",
+    "Ctrl + A මඟින් සියල්ල තෝරා ගනී.",
+    "Ctrl + S මඟින් ගොනුව සුරකියි.",
+    "Ctrl + P මඟින් මුද්‍රණ කවුළුව විවෘත කරයි.",
+    "Ctrl + N මඟින් නව ගොනුවක් හෝ කවුළුවක් සාදයි.",
+    "මකා දැමූ ගොනු Recycle Bin වෙත යයි.",
+    "Recycle Bin මකා දැමූ ගොනු තාවකාලිකව ගබඩා කරයි.",
+    "Shift + Delete මඟින් ගොනුව ස්ථිරව මකයි.",
+    "ෆෝල්ඩර ගොනු සංවිධානය කිරීමට භාවිතා වේ.",
+    "ගොනු කළමනාකරණය යනු ගොනු සංවිධානය කිරීම හා හැසිරවීමයි.",
+    "Disk Cleanup තාවකාලික ගොනු ඉවත් කරයි.",
+    "Disk Defragmenter ඛණ්ඩනය වූ දත්ත නැවත සකස් කරයි.",
+    "Check Disk තැටි දෝෂ සොයා අලුත්වැඩියා කරයි.",
+    "Defragment කිරීමෙන් ගොනු ප්‍රවේශ වේගය වැඩිවේ.",
+    "Character Map විශේෂ අක්ෂර හා සංකේත ඇතුළත් කරයි.",
+    "මූසික සැකසුම් Control Panel හෝ Settings තුළ වෙනස් කරයි.",
+    "දින හා වේලා සැකසුම් Control Panel හෝ Settings තුළ වෙනස් කරයි.",
+    "System settings තුළ වැඩසටහන් එකතු හෝ ඉවත් කළ හැක.",
+    "User Accounts එකම පරිගණකයේ පරිශීලකයන් කළමනාකරණය කරයි.",
+    "Backup යනු නැවත ලබාගැනීම සඳහා තබාගත් දත්ත පිටපතකි.",
+    "Backup මඟින් දත්ත නැතිවීමෙන් ආරක්ෂා කරයි.",
+    "CLI පෙළ විධාන භාවිතා කරයි; GUI ග්‍රැෆික් සහ අයිකන භාවිතා කරයි.",
+    "GUI ආරම්භකයන්ට පහසුය.",
+    "CLI අඩු පද්ධති සම්පත් භාවිතා කරයි.",
+    "Multitasking යනු වැඩසටහන් කිහිපයක් එකවර ධාවනය කිරීමයි.",
+    "Virtual memory අමතර RAM ලෙස තැටි ඉඩ භාවිතා කරයි.",
+    "Process යනු ක්‍රියාත්මක වන වැඩසටහනකි.",
+    "Task Manager ක්‍රියාත්මක වන process නිරීක්ෂණය කරයි.",
+    "Task Manager යතුරුපුවරු කෙටිමඟ හෝ taskbar මඟින් විවෘත කළ හැක.",
+    "Paging මතකය ස්ථාවර ප්‍රමාණයේ කොටස් වලට බෙදයි.",
+    "Device drivers මඟින් OS සහ hardware අතර සන්නිවේදනය සිදු කරයි.",
+    "Booting යනු පරිගණකය ආරම්භ කර OS පූරණය කිරීමයි.",
+    "BIOS/UEFI ආරම්භක පරීක්ෂණ කර boot කිරීම ආරම්භ කරයි.",
+    "File system එක storage device එකක ගොනු ගබඩා සහ සංවිධානය කරයි.",
+    "NTFS වින්ඩෝස් හි බහුලව භාවිතා වේ.",
+    "ext4 ලිනක්ස් හි බහුලව භාවිතා වේ.",
+    "FAT32 හි උපරිම ගොනු ප්‍රමාණය 4GB වේ.",
+    "Root directory එක ගොනු පද්ධතියේ ඉහළම නාමාවලියයි.",
+    "Path එකක් ගොනුවක හෝ ෆෝල්ඩරයක පිහිටීම දක්වයි.",
+    "Absolute path එක root සිට ආරම්භ වේ.",
+    "Relative path එක වත්මන් working directory එකට අනුව වේ.",
+    "Scheduler එක මීළඟට ධාවනය වන process තීරණය කරයි.",
+    "Deadlock යනු process එකිනෙකා බලා සිටීමයි.",
+    "Spooling යනු output devices සඳහා දත්ත පෝලිම්ගත කිරීමයි.",
+    "Shell එක OS සමඟ සම්බන්ධ වීමට ඇති user interface එකයි.",
+    "64-bit OS එකකට 32-bit OS එකකට වඩා වැඩි memory address කළ හැක.",
+    "32-bit Windows වලට උපරිම 4GB RAM address කළ හැක.",
+    "Interrupt එක CPU වෙත යවන signal එකකි.",
+    "Time-sharing මඟින් CPU කාලය පරිශීලකයන් හෝ process අතර බෙදා දෙයි.",
+    "RTOS යනු Real-Time Operating System වේ.",
+    "VxWorks යනු RTOS එකකට උදාහරණයකි.",
+    "System Restore මඟින් system files පෙර තත්වයට ගෙන යයි.",
+    "Registry යනු Windows settings සඳහා මධ්‍යස්ථ database එකකි.",
+    "Environment variables configuration values ගබඩා කරයි.",
+    "PATH මඟින් executable files සෙවීමට directories ලැයිස්තු කරයි.",
+    "ipconfig මඟින් ජාල වින්‍යාස තොරතුරු පෙන්වයි.",
+    "ipconfig මඟින් ජාල වින්‍යාස තොරතුරු පෙන්වයි."
+];
+
     // Ensure exactly 75 questions
     while(unit3_en.length < 75) {
         unit3_en.push({ text: "What is the purpose of the 'ipconfig' command?", options: ["Display network configuration", "Configure IP address", "Test connectivity", "Display routing table"], correctIndex: 0 });
@@ -448,6 +620,10 @@
                         <span>${q.text}</span>
                     </div>
                     <ul class="options-list">${optsHtml}</ul>
+                    <div class="explanation-box" style="display: ${unitLocked ? 'block' : 'none'};">
+                        <span class="explanation-label">${currentLang === 'si' ? 'හේතුව' : 'Explanation'}</span>
+                        <div>${currentLang === 'si' ? explanationsSi[idx] : explanationsEn[idx]}</div>
+                    </div>
                 </div>
             `;
         });

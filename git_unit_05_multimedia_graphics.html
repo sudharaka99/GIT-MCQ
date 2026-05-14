@@ -204,6 +204,22 @@
             border-radius: 40px;
             font-weight: bold;
         }
+
+        .explanation-box {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: #eefaf4;
+            border: 1px solid #c9ead9;
+            color: #0f3d2e;
+            line-height: 1.5;
+            display: none;
+        }
+        .explanation-label {
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: block;
+        }
         footer {
             text-align: center;
             margin-top: 24px;
@@ -448,6 +464,10 @@
                         <span>${q.text}</span>
                     </div>
                     <ul class="options-list">${optsHtml}</ul>
+                    <div class="explanation-box" style="display: ${unitLocked ? 'block' : 'none'};">
+                        <span class="explanation-label">${currentLang === 'si' ? 'හේතුව' : 'Explanation'}</span>
+                        <div>${unitLocked ? getExplanation(idx, currentLang) : ''}</div>
+                    </div>
                 </div>
             `;
         });
@@ -477,6 +497,146 @@
         });
     }
     
+
+    const explanationsEn = [
+        "A pixel is the smallest element of a digital image.",
+        "Resolution is the number of pixels in an image.",
+        "Raster graphics use pixels.",
+        "Vector graphics use mathematical formulas to draw shapes.",
+        "PNG supports transparency and lossless compression.",
+        "JPEG/JPG is best for photographs because it keeps file size small.",
+        "GIF supports simple animation.",
+        "Lossy compression permanently removes some data.",
+        "Lossless compression keeps all the original data.",
+        "RGB is used by computer monitors.",
+        "CMYK is used for printing.",
+        "A 24-bit true color image can display about 16.7 million colors.",
+        "Layers are separate editable levels in an image.",
+        "Adobe Photoshop is commonly used for raster graphics editing.",
+        "Adobe Illustrator is commonly used for vector graphics editing.",
+        "DPI means Dots Per Inch.",
+        "Higher DPI usually means a sharper image.",
+        "72 DPI is commonly used for web images.",
+        "300 DPI is commonly used for print images.",
+        "BMP is uncompressed and can produce large file sizes.",
+        "Cropping removes unwanted outer areas of an image.",
+        "Resizing changes the dimensions of an image.",
+        "Vector graphics are made of paths defined by equations.",
+        "Raster graphics are made of a grid of pixels.",
+        "Vector graphics can be scaled without losing quality.",
+        "Raster graphics are better for photographs.",
+        "Opacity means transparency level.",
+        "The background layer is the bottom-most layer.",
+        "Selection tools select part of an image.",
+        "The crop tool trims the edges of an image.",
+        "Transform can resize, rotate or skew an image.",
+        "GIF supports animation and transparency.",
+        "CorelDRAW is a professional vector graphics program.",
+        "GIMP is a free open-source raster graphics editor.",
+        ".psd is the native Adobe Photoshop file format.",
+        ".ai is the native Adobe Illustrator file format.",
+        "SVG means Scalable Vector Graphics.",
+        "A thumbnail is a small preview of a larger image.",
+        "Audacity is commonly used for audio editing.",
+        "MP3 uses lossy compression.",
+        "WAV is uncompressed and high quality.",
+        "Audio editing involves cutting, trimming and mixing sound.",
+        "A waveform is a visual representation of sound.",
+        "Trim removes unwanted portions from audio.",
+        "Sample rate is the number of samples per second.",
+        "FLAC is a lossless audio format.",
+        "Normalize adjusts the audio volume level.",
+        "A multitrack editor can edit multiple audio tracks at once.",
+        "Export means saving audio in a chosen format.",
+        "Audacity supports multi-track recording and editing.",
+        "Video editing software includes Windows Movie Maker and Adobe Premiere.",
+        "Adobe Premiere Pro is Adobe's professional video editor.",
+        "MP4 is a compressed video format widely used on the web.",
+        "Video editing involves cutting and arranging clips with effects.",
+        "A timeline shows the video sequence in order.",
+        "Cut splits or removes a portion of the video.",
+        "A transition is an effect between two video clips.",
+        "Frame rate is measured in frames per second (fps).",
+        "24 fps is a common movie frame rate.",
+        "Rendering creates the final output video file.",
+        "MP4/H.264 is a good balance of quality and compatibility.",
+        "A keyframe defines the start or end of an animation or transition.",
+        "Fade in means the video gradually appears from black.",
+        "Lossless compression preserves all original data."
+    ];
+
+    const explanationsSi = [
+        "පික්සලය යනු ඩිජිටල් රූපයක කුඩාම මූලද්‍රව්‍යයයි.",
+        "විභේදනය යනු රූපයක ඇති පික්සල් ගණනයි.",
+        "රාස්ටර් ග්‍රැෆික්ස් පික්සල් භාවිතා කරයි.",
+        "වෙක්ටර් ග්‍රැෆික්ස් හැඩතල ඇඳීමට ගණිතමය සූත්‍ර භාවිතා කරයි.",
+        "PNG විනිවිදභාවය සහ පාඩු රහිත සම්පීඩනය සහය දක්වයි.",
+        "JPEG/JPG ඡායාරූප සඳහා වඩාත් සුදුසුය, මන්ද ගොනු ප්‍රමාණය කුඩාය.",
+        "GIF සරල චලන රූප (animation) සහය දක්වයි.",
+        "පාඩු සහිත සම්පීඩනයේදී සමහර දත්ත ස්ථිරවම අහිමි වේ.",
+        "පාඩු රහිත සම්පීඩනයේදී මුල් දත්ත සියල්ල රඳවා ගනී.",
+        "RGB පරිගණක මොනිටර සඳහා භාවිතා වේ.",
+        "CMYK මුද්‍රණය සඳහා භාවිතා වේ.",
+        "24-bit true color රූපයක වර්ණ මිලියන 16.7 පමණ පෙන්විය හැක.",
+        "ස්ථර යනු වෙනස් ලෙස සංස්කරණය කළ හැකි කොටස් වේ.",
+        "රාස්ටර් ග්‍රැෆික්ස් සංස්කරණයට Adobe Photoshop බහුලව භාවිතා වේ.",
+        "වෙක්ටර් ග්‍රැෆික්ස් සංස්කරණයට Adobe Illustrator බහුලව භාවිතා වේ.",
+        "DPI යනු Dots Per Inch ය.",
+        "ඉහළ DPI මඟින් තියුණු රූපයක් ලැබේ.",
+        "72 DPI වෙබ් රූප සඳහා බහුලව භාවිතා වේ.",
+        "300 DPI මුද්‍රණ රූප සඳහා බහුලව භාවිතා වේ.",
+        "BMP සම්පීඩනය නොකළ නිසා ගොනු ප්‍රමාණය විශාල විය හැක.",
+        "Crop මෙවලම රූපයේ අනවශ්‍ය පිටත කොටස් ඉවත් කරයි.",
+        "Resize කිරීමෙන් රූපයේ මාන වෙනස් කරයි.",
+        "වෙක්ටර් ග්‍රැෆික්ස් ගණිතමය මාර්ගවලින් සෑදී ඇත.",
+        "රාස්ටර් ග්‍රැෆික්ස් පික්සල් ජාලකයකින් සෑදී ඇත.",
+        "වෙක්ටර් ග්‍රැෆික්ස් ගුණත්වය නැති නොවී පරිමාණය කළ හැක.",
+        "රාස්ටර් ග්‍රැෆික්ස් ඡායාරූප සඳහා වඩා හොඳය.",
+        "Opacity යනු විනිවිදභාවය මට්ටමයි.",
+        "Background layer එක පහළම ස්ථරයයි.",
+        "Selection tools රූපයේ කොටසක් තේරීමට භාවිතා වේ.",
+        "Crop මෙවලම රූපයේ දාර කපා ඉවත් කරයි.",
+        "Transform මෙවලමෙන් ප්‍රමාණය, භ්‍රමණය හෝ ඇල කිරීම කළ හැක.",
+        "GIF චලන රූප සහ විනිවිදභාවය සහය දක්වයි.",
+        "CorelDRAW වෘත්තීය වෙක්ටර් ග්‍රැෆික් මෘදුකාංගයකි.",
+        "GIMP නිදහස් විවෘත මූලාශ්‍ර රාස්ටර් සංස්කාරකයකි.",
+        ".psd යනු Adobe Photoshop හි මූලික ගොනු ආකෘතියයි.",
+        ".ai යනු Adobe Illustrator හි මූලික ගොනු ආකෘතියයි.",
+        "SVG යනු Scalable Vector Graphics ය.",
+        "Thumbnail යනු විශාල රූපයක කුඩා පෙරදසුනකි.",
+        "Audacity ශ්‍රව්‍ය සංස්කරණයට බහුලව භාවිතා වේ.",
+        "MP3 පාඩු සහිත සම්පීඩනය භාවිතා කරයි.",
+        "WAV සම්පීඩනය නොකළ ඉහළ ගුණත්ව ශ්‍රව්‍ය ආකෘතියකි.",
+        "ශ්‍රව්‍ය සංස්කරණයට කැපීම, කප්පාදු කිරීම සහ මිශ්‍ර කිරීම ඇතුළත් වේ.",
+        "Waveform එක ශබ්දයේ දෘශ්‍ය නිරූපණයකි.",
+        "Trim මඟින් ශ්‍රව්‍යයේ අනවශ්‍ය කොටස් ඉවත් කරයි.",
+        "Sample rate යනු තත්පරයට ගන්නා නියැදි ගණනයි.",
+        "FLAC පාඩු රහිත ශ්‍රව්‍ය ආකෘතියකි.",
+        "Normalize මඟින් ශ්‍රව්‍ය පරිමාව සකස් කරයි.",
+        "Multitrack editor එකකින් එකවර ශ්‍රව්‍ය පීලි කිහිපයක් සංස්කරණය කළ හැක.",
+        "Export යනු තෝරාගත් ආකෘතියකින් සුරැකීමයි.",
+        "Audacity බහු-පීලි පටිගත කිරීම සහ සංස්කරණය සහය දක්වයි.",
+        "වීඩියෝ සංස්කරණයට Windows Movie Maker සහ Adobe Premiere වැනි මෘදුකාංග භාවිතා වේ.",
+        "Adobe Premiere Pro යනු Adobe හි වෘත්තීය වීඩියෝ සංස්කාරකයයි.",
+        "MP4 අන්තර්ජාලය තුළ බහුලව භාවිතා වන සම්පීඩිත වීඩියෝ ආකෘතියකි.",
+        "වීඩියෝ සංස්කරණයට ක්ලිප් කැපීම, සකස් කිරීම සහ ප්‍රයෝග එකතු කිරීම ඇතුළත් වේ.",
+        "Timeline එක වීඩියෝ අනුපිළිවෙල පෙන්වයි.",
+        "Cut මඟින් වීඩියෝව බෙදීම හෝ කොටසක් ඉවත් කිරීම සිදු කරයි.",
+        "Transition යනු වීඩියෝ ක්ලිප් දෙකක් අතර ප්‍රයෝගයකි.",
+        "Frame rate මනිනු ලබන්නේ fps වලිනි.",
+        "24 fps චිත්‍රපට සඳහා සාමාන්‍ය රාමු අනුපාතයකි.",
+        "Rendering මඟින් අවසාන වීඩියෝ ගොනුව සෑදේ.",
+        "MP4/H.264 ගුණත්වය සහ ගැළපුම අතර හොඳ සමතුලිතතාවක් ඇත.",
+        "Keyframe එක චලන/සංක්‍රාන්තියේ ආරම්භය හෝ අවසානය නියම කරයි.",
+        "Fade in යනු කළු පැහැයෙන් ක්‍රමයෙන් දිස්වීමයි.",
+        "පාඩු රහිත සම්පීඩනය මුල් දත්ත සියල්ල රඳවා ගනී."
+    ];
+
+    function getExplanation(index, lang) {
+        const arr = lang === 'si' ? explanationsSi : explanationsEn;
+        return arr[index] || (lang === 'si' ? 'හේතුව නොමැත.' : 'No explanation available.');
+    }
+
     function clickHandler(e) {
         const target = e.currentTarget;
         if (unitLocked) return;

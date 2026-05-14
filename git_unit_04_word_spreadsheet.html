@@ -204,6 +204,22 @@
             border-radius: 40px;
             font-weight: bold;
         }
+
+        .explanation-box {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: #eefaf4;
+            border: 1px solid #c9ead9;
+            color: #0f3d2e;
+            line-height: 1.5;
+            display: none;
+        }
+        .explanation-label {
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: block;
+        }
         footer {
             text-align: center;
             margin-top: 24px;
@@ -458,6 +474,10 @@
                         <span>${q.text}</span>
                     </div>
                     <ul class="options-list">${optsHtml}</ul>
+                    <div class="explanation-box" style="display: ${unitLocked ? 'block' : 'none'};">
+                        <span class="explanation-label">${currentLang === 'si' ? 'හේතුව' : 'Explanation'}</span>
+                        <div>${unitLocked ? getExplanation(q, currentLang) : ''}</div>
+                    </div>
                 </div>
             `;
         });
@@ -487,6 +507,192 @@
         });
     }
     
+
+    function getExplanation(q, lang) {
+        const text = (q.text || "").toLowerCase();
+        const correct = q.options[q.correctIndex];
+
+        const enMap = [
+            [/word processing/i, "MS Word is used for word processing and document creation."],
+            [/default file extension of ms word/i, "MS Word documents are commonly saved as .docx files."],
+            [/new document/i, "Ctrl + N creates a new document or window."],
+            [/save a document/i, "Ctrl + S saves the current document."],
+            [/open an existing document/i, "Ctrl + O opens an existing file."],
+            [/print a document/i, "Ctrl + P opens the print dialog."],
+            [/select all text/i, "Ctrl + A selects all text or items."],
+            [/autocorrect/i, "AutoCorrect fixes common typing mistakes automatically."],
+            [/spell.*grammar/i, "Spell and grammar check finds spelling and grammar mistakes."],
+            [/find and replace/i, "Find and Replace searches for text and replaces it."],
+            [/page margins and orientation/i, "Page margins and orientation are found in the Layout tab."],
+            [/both left and right margins/i, "Justify alignment makes text flush with both margins."],
+            [/bold text/i, "Ctrl + B makes text bold."],
+            [/italicize text/i, "Ctrl + I makes text italic."],
+            [/underline text/i, "Ctrl + U underlines text."],
+            [/header/i, "A header appears at the top of every page."],
+            [/footer/i, "A footer appears at the bottom of every page."],
+            [/page number/i, "Page numbers are added from Insert → Page Number."],
+            [/mail merge/i, "Mail Merge combines a main document with a data source for mass letters."],
+            [/two main documents/i, "Mail Merge uses a main document and a data source."],
+            [/create a table/i, "Tables are inserted from the Insert tab."],
+            [/merge two cells/i, "Merge Cells combines selected cells into one."],
+            [/split a cell/i, "Split Cells divides one cell into multiple cells."],
+            [/adding pictures/i, "Pictures, shapes and charts are added from the Insert tab."],
+            [/wordart/i, "WordArt is used for decorative text."],
+            [/print preview/i, "Print Preview lets you see the document before printing."],
+            [/will appear when printed/i, "Print Layout shows the document as it will appear on paper."],
+            [/hyperlink/i, "A hyperlink links to another page, file or location."],
+            [/insert a symbol/i, "Symbols are inserted from Insert → Symbol."],
+            [/thesaurus/i, "Thesaurus helps find synonyms and antonyms."],
+            [/word count/i, "Word Count shows words, characters and pages."],
+            [/comments/i, "Comments are added from the Review tab."],
+            [/track changes/i, "Track Changes records edits made to a document."],
+            [/line spacing/i, "Line spacing is changed from Home → Line and Paragraph Spacing."],
+            [/bulleted list/i, "Bulleted lists use symbols before each item."],
+            [/used for spreadsheets/i, "MS Excel is used for spreadsheets and calculations."],
+            [/default file extension of ms excel/i, "Excel workbooks are commonly saved as .xlsx files."],
+            [/what is a cell in excel/i, "A cell is the intersection of a row and a column."],
+            [/what is a range in excel/i, "A range is a group of selected cells."],
+            [/must start an excel formula/i, "Excel formulas begin with the equals sign (=)."],
+            [/sum function/i, "SUM adds values in a range."],
+            [/average function/i, "AVERAGE calculates the mean value."],
+            [/max function/i, "MAX returns the largest value."],
+            [/min function/i, "MIN returns the smallest value."],
+            [/count function/i, "COUNT counts cells containing numbers."],
+            [/relative cell reference/i, "Relative references change when copied."],
+            [/absolute cell reference/i, "Absolute references stay fixed when copied, like $A$1."],
+            [/absolute reference/i, "The dollar sign ($) makes a reference absolute."],
+            [/formula =a1\+b1/i, "This formula adds the values in A1 and B1."],
+            [/formula =a1\*b1/i, "This formula multiplies the values in A1 and B1."],
+            [/formula =a1\/b1/i, "This formula divides the value in A1 by B1."],
+            [/formula =a1-b1/i, "This formula subtracts B1 from A1."],
+            [/showing trends over time/i, "Line charts are best for trends over time."],
+            [/proportions of a whole/i, "Pie charts show proportions of a whole."],
+            [/comparing categories/i, "Bar and column charts compare categories."],
+            [/data filtering/i, "Filtering shows only rows that meet a condition."],
+            [/data sorting/i, "Sorting arranges data in order."],
+            [/pivottable/i, "PivotTables summarize and analyze data."],
+            [/which tab contains chart options/i, "Charts are inserted from the Insert tab."],
+            [/worksheet in excel/i, "A worksheet is one sheet inside a workbook."],
+            [/workbook in excel/i, "A workbook is the entire Excel file containing worksheets."],
+            [/rename a worksheet/i, "You can rename a sheet from its tab."],
+            [/insert a new worksheet/i, "A new worksheet can be added with the + icon or Shift+F11."],
+            [/first cell/i, "The first cell in Excel is A1."],
+            [/maximum number of rows/i, "Modern Excel supports 1,048,576 rows."],
+            [/maximum number of columns/i, "Modern Excel supports 16,384 columns, ending at XFD."],
+            [/rank of a number/i, "RANK is used to find the rank position of a number."],
+            [/conditional formatting/i, "Conditional formatting changes cell format based on rules."],
+            [/used for presentations/i, "MS PowerPoint is used for creating presentations."],
+            [/default file extension of powerpoint/i, "PowerPoint presentations are saved as .pptx files."],
+            [/what is a slide in powerpoint/i, "A slide is one page of a presentation."],
+            [/slide transition/i, "A transition is the effect between slides."],
+            [/animation in powerpoint/i, "Animation adds motion effects to objects on a slide."],
+            [/used for database management/i, "MS Access is used for database management."],
+            [/what is a database/i, "A database is an organized collection of data."],
+            [/what is a table in a database/i, "A table stores related data in rows and columns."],
+            [/primary key/i, "A primary key uniquely identifies each record."],
+            [/query in a database/i, "A query asks the database for specific data."],
+            [/form in a database/i, "A form provides a user-friendly way to enter data."],
+            [/report in a database/i, "A report presents formatted output for printing or viewing."],
+            [/stores text in ms access/i, "Text/Short Text is used to store words and short text values."],
+            [/yes\/no values/i, "Yes/No is used for Boolean values."],
+            [/foreign key/i, "A foreign key links one table to another table's primary key."],
+            [/vlookup/i, "VLOOKUP searches vertically in the first column and returns a matching value."]
+        ];
+
+        const siMap = [
+            [/වදන් සැකසුම්/i, "MS Word වදන් සැකසුම් සහ ලේඛන නිර්මාණය සඳහා භාවිතා කරයි."],
+            [/පෙරනිමි ගොනු දිගුව/i, "MS Word ලේඛන සාමාන්‍යයෙන් .docx ලෙස සුරැකේ."],
+            [/නව ලේඛනයක්/i, "Ctrl + N නව ලේඛනයක් හෝ කවුළුවක් සාදයි."],
+            [/සුරැකීමට/i, "Ctrl + S මඟින් ලේඛනය සුරකියි."],
+            [/විවෘත කිරීමට/i, "Ctrl + O මඟින් පවතින ගොනුවක් විවෘත කරයි."],
+            [/මුද්‍රණය කිරීමට/i, "Ctrl + P මඟින් මුද්‍රණ කවුළුව විවෘත කරයි."],
+            [/සියලු පෙළ/i, "Ctrl + A මඟින් සියල්ල තෝරා ගනී."],
+            [/ස්වයංක්‍රීයව නිවැරදි/i, "AutoCorrect පොදු අක්ෂර වැරදි ස්වයංක්‍රීයව නිවැරදි කරයි."],
+            [/ව්‍යාකරණ දෝෂ/i, "Spell & Grammar Check අක්ෂර හා ව්‍යාකරණ දෝෂ පරීක්ෂා කරයි."],
+            [/find and replace/i, "Find and Replace පෙළ සොයා වෙනස් කරයි."],
+            [/page margins/i, "Page margins සහ orientation Layout tab තුළ ඇත."],
+            [/වම් සහ දකුණු ආන්තික දෙකටම/i, "Justify මඟින් පෙළ ආන්තික දෙකටම සමතලා කරයි."],
+            [/තදකුරු/i, "Ctrl + B මඟින් පෙළ තදකුරු කරයි."],
+            [/ඇලකුරු/i, "Ctrl + I මඟින් පෙළ ඇලකුරු කරයි."],
+            [/යටින් ඉරි/i, "Ctrl + U මඟින් පෙළට යටින් ඉරි ඇඳේ."],
+            [/හෙඩරයක්/i, "Header එක සෑම පිටුවකම ඉහළින් පෙන්වයි."],
+            [/ෆුටරයක්/i, "Footer එක සෑම පිටුවකම පහළින් පෙන්වයි."],
+            [/පිටු අංකයක්/i, "Page Number එක Insert → Page Number මඟින් ඇතුළත් කරයි."],
+            [/Mail Merge/i, "Mail Merge ප්‍රධාන ලේඛනය සහ දත්ත මූලාශ්‍රය ඒකාබද්ධ කරයි."],
+            [/ප්‍රධාන ලේඛනය සහ දත්ත මූලාශ්‍රය/i, "Mail Merge සඳහා ප්‍රධාන ලේඛනයක් සහ දත්ත මූලාශ්‍රයක් අවශ්‍ය වේ."],
+            [/වගුවක්/i, "වගු Insert tab තුළින් ඇතුළත් කරයි."],
+            [/Merge Cells/i, "Merge Cells මඟින් තෝරාගත් සෛල එකතු කරයි."],
+            [/Split Cells/i, "Split Cells මඟින් සෛල එකකට වැඩි ප්‍රමාණයකට බෙදයි."],
+            [/පින්තූර/i, "පින්තූර, හැඩතල සහ ප්‍රස්ථාර Insert tab තුළ ඇත."],
+            [/WordArt/i, "WordArt අලංකාර පෙළ සඳහා භාවිතා කරයි."],
+            [/Print Preview/i, "Print Preview මඟින් මුද්‍රණයට පෙර පෙනුම පෙන්වයි."],
+            [/මුද්‍රණ පිරිසැලසුම/i, "Print Layout මුද්‍රණයට පසු පෙනෙන ආකාරය පෙන්වයි."],
+            [/හයිපර්ලින්ක්/i, "Hyperlink එකක් වෙනත් පිටුවකට හෝ ස්ථානයකට සබැඳියක් වේ."],
+            [/සංකේතයක්/i, "සංකේත Insert → Symbol මඟින් ඇතුළත් කරයි."],
+            [/Thesaurus/i, "Thesaurus මඟින් සමාන සහ විරුද්ධ පද සොයාගනී."],
+            [/Word Count/i, "Word Count වචන, අක්ෂර සහ පිටු ගණන පෙන්වයි."],
+            [/විවරණ/i, "විවරණ Review tab තුළ එකතු කරයි."],
+            [/Track Changes/i, "Track Changes ලේඛනයේ වෙනස්කම් සලකුණු කරයි."],
+            [/පේළි පරතරය/i, "Line and Paragraph Spacing මඟින් පේළි පරතරය වෙනස් කරයි."],
+            [/බුලට්/i, "බුලට් ලැයිස්තුවක එක් අයිතමයකට පෙර සංකේතයක් යෙදේ."],
+            [/පැතුරුම්පත්/i, "MS Excel පැතුරුම්පත් සහ ගණනය සඳහා භාවිතා කරයි."],
+            [/පෙරනිමි ගොනු දිගුව/i, "Excel වැඩපොත් සාමාන්‍යයෙන් .xlsx ලෙස සුරැකේ."],
+            [/සෛලයක් යනු/i, "සෛලයක් යනු පේළියක් සහ තීරුවක ඡේදනයයි."],
+            [/පරාසයක් යනු/i, "පරාසයක් යනු තෝරාගත් සෛල සමූහයකි."],
+            [/සූත්‍රයක්/i, "Excel සූත්‍ර ආරම්භ වන්නේ = සංකේතයෙන්ය."],
+            [/SUM ශ්‍රිතය/i, "SUM පරාසයක අගයන් එකතු කරයි."],
+            [/AVERAGE ශ්‍රිතය/i, "AVERAGE මධ්‍යන්‍ය අගය ගණනය කරයි."],
+            [/MAX ශ්‍රිතය/i, "MAX විශාලතම අගය ලබා දෙයි."],
+            [/MIN ශ්‍රිතය/i, "MIN කුඩාම අගය ලබා දෙයි."],
+            [/COUNT ශ්‍රිතය/i, "COUNT සංඛ්‍යා ඇති සෛල ගණන් කරයි."],
+            [/සාපේක්ෂ සෛල යොමුව/i, "සාපේක්ෂ යොමු පිටපත් කරන විට වෙනස් වේ."],
+            [/නිරපේක්ෂ සෛල යොමුව/i, "නිරපේක්ෂ යොමු පිටපත් කළද ස්ථිරව පවතී, උදා: $A$1."],
+            [/\$ /, "නිරපේක්ෂ යොමුව සදහා $ සංකේතය භාවිතා කරයි."],
+            [/=A1\+B1/i, "මෙය A1 සහ B1 අගයන් එකතු කරයි."],
+            [/=A1\*B1/i, "මෙය A1 සහ B1 ගුණ කරයි."],
+            [/=A1\/B1/i, "මෙය A1 අගය B1 න් බෙදයි."],
+            [/=A1-B1/i, "මෙය A1 අගයෙන් B1 අඩු කරයි."],
+            [/කාලයත් සමඟ ප්‍රවණතා/i, "කාලයත් සමඟ ප්‍රවණතා පෙන්වීමට Line Chart සුදුසුය."],
+            [/සමස්තයක ප්‍රතිශත/i, "සමස්තයක ප්‍රතිශත පෙන්වීමට Pie Chart සුදුසුය."],
+            [/ප්‍රවර්ග සංසන්දනය/i, "ප්‍රවර්ග සංසන්දනයට Bar/Column Chart සුදුසුය."],
+            [/කට්ටල පෙරහන්/i, "Filtering මඟින් කොන්දේසි සපුරන පේළි පමණක් පෙන්වයි."],
+            [/දත්ත .* sorting/i, "Sorting මඟින් දත්ත පිළිවෙලකට සකසයි."],
+            [/PivotTable/i, "PivotTable දත්ත සාරාංශගත කර විශ්ලේෂණය කරයි."],
+            [/චාර්ට් විකල්ප/i, "Chart options Insert tab තුළ ඇත."],
+            [/වැඩපත්රයක්/i, "වැඩපත්රයක් යනු වැඩපොතක එක් sheet එකකි."],
+            [/වැඩපොතක්/i, "වැඩපොතක් යනු වැඩපත්‍ර කිහිපයක් ඇති සම්පූර්ණ Excel ගොනුවකි."],
+            [/worksheet නාමය/i, "Worksheet නාමය tab එක මත දකුණු-ක්ලික්/ඩබල් ක්ලික් කර වෙනස් කළ හැක."],
+            [/නව worksheet/i, "නව worksheet එක + අයිකනය හෝ Shift+F11 මඟින් එකතු කළ හැක."],
+            [/පළමු සෛලය/i, "Excel හි පළමු සෛලය A1 වේ."],
+            [/පේළි ගණන/i, "නව Excel අනුවාදවල පේළි 1,048,576 ක් ඇත."],
+            [/තීරු ගණන/i, "නව Excel අනුවාදවල තීරු 16,384 ක් ඇත."],
+            [/rank of a number/i, "RANK ශ්‍රිතය සංඛ්‍යාවක ශ්‍රේණිය සොයයි."],
+            [/conditional formatting/i, "Conditional Formatting කොන්දේසි අනුව සෛල හැඩතල වෙනස් කරයි."],
+            [/ප්‍රස්ථාර/i, "MS PowerPoint ඉදිරිපත් කිරීම් සඳහා භාවිතා කරයි."],
+            [/පෙරනිමි ගොනු දිගුව/i, "PowerPoint ඉදිරිපත් කිරීම් .pptx ලෙස සුරැකේ."],
+            [/slide එකක්/i, "Slide එකක් ඉදිරිපත් කිරීමේ එක් පිටුවකි."],
+            [/transition/i, "Transition එක slide එකක සිට තවත් slide එකකට යන ප්‍රයෝගයයි."],
+            [/animation/i, "Animation එක slide තුළ ඇති වස්තු වල චලන ප්‍රයෝගයකි."],
+            [/database management/i, "MS Access දත්ත පදනම් කළමනාකරණයට භාවිතා කරයි."],
+            [/දත්ත ගබඩාව/i, "දත්ත ගබඩාවක් යනු සංවිධානාත්මක දත්ත එකතුවකි."],
+            [/database එකක වගුව/i, "වගුවක පේළි සහ තීරු ලෙස සම්බන්ධ දත්ත ගබඩා කරයි."],
+            [/primary key/i, "Primary Key එක එක් වාර්තාවක් අනන්‍යව හඳුනාගනී."],
+            [/query/i, "Query එක දත්ත ගබඩාවෙන් නිශ්චිත දත්ත ඉල්ලීමක් වේ."],
+            [/form/i, "Form එක දත්ත ඇතුළත් කිරීමට පහසු අතුරු මුහුණතකි."],
+            [/report/i, "Report එක මුද්‍රණය/පෙන්වීමට සකස් කළ ප්‍රතිදානයකි."],
+            [/stores text/i, "Text/Short Text දත්ත පද පෙළ ගබඩා කරයි."],
+            [/Yes\/No/i, "Yes/No දත්ත අගයන් සත්‍ය/අසත්‍ය ලෙස ගබඩා කරයි."],
+            [/foreign key/i, "Foreign Key එක වෙනත් වගුවක primary key එකට සම්බන්ධ වේ."],
+            [/vlookup/i, "VLOOKUP පළමු තීරුවේ සිරස්ව සෙවීම සිදු කර ගැළපෙන අගය ලබා දෙයි."]
+        ];
+
+        const map = lang === "si" ? siMap : enMap;
+        for (const [pattern, explanation] of map) {
+            if (pattern.test(text)) return explanation;
+        }
+        return lang === "si" ? `නිවැරදි පිළිතුර: ${correct}` : `The correct answer is “${correct}”.`;
+    }
+
     function clickHandler(e) {
         const target = e.currentTarget;
         if (unitLocked) return;
